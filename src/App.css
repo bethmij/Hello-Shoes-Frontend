@@ -2,3 +2,13 @@
   background: url("assets/homePageBack.gif") center;
   background-size :cover;
 }
+
+#mainPic{
+  background: url("assets/Flower Shoes Logo.png") center;
+  background-size :cover;
+}
+
+#navPic{
+  background: url("assets/neon-glowing-sport-sneakers-icon-isolated-dark-background-sport-shoes-generated-ai_946670-88.jpg") center;
+  background-size :cover;
+}
