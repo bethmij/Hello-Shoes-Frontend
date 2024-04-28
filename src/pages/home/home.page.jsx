@@ -4,12 +4,10 @@ import NavigationBar from "../../components/navigationBar.jsx";
 import {LiaUserCircle} from "react-icons/lia";
 
 
-
-
 function HomePage() {
     return (
         <div className="h-screen w-full ">
-            <div id="homePage" className=" h-screen w-full opacity-30 absolute"></div>
+            <div id="homePage" className=" h-screen w-full opacity-25 absolute"></div>
 
             <div id="mainPic" className="w-2/5 h-2/5 bg-amber-300  float-left"></div>
             <div className=" w-3/5  h-20 flex ps-80 pt-52 ">
