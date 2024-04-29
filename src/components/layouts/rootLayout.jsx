@@ -93,11 +93,10 @@ function RootLayout() {
                     </div>
                 </nav>
 
-                <div  className="w-4/5 h-4/5 ms-48 mt-32 bg-transparent flex justify-center items-center absolute">
-                    <div id="form" className="w-full h-full bg-purple backdrop-blur-3xl opacity-40 absolute"></div>
+                <div className="w-4/5 h-4/5 ms-52 mt-32 flex justify-center items-center rounded-3xl absolute xl">
+                    <div id="form" className="w-full h-full absolute border-2 rounded-3xl"></div>
                     {/*<h1 className="text-4xl text-white">Content Here</h1>*/}
                 </div>
-
 
 
             </div>
