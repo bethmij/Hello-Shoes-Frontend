@@ -11,7 +11,6 @@ import {InputItem} from "../shared/input.jsx";
 import {ScrollArea} from "@/components/ui/scroll-area";
 
 
-
 function RootLayout() {
 
     const menuItem = [
@@ -129,22 +128,30 @@ function RootLayout() {
             type: "select",
             placeholder: "Gender",
             description: "",
+            selectList: ["Male", "Female", "Other"]
         },
             {
-                title: "Total point",
-                type: "number",
-                placeholder: "Points",
-                description: "1 point purchase more than LKR 800",
+                title: "Customer Level",
+                type: "select",
+                placeholder: "Level",
+                description: "Gold > 200  | Silver – 100-199 | Bronze – 50-99 | New < 50",
+                selectList: ["Gold", "Silver", "Bronze","New"]
+            }],
+        [{
+            title: "Customer DOB",
+            type: "date",
+            placeholder: "Date",
+            description: "Date of birth",
+        },
+            {
+                title: "Customer Level",
+                type: "select",
+                placeholder: "Level",
+                description: "Gold > 200  | Silver – 100-199 | Bronze – 50-99 | New < 50",
+                selectList: ["Gold", "Silver", "Bronze","New"]
             }]
     ]
 
-    const genderList = [
-        {
-            id:"Gender",
-            placeholder:"Select the gender",
-            list:["Male", "Female", "Other"]
-        }
-    ]
 
     // const [isClicked, setIsClicked] = useState(false)
 
@@ -180,16 +187,8 @@ function RootLayout() {
                     </div>
                 </nav>
 
-                {/*<div className="w-4/5 h-4/5 ms-52 mt-32 flex justify-center items-center rounded-3xl absolute xl">*/}
-                {/*    <p className="text-4xl text-bermuda">gchgchgcxhxgfxgfx</p>*/}
-                {/*    <InputItem/>*/}
-                {/*    <div id="form" className="w-full h-full absolute border-2 rounded-3xl z-0"></div>*/}
-
-                {/*</div>*/}
-
-
-                <div className="w-4/5 h-4/5 ms-52 mt-32 flex-col  rounded-3xl absolute xl">
-                    <ScrollArea className="h-full w-full rounded-3xl">
+                <div className="w-4/5 h-4/5 ms-52 mt-32 flex-col  rounded-3xl absolute xl ">
+                    <ScrollArea className="h-full w-full rounded-3xl ">
                         <div id="form" className="w-full h-full absolute border-2  rounded-3xl "></div>
 
                         {customerForm.map(customer => {
@@ -198,7 +197,7 @@ function RootLayout() {
                                     return <InputItem key={data.title} title={data.title}
                                                       placeholder={data.placeholder}
                                                       type={data.type} description={data.description}
-                                                      selectList = {genderList}/>
+                                                      selectList={data.selectList}/>
 
                                 })}
                             </div>
