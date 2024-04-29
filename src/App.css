@@ -25,9 +25,9 @@
   /*opacity: 60%;*/
 }
 
-/*#form{*/
-/*  background: url("assets/img/root/wallpaper.png") center;*/
-/*  background-size :inherit;*/
-/*  opacity: 60%;*/
+#form{
+  background: url("assets/img/root/blured.png") center;
+  background-size : cover;
+  /*opacity: 60%;*/
 
-/*}*/
+}
