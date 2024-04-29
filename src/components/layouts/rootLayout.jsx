@@ -8,6 +8,8 @@ import {VscGraph} from "react-icons/vsc";
 import {CgFormatRight} from "react-icons/cg";
 import CurrentTime from "../shared/time.jsx";
 import {InputItem} from "../shared/input.jsx";
+import {ScrollArea} from "@/components/ui/scroll-area";
+
 
 function RootLayout() {
 
@@ -60,6 +62,69 @@ function RootLayout() {
 
     ]
 
+    const customerForm = [
+        [{
+            title: "Customer Code",
+            type: "text",
+            placeholder: "",
+            description: "Auto generated",
+        },
+            {
+                title: "Customer Name",
+                type: "text",
+                placeholder: "Name",
+                description: "Full name required",
+            }],
+        [{
+            title: "Address Line 01",
+            type: "text",
+            placeholder: "Address",
+            description: "Building no or name",
+        },
+            {
+                title: "Address Line 02",
+                type: "text",
+                placeholder: "Address",
+                description: "Lane",
+            }],
+        [{
+            title: "Address Line 03",
+            type: "text",
+            placeholder: "Address",
+            description: "Main city",
+        },
+            {
+                title: "Address Line 04",
+                type: "text",
+                placeholder: "Address",
+                description: "Main state",
+            }],
+        [{
+            title: "Address Line 05",
+            type: "text",
+            placeholder: "Address",
+            description: "Postal code",
+        },
+            {
+                title: "Contact number",
+                type: "text",
+                placeholder: "Contact",
+                description: "Mobile number",
+            }],
+        [{
+            title: "Customer Email",
+            type: "email",
+            placeholder: "Email",
+            description: "Email required",
+        },
+            {
+                title: "Total point",
+                type: "number",
+                placeholder: "Points",
+                description: "1 point purchase more than LKR 800",
+            }]
+    ]
+
     // const [isClicked, setIsClicked] = useState(false)
 
 
@@ -101,10 +166,30 @@ function RootLayout() {
 
                 {/*</div>*/}
 
-                <div className="w-4/5 h-4/5 ms-52 mt-32 flex justify-center items-center rounded-3xl absolute xl">
-                    <p className="text-white">gchgchgcxhxgfxgfx</p>
-                    <InputItem/>
-                    <div id="form" className="w-full h-full absolute border-2 rounded-3xl z-0"></div>
+
+                <div className="w-4/5 h-4/5 ms-52 mt-32 flex-col  rounded-3xl absolute xl">
+                    <ScrollArea className="h-full w-full rounded-3xl">
+                        <div id="form" className="w-full h-full absolute border-2  rounded-3xl "></div>
+                        {/*<p className="text-white z-10">gchgchgcxhxgfxgfx</p>*/}
+                        {/*<div className="flex justify-around mb-4"> /!* Container for first row *!/*/}
+                        {/*    <InputItem title="Customer Name" placeholder="Name"/>*/}
+                        {/*    <InputItem/>*/}
+                        {/*</div>*/}
+
+                        {customerForm.map(customer => {
+                            return <div key={customerForm.indexOf(customer)} className="flex justify-around mb-4">
+                                {customer.map(data => {
+
+                                    if( data.type === 'text' || data.type === 'number' || data.type === 'email') {
+                                        return <InputItem key={data.title} title={data.title}
+                                                          placeholder={data.placeholder}
+                                                          type={data.type} description={data.description}/>
+                                    }
+                                })}
+                            </div>
+                        })}
+
+                    </ScrollArea>
                 </div>
 
 
