@@ -8,8 +8,8 @@ const setInput = (props) => {
     if (props.type === 'text' || props.type === 'number' || props.type === 'email') {
         return <Input type={props.type} placeholder={props.placeholder} className="mt-2 mb-2 w-full "/>
     } else if (props.type === 'select') {
-        return <SelectItems title={props.selectList.title} placeholder={props.selectList.placeholder}
-                            list={props.selectList.list} className="mt-2 mb-2 w-full "/>
+        return <SelectItems title={props.title} placeholder={props.placeholder}
+                            list={props.selectList} className="mt-2 mb-2 w-full "/>
     } else if (props.type === 'date') {
         return <DatePicker className="mt-2 mb-2 w-full "/>
     }
@@ -17,7 +17,6 @@ const setInput = (props) => {
 }
 
 export function InputItem(props) {
-
 
     return (
 
@@ -38,5 +37,5 @@ InputItem.propTypes = {
     description: PropTypes.string,
     placeholder: PropTypes.string,
     type: PropTypes.string.isRequired,
-    selectList: PropTypes.object.isRequired
+    selectList:PropTypes.array
 };
