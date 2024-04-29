@@ -16,5 +16,18 @@
 #root{
   background: url("assets/img/root/wallpaper.png") center;
   background-size :cover;
-  opacity: 30%;
+
 }
+
+#nameTag{
+  background: url("assets/img/root/nameTag.png") center;
+  background-size :cover;
+  /*opacity: 60%;*/
+}
+
+/*#form{*/
+/*  background: url("assets/img/root/wallpaper.png") center;*/
+/*  background-size :inherit;*/
+/*  opacity: 60%;*/
+
+/*}*/
