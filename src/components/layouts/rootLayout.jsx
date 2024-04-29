@@ -10,6 +10,9 @@ import CurrentTime from "../shared/time.jsx";
 import {InputItem} from "../shared/input.jsx";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {Button} from "../ui/button.jsx";
+import {z} from 'zod'
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
 
 
 function RootLayout() {
@@ -181,7 +184,7 @@ function RootLayout() {
                     <div className="h-screen w-24 flex flex-col justify-around items-center relative">
                         {menuItem.map(item => {
                             return <Link key={item.to} className="no-underline" to={item.to} style={{zIndex: "1"}}>
-                                <div className={`mt-4 cursor-pointer `}>
+                                <div className={`mt-4 cursor-pointer opacity-60`}>
                                     {item.icon}
                                 </div>
                             </Link>
