@@ -7,6 +7,7 @@ import {GoPackageDependencies} from "react-icons/go";
 import {VscGraph} from "react-icons/vsc";
 import {CgFormatRight} from "react-icons/cg";
 import CurrentTime from "../shared/time.jsx";
+import {InputItem} from "../shared/input.jsx";
 
 function RootLayout() {
 
@@ -93,9 +94,17 @@ function RootLayout() {
                     </div>
                 </nav>
 
+                {/*<div className="w-4/5 h-4/5 ms-52 mt-32 flex justify-center items-center rounded-3xl absolute xl">*/}
+                {/*    <p className="text-4xl text-bermuda">gchgchgcxhxgfxgfx</p>*/}
+                {/*    <InputItem/>*/}
+                {/*    <div id="form" className="w-full h-full absolute border-2 rounded-3xl z-0"></div>*/}
+
+                {/*</div>*/}
+
                 <div className="w-4/5 h-4/5 ms-52 mt-32 flex justify-center items-center rounded-3xl absolute xl">
-                    <div id="form" className="w-full h-full absolute border-2 rounded-3xl"></div>
-                    {/*<h1 className="text-4xl text-white">Content Here</h1>*/}
+                    <p className="text-white">gchgchgcxhxgfxgfx</p>
+                    <InputItem/>
+                    <div id="form" className="w-full h-full absolute border-2 rounded-3xl z-0"></div>
                 </div>
 
 
