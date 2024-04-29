@@ -11,6 +11,7 @@ import {InputItem} from "../shared/input.jsx";
 import {ScrollArea} from "@/components/ui/scroll-area";
 
 
+
 function RootLayout() {
 
     const menuItem = [
@@ -122,7 +123,27 @@ function RootLayout() {
                 type: "number",
                 placeholder: "Points",
                 description: "1 point purchase more than LKR 800",
+            }],
+        [{
+            title: "Customer Gender",
+            type: "select",
+            placeholder: "Gender",
+            description: "",
+        },
+            {
+                title: "Total point",
+                type: "number",
+                placeholder: "Points",
+                description: "1 point purchase more than LKR 800",
             }]
+    ]
+
+    const genderList = [
+        {
+            id:"Gender",
+            placeholder:"Select the gender",
+            list:["Male", "Female", "Other"]
+        }
     ]
 
     // const [isClicked, setIsClicked] = useState(false)
@@ -170,24 +191,20 @@ function RootLayout() {
                 <div className="w-4/5 h-4/5 ms-52 mt-32 flex-col  rounded-3xl absolute xl">
                     <ScrollArea className="h-full w-full rounded-3xl">
                         <div id="form" className="w-full h-full absolute border-2  rounded-3xl "></div>
-                        {/*<p className="text-white z-10">gchgchgcxhxgfxgfx</p>*/}
-                        {/*<div className="flex justify-around mb-4"> /!* Container for first row *!/*/}
-                        {/*    <InputItem title="Customer Name" placeholder="Name"/>*/}
-                        {/*    <InputItem/>*/}
-                        {/*</div>*/}
 
                         {customerForm.map(customer => {
-                            return <div key={customerForm.indexOf(customer)} className="flex justify-around mb-4">
+                            return <div key={customerForm.indexOf(customer)} className="flex justify-around mb-4 z-10">
                                 {customer.map(data => {
+                                    return <InputItem key={data.title} title={data.title}
+                                                      placeholder={data.placeholder}
+                                                      type={data.type} description={data.description}
+                                                      selectList = {genderList}/>
 
-                                    if( data.type === 'text' || data.type === 'number' || data.type === 'email') {
-                                        return <InputItem key={data.title} title={data.title}
-                                                          placeholder={data.placeholder}
-                                                          type={data.type} description={data.description}/>
-                                    }
                                 })}
                             </div>
                         })}
+
+                        {/*<SelectItems/>*/}
 
                     </ScrollArea>
                 </div>
