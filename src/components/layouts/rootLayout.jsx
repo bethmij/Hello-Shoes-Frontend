@@ -1,11 +1,11 @@
 import {Link, Outlet} from 'react-router-dom'
-import {CgFormatRight, CgProfile} from "react-icons/cg";
 import CurrentTime from "../shared/time.jsx";
 import {CiHome} from "react-icons/ci";
 import {PiHighHeelThin, PiShoppingCartLight} from "react-icons/pi";
 import {BsPersonBadge, BsPersonDown} from "react-icons/bs";
 import {GoPackageDependencies} from "react-icons/go";
 import {VscGraph} from "react-icons/vsc";
+import {CgProfile} from "react-icons/cg";
 
 const menuItem = [
     {
