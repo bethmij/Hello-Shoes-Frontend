@@ -1,5 +1,5 @@
-const genderList = ["Male", "Female", "Other"]
-const levelList = ["Gold", "Silver", "Bronze", "New"]
+const genderList = ["MALE", "FEMALE", "OTHER"]
+const levelList = ["GOLD", "SILVER", "BRONZE", "NEW"]
 
 
 export let customer = {
