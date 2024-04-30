@@ -22,12 +22,11 @@
 #nameTag{
   background: url("assets/img/root/nameTag.png") center;
   background-size :cover;
-  /*opacity: 60%;*/
 }
 
 #form{
   background: url("assets/img/root/blured.png") center;
   background-size : cover;
-  /*opacity: 60%;*/
 
 }
+

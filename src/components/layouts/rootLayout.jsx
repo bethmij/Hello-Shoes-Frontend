@@ -67,11 +67,8 @@ function RootLayout() {
 
             <div className=" w-full h-20 absolute flex justify-between">
                 <div id="nameTag" className="h-full w-60 ms-28 mt-3"></div>
-                <div className="self-center flex gap-x-3">
-                    <CgFormatRight size="45"/>
-                    <h1 className="text-4xl">Customer Form</h1>
-                </div>
-                <div className="me-5">
+
+                <div className="me-5 opacity-60">
                     <CurrentTime/>
                 </div>
             </div>
