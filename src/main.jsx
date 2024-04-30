@@ -3,17 +3,18 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import {RouterProvider, createBrowserRouter} from "react-router-dom";
 import RootLayout from "./components/layouts/rootLayout.jsx";
-import HomePage from "./pages/home/home.page.jsx";
+// import HomePage from "./pages/home/home.page.jsx";
 import './App.css'
-import Page from "./pages/page.jsx";
+// import Page from "./pages/page.jsx";
+import FormPage from "./pages/form/form.page.jsx";
 
 const router = createBrowserRouter([
     {
         element: <RootLayout/>,
         children: [
             {
-                path:"/pagezxc",
-                element:<HomePage/>
+                path:"/form/:id",
+                element:<FormPage/>
             }
         ]
     },
@@ -21,10 +22,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <RootLayout/>
     },
-    {
-        path: "/page",
-        element: <HomePage/>
-    }
+    // {
+    //     path: "/page",
+    //     element: <HomePage/>
+    // }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
