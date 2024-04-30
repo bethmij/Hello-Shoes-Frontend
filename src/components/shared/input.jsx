@@ -38,7 +38,7 @@ export function InputItem(props) {
         } else if (props.type === 'date') {
 
             // const registerResult = props.register(props.id);
-            console.log(props);
+            // console.log(props);
             return (
                 <>
                     <Input
