@@ -1,6 +1,6 @@
-const genderList = ["Male", "Female", "Other"]
-const statusList = ["Married", "Single"]
-const accessRoleList = ["Admin", "User"]
+const genderList = ["MALE", "FEMALE", "OTHER"]
+const statusList = ["MARRIED", "SINGLE"]
+const accessRoleList = ["ADMIN", "USER"]
 
 
 
