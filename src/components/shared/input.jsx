@@ -1,29 +1,10 @@
-import { Input } from "../ui/input.jsx";
+import {Input} from "../ui/input.jsx";
 import PropTypes from "prop-types";
-import {useEffect, useState} from "react";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover.jsx";
-import { Button } from "../ui/button.jsx";
-import { cn } from "../../lib/utils.js";
-import { Calendar } from "@/components/ui/calendar";
-
 
 export function InputItem(props) {
-    const [date, setDate] = useState(null);
-
-    const handleDateChange = (newDate) => {
-        setDate(newDate);
-        // console.log(newDate)
-        // props.register(props.id).onChange(newDate ? format(newDate, 'yyyy-MM-dd') : '');
-    };
-
-    useEffect(() => {
-        props.register(props.id); // Re-register the input when `date` changes
-    }, [date, props.id, props.register]);
 
     const setInput = () => {
-        if (props.type === 'text' || props.type === 'number' || props.type === 'email') {
+        if (props.type === 'text' || props.type === 'number' || props.type === 'email' || props.type === 'date') {
 
             return (
                 <Input
@@ -35,48 +16,25 @@ export function InputItem(props) {
                     className="mt-2 mb-2 w-full"
                 />
             );
-        } else if (props.type === 'date') {
-
-            // const registerResult = props.register(props.id);
-            // console.log(props);
+        } else if (props.type === 'select') {
             return (
-                <>
-                    <Input
-                        {...props.register(props.id)}
-                        id={props.id}
-                        type="text"
-                        name={props.id}
-                        placeholder={props.placeholder}
-                        value={date ? format(date, 'yyyy-MM-dd') : ''}
-                    />
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <Button
-                                variant={"outline"}
-                                className={cn(
-                                    "w-full mt-2 mb-2 justify-start text-left font-normal",
-                                    !date && "text-muted-foreground"
-                                )}
-                            >
-                                <CalendarIcon className="mr-2 h-4 w-4" />
-                                {date ? format(date, "PPP") : <span>Pick a date</span>}
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                            <Calendar
-                                mode="single"
-                                selected={date}
-                                onSelect={handleDateChange}
-                                initialFocus
-                            />
-                        </PopoverContent>
-                    </Popover>
-                </>
-            );
+
+                <select {...props.register(props.id)} name={props.id} id={props.id}
+                        className="mt-2 mb-2 w-full h-10 border rounded-md border-input bg-background px-3 py-2 text-sm focus:outline-none ">
+                    <option> {props.placeholder}</option>
+                    {props.selectList.map(item => (
+                        <option
+                            key={item}
+                            value={item}
+                            className=""
+                        >
+                            {item}
+                        </option>
+                    ))}
+                </select>
+            )
         }
-    };
-
-
+    }
 
     return (
         <div className="z-10 ms-16 mt-10 w-1/3" key={props.id}>
@@ -97,5 +55,6 @@ InputItem.propTypes = {
     type: PropTypes.oneOf(['text', 'number', 'email', 'date', 'select']).isRequired,
     selectList: PropTypes.array,
     register: PropTypes.func.isRequired,
-    errors: PropTypes.object
+    errors: PropTypes.object,
+    watch: PropTypes.func
 };

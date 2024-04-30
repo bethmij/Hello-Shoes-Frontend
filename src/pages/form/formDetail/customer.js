@@ -1,16 +1,34 @@
 const genderList = ["Male", "Female", "Other"]
 const levelList = ["Gold", "Silver", "Bronze", "New"]
 
+
+export let customer = {
+    customerCode:"",
+    customerName:"",
+    gender:"",
+    joinDate:"",
+    points:"",
+    level:"",
+    dob:"",
+    address1:"",
+    address2:"",
+    address3:"",
+    address4:"",
+    address5:"",
+    contact:"",
+    email:""
+}
+
 export const customerForm = [
     [{
-        id: "code",
+        id: "customerCode",
         title: "Customer Code",
         type: "text",
         placeholder: "",
         description: "Auto generated",
     },
         {
-            id: "name",
+            id: "customerName",
             title: "Customer Name",
             type: "text",
             placeholder: "Name",
@@ -25,14 +43,14 @@ export const customerForm = [
         selectList: genderList
     },
         {
-            id: "joinDate",
+            id: "loyaltyJoinedDate",
             title: "Loyalty Join Date",
             type: "date",
             placeholder: "Date",
             description: "Date of the entitlement as a loyalty customer.js",
         }],
     [{
-        id: "points",
+        id: "totalPoints",
         title: "Total point",
         type: "number",
         placeholder: "Points",
@@ -55,42 +73,42 @@ export const customerForm = [
             description: "Date of birth",
         },
         {
-            id: "address1",
+            id: "addressLine01",
             title: "Address Line 01",
             type: "text",
             placeholder: "Address",
             description: "Building no or name",
         }], [
         {
-            id: "address2",
+            id: "addressLine02",
             title: "Address Line 02",
             type: "text",
             placeholder: "Address",
             description: "Lane",
         },
         {
-            id: "address3",
+            id: "addressLine03",
             title: "Address Line 03",
             type: "text",
             placeholder: "Address",
             description: "Main city",
         }],
     [{
-        id: "address4",
+        id: "addressLine04",
         title: "Address Line 04",
         type: "text",
         placeholder: "Address",
         description: "Main state",
     },
         {
-            id: "address5",
+            id: "addressLine05",
             title: "Address Line 05",
             type: "text",
             placeholder: "Address",
             description: "Postal code",
         }], [
         {
-            id: "contact",
+            id: "contactNo",
             title: "Contact number",
             type: "text",
             placeholder: "Contact",

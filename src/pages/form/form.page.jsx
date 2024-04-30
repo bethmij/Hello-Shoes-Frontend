@@ -3,27 +3,54 @@ import {Button} from "../../components/ui/button.jsx";
 import {useForm} from "react-hook-form";
 import {ScrollArea} from "../../components/ui/scroll-area.jsx";
 import {useParams} from "react-router-dom";
-import {customerForm} from "./formDetail/customer.js";
+import {customer, customerForm} from "./formDetail/customer.js";
 import {employeeForm} from "./formDetail/employee.js";
 import {CgFormatRight} from "react-icons/cg";
+import {useState} from "react";
+import axios, {CanceledError} from "axios";
 
+let onSubmit = () => {}
 
 function FormPage() {
+
+    const [customers, setCustomer] = useState(null)
+    // const [employees, setEmployee] = useState<customer>(null)
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState('')
 
     const {id} = useParams()
     let form = ""
     let title = ""
 
+
     if(id === "customer"){
         form = customerForm
         title = "Customer Form"
+
+        onSubmit = async (data) => {
+            setCustomer(data)
+            // try {
+            //     console.log(customers)
+            //     const response = await axios.post('http://localhost:8080/app/customer', JSON.stringify(customers), {
+            //         headers: {
+            //             'Content-Type': 'application/json'
+            //         }
+            //     });
+            //     if (response.status === 201) {
+            //         alert('Data posted to backend successfully!');
+            //     }
+            // } catch (error) {
+            //     alert('Error posting data to backend:');
+            // }
+        };
+
     }else if(id === "employee"){
         form = employeeForm
         title = "Employee Form"
     }
 
 
-    const {register, handleSubmit} = useForm()
+    const {register, handleSubmit,watch} = useForm()
 
     return (
         <>
@@ -35,7 +62,8 @@ function FormPage() {
 
             <form className="w-4/5 h-4/5 ms-52 mt-32 flex-col rounded-3xl absolute xl"
                   onSubmit={handleSubmit(data => {
-                      console.log(data)
+                      onSubmit(data)
+                      console.log(customers)
                   })}>
                 <ScrollArea className="h-full w-full rounded-3xl z-0">
                     <div id="form" className="w-full h-full absolute border-2 z-0 rounded-3xl "></div>
@@ -52,6 +80,7 @@ function FormPage() {
                                     description={data.description}
                                     selectList={data.selectList}
                                     register={register}
+                                    watch={watch}
                                 />
 
                             ))}
