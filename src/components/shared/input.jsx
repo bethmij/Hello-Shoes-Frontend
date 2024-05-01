@@ -38,7 +38,7 @@ export function InputItem(props) {
 
     return (
         <div className="z-10 ms-16 mt-10 w-1/3" key={props.id}>
-            <label className="text-l">{props.title}</label>
+            <label className="text-lg">{props.title}</label>
             {setInput()}
             <p className="opacity-60">
                 {!props.errors ? props.description : props.errors.message}

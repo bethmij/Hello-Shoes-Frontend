@@ -68,7 +68,7 @@ function RootLayout() {
             <div className=" w-full h-20 absolute flex justify-between">
                 <div id="nameTag" className="h-full w-60 ms-28 mt-3"></div>
 
-                <div className="me-5 opacity-60">
+                <div className="me-5 opacity-70">
                     <CurrentTime/>
                 </div>
             </div>
