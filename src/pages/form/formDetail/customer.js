@@ -103,7 +103,7 @@ export const customerForm = [
         {
             id: "addressLine05",
             title: "Address Line 05",
-            type: "text",
+            type: "number",
             placeholder: "Address",
             description: "Postal code",
         }], [
