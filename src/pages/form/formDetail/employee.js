@@ -4,14 +4,14 @@ const accessRoleList = ["ADMIN", "USER"]
 
 export const employeeForm = [
     [{
-        id: "code",
+        id: "employeeCode",
         title: "Employee Code",
         type: "text",
         placeholder: "",
         description: "Auto generated",
     },
         {
-            id: "name",
+            id: "employeeName",
             title: "Employee Name",
             type: "text",
             placeholder: "Name",
@@ -34,7 +34,7 @@ export const employeeForm = [
             selectList: statusList
         }],
     [{
-        id: "role",
+        id: "accessRole",
         title: "Access Role",
         type: "select",
         placeholder: "Role",
@@ -57,55 +57,55 @@ export const employeeForm = [
             description: "Date of birth",
         },
         {
-            id: "joinDate",
+            id: "dateJointed",
             title: "Join Date",
             type: "date",
             placeholder: "Date",
             description: "Date of Joined to the company",
         }],
         [{
-            id: "branch",
+            id: "attachedBranch",
             title: "Attached Branch",
             type: "text",
             placeholder: "Branch",
             description: "Which branch attached",
         }, {
-            id: "address1",
+            id: "addressLine01",
             title: "Address Line 01",
             type: "text",
             placeholder: "Address",
             description: "Building no or name",
         }], [
         {
-            id: "address2",
+            id: "addressLine02",
             title: "Address Line 02",
             type: "text",
             placeholder: "Address",
             description: "Lane",
         },
         {
-            id: "address3",
+            id: "addressLine03",
             title: "Address Line 03",
             type: "text",
             placeholder: "Address",
             description: "Main city",
         }],
         [{
-            id: "address4",
+            id: "addressLine04",
             title: "Address Line 04",
             type: "text",
             placeholder: "Address",
             description: "Main state",
         },
         {
-            id: "address5",
+            id: "addressLine05",
             title: "Address Line 05",
-            type: "text",
+            type: "number",
             placeholder: "Address",
             description: "Postal code",
         }], [
         {
-            id: "contact",
+            id: "contactNo",
             title: "Contact number",
             type: "text",
             placeholder: "Contact",
