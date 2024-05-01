@@ -7,6 +7,7 @@ import {customer, customerForm} from "./formDetail/customer.js";
 import {employeeForm} from "./formDetail/employee.js";
 import {CgFormatRight} from "react-icons/cg";
 import axios from "axios";
+import {supplierForm} from "./formDetail/supplier.js";
 
 const onSubmit = async (data, url) => {
     try {
@@ -41,7 +42,14 @@ function FormPage() {
     }else if(id === "employee"){
         form = employeeForm
         title = "Employee Form"
+        url = "http://localhost:8080/app/employee"
+
+    }else if(id === "supplier"){
+        form = supplierForm
+        title = "Supplier Form"
+        url = "http://localhost:8080/app/supplier"
     }
+
 
 
     const {register, handleSubmit,watch} = useForm()
@@ -60,7 +68,7 @@ function FormPage() {
                   })}>
                 <ScrollArea className="h-full w-full rounded-3xl z-0">
                     <div id="form" className="w-full h-full absolute border-2 z-0 rounded-3xl "></div>
-                    <div className="w-5/6 h-3 ms-32 border-t-2 bg-background  bermuda absolute z-50  "></div>
+                    {/*<div className="w-5/6 h-3 ms-32 border-t-2 bg-background  bermuda absolute z-50  "></div>*/}
 
                     {form.map((formData, index) => (
                         <div key={index} className="flex justify-around mb-4 z-10">
