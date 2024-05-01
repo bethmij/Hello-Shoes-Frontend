@@ -2,8 +2,6 @@ const genderList = ["MALE", "FEMALE", "OTHER"]
 const statusList = ["MARRIED", "SINGLE"]
 const accessRoleList = ["ADMIN", "USER"]
 
-
-
 export const employeeForm = [
     [{
         id: "code",

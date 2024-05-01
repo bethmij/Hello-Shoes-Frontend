@@ -6,43 +6,37 @@ import {useParams} from "react-router-dom";
 import {customer, customerForm} from "./formDetail/customer.js";
 import {employeeForm} from "./formDetail/employee.js";
 import {CgFormatRight} from "react-icons/cg";
-import {useState} from "react";
-import axios, {CanceledError} from "axios";
+import axios from "axios";
 
-let onSubmit = () => {}
+const onSubmit = async (data, url) => {
+    try {
+        const response = await axios.post(url, JSON.stringify(data), {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.status === 201) {
+            alert('Data posted to backend successfully!');
+        }
+    } catch (error) {
+        alert('Error posting data to backend:');
+    }
+};
 
 function FormPage() {
 
-    const [customers, setCustomer] = useState(null)
-    // const [employees, setEmployee] = useState<customer>(null)
-    const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState('')
+    // const [isLoading, setIsLoading] = useState(false)
 
     const {id} = useParams()
     let form = ""
     let title = ""
+    let url = ""
 
 
     if(id === "customer"){
         form = customerForm
         title = "Customer Form"
-
-        onSubmit = async (data) => {
-            setCustomer(data)
-            // try {
-            //     console.log(customers)
-            //     const response = await axios.post('http://localhost:8080/app/customer', JSON.stringify(customers), {
-            //         headers: {
-            //             'Content-Type': 'application/json'
-            //         }
-            //     });
-            //     if (response.status === 201) {
-            //         alert('Data posted to backend successfully!');
-            //     }
-            // } catch (error) {
-            //     alert('Error posting data to backend:');
-            // }
-        };
+        url = "http://localhost:8080/app/customer"
 
     }else if(id === "employee"){
         form = employeeForm
@@ -60,13 +54,13 @@ function FormPage() {
             </div>
 
 
-            <form className="w-4/5 h-4/5 ms-52 mt-32 flex-col rounded-3xl absolute xl"
+            <form className="w-4/5 h-4/5 ms-52 mt-32 flex-col rounded-full absolute "
                   onSubmit={handleSubmit(data => {
-                      onSubmit(data)
-                      console.log(customers)
+                      onSubmit(data, url)
                   })}>
                 <ScrollArea className="h-full w-full rounded-3xl z-0">
                     <div id="form" className="w-full h-full absolute border-2 z-0 rounded-3xl "></div>
+                    <div className="w-5/6 h-3 ms-32 border-t-2 bg-background  bermuda absolute z-50  "></div>
 
                     {form.map((formData, index) => (
                         <div key={index} className="flex justify-around mb-4 z-10">
@@ -86,7 +80,8 @@ function FormPage() {
                             ))}
                         </div>
                     ))
-            }
+                    }
+
                 </ScrollArea>
 
                 <Button type="submit"
