@@ -23,7 +23,7 @@ module.exports = {
       'white': '#ffffff',
       'purple': '#490042',
       'black': '#000000',
-      'metal': '#565584',
+      'metal': '#96778b',
       'tahiti': '#3ab7bf',
       'silver': '#ecebff',
       'bubble-gum': '#ff77e9',
