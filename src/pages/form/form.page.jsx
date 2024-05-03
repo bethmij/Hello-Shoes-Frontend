@@ -8,6 +8,7 @@ import {employeeForm} from "./formDetail/employee.js";
 import {CgFormatRight} from "react-icons/cg";
 import axios from "axios";
 import {supplierForm} from "./formDetail/supplier.js";
+import {inventoryForm} from "./formDetail/inventory.js"
 
 const onSubmit = async (data, url) => {
     try {
@@ -48,6 +49,11 @@ function FormPage() {
         form = supplierForm
         title = "Supplier Form"
         url = "http://localhost:8080/app/supplier"
+
+    }else if(id === "inventory"){
+        form = inventoryForm
+        title = "Inventory Form"
+        url = "http://localhost:8080/app/inventory"
     }
 
 

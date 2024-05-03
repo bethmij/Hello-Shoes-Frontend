@@ -7,6 +7,7 @@ import RootLayout from "./components/layouts/rootLayout.jsx";
 import './App.css'
 // import Page from "./pages/page.jsx";
 import FormPage from "./pages/form/form.page.jsx";
+import HomePage from "./pages/home/home.page.jsx";
 
 const router = createBrowserRouter([
     {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/",
-        element: <RootLayout/>
+        element: <HomePage/>
     },
     // {
     //     path: "/page",
