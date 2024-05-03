@@ -8,6 +8,7 @@ import './App.css'
 // import Page from "./pages/page.jsx";
 import FormPage from "./pages/form/form.page.jsx";
 import HomePage from "./pages/home/home.page.jsx";
+import PreviewPage from "./pages/preview/preview.page.jsx";
 
 const router = createBrowserRouter([
     {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
             {
                 path:"/form/:id",
                 element:<FormPage/>
+            },
+            {
+                path:"/preview/:id",
+                element:<PreviewPage/>
             }
         ]
     },

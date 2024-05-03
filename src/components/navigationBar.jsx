@@ -21,7 +21,7 @@ const components = [
         title: "Customer",
         to: "/docs/primitives/hover-card",
         description:
-            "Preview all customer.js",
+            "Preview all customer.jsx",
     },
     {
         title: "Employees +",
