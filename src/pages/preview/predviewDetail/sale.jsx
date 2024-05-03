@@ -10,7 +10,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export const supplierColumns = [
+export const saleColumns = [
     {
         id: "select",
         header: ({table}) => (
