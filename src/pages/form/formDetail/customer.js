@@ -47,7 +47,7 @@ export const customerForm = [
             title: "Loyalty Join Date",
             type: "date",
             placeholder: "Date",
-            description: "Date of the entitlement as a loyalty customer.js",
+            description: "Date of the entitlement as a loyalty customer.jsx",
         }],
     [{
         id: "totalPoints",
