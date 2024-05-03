@@ -7,7 +7,7 @@ import {GoPackageDependencies} from "react-icons/go";
 import {VscGraph} from "react-icons/vsc";
 import {CgProfile} from "react-icons/cg";
 // import TableDashboard from "../shared/table.jsx";
-import DataTableDemo from "../shared/demo.jsx";
+import Preview from "../../pages/preview/preview.page.jsx"
 
 
 const menuItem = [
@@ -24,7 +24,7 @@ const menuItem = [
         icon: <PiHighHeelThin size="55" color="#78045B"/>
     },
     {
-        to: "/customer.js",
+        to: "/customer.jsx",
         icon: <BsPersonDown size="55" color="#78045B"/>
     },
     {
@@ -92,8 +92,8 @@ function RootLayout() {
                     </div>
                 </nav>
 
-                {/*<Outlet/>*/}
-                <DataTableDemo/>
+                <Outlet/>
+                {/*<Preview/>*/}
 
             </div>
 
