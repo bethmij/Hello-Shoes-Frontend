@@ -29,6 +29,7 @@ import {useEffect, useState} from "react";
 import {TableBody, TableCell} from "../ui/table.jsx";
 import axios from "axios";
 import {ScrollArea, ScrollBar} from "../ui/scroll-area.jsx";
+import { LuView } from "react-icons/lu";
 
 
 const formatDate = (dateString) => {
@@ -227,7 +228,12 @@ export default function DataTableDemo() {
     });
 
     return (
-        <ScrollArea  className=" form w-5/6 h-5/6 ms-24  mt-28 whitespace-nowrap rounded-md border p-4">
+        <>
+            <div className="absolute top-0 left-1/2 flex gap-x-5 -ms-32 mt-4 opacity-80">
+                <LuView size="45"/>
+                <h1 className="text-4xl ">{"title"}</h1>
+            </div>
+            <ScrollArea className=" form w-5/6 h-5/6 ms-24  mt-28 whitespace-nowrap rounded-md border p-4">
 
                 <div className="flex items-center py-4 mb-10 z-50">
                     <Input
@@ -342,9 +348,9 @@ export default function DataTableDemo() {
                     </div>
                 </div>
 
-            <ScrollBar orientation="horizontal"/>
-        </ScrollArea>
+                <ScrollBar orientation="horizontal"/>
+            </ScrollArea>
 
-
+        </>
     )
 }
