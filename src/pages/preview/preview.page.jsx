@@ -30,6 +30,7 @@ import {customerColumns} from "./predviewDetail/customer.jsx";
 import {useParams} from "react-router-dom";
 import {employeeColumns} from "./predviewDetail/employee.jsx";
 import {supplierColumns} from "./predviewDetail/supplier.jsx";
+import {saleColumns} from "./predviewDetail/sale.jsx";
 
 
 
@@ -61,12 +62,11 @@ export default function PreviewPage() {
         title = "Supplier Preview"
         url = "http://localhost:8080/app/supplier/getAll"
 
+    } else if(id === "sale"){
+        columns = saleColumns
+        title = "Sale Preview"
+        url = "http://localhost:8080/app/sale/getAll"
     }
-    // else if(id === "inventory"){
-    //     form = inventoryForm
-    //     title = "Inventory Form"
-    //     url = "http://localhost:8080/app/inventory"
-    // }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -189,7 +189,7 @@ export default function PreviewPage() {
                                 <TableRow>
                                     <TableCell
                                         colSpan={columns.length}
-                                        className="h-24 text-center text-5xl"
+                                        className="h-24 text-center text-xl"
                                     >
                                         No results.
                                     </TableCell>
