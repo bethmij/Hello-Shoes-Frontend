@@ -3,7 +3,7 @@ import {Button} from "../../components/ui/button.jsx";
 import {useForm} from "react-hook-form";
 import {ScrollArea} from "../../components/ui/scroll-area.jsx";
 import {useParams} from "react-router-dom";
-import {customer, customerForm} from "./formDetail/customer.js";
+import { customerForm} from "./formDetail/customer.js";
 import {employeeForm} from "./formDetail/employee.js";
 import {CgFormatRight} from "react-icons/cg";
 import axios from "axios";
