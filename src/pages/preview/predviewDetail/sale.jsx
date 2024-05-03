@@ -10,6 +10,13 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+const formatDate = (dateString) => {
+    const year = dateString.substring(0, 4);
+    const month = dateString.substring(4, 6);
+    const day = dateString.substring(6, 8);
+    return `${year}-${month}-${day}`;
+};
+
 export const saleColumns = [
     {
         id: "select",
@@ -34,7 +41,7 @@ export const saleColumns = [
         enableHiding: false,
     },
     {
-        accessorKey: "supplierCode",
+        accessorKey: "orderNo",
         header: ({column}) => {
             return (
                 <Button
@@ -42,46 +49,86 @@ export const saleColumns = [
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Supplier Code
+                    Order ID
                     <ArrowUpDown className="ml-2 h-4 w-4"/>
                 </Button>
             );
         },
-        cell: ({row}) => <div className="capitalize">{row.getValue("supplierCode")}</div>,
+        cell: ({row}) => <div className="capitalize">{row.getValue("orderNo")}</div>,
+    },
+    // {
+    //     accessorKey: "itemCode",
+    //     header: "Item Code",
+    //     cell: ({row}) => <div className="capitalize">{row.getValue("itemCode")}</div>,
+    // },
+    // {
+    //     accessorKey: "itemDesc",
+    //     header: "Item Description",
+    //     cell: ({row}) => <div className="capitalize">  {row.getValue("itemDesc")}</div>,
+    // },
+    //  {
+    //     accessorKey: "size",
+    //     header: "Item Size",
+    //     cell: ({row}) => <div className="capitalize">  {row.getValue("size")}</div>,
+    // },
+    // {
+    //     accessorKey: "size",
+    //     header: "Item Size",
+    //     cell: ({row}) => <div className="capitalize">  {row.getValue("size")}</div>,
+    // },
+    // {
+    //     accessorKey: "itemQty",
+    //     header: "Item Quantity ",
+    //     cell: ({row}) => <div className="capitalize">  {row.getValue("itemQty")}</div>,
+    // },
+    // {
+    //     accessorKey: "unitPrice",
+    //     header: () => <div className="text-right">Unit Price</div>,
+    //     cell: ({ row }) => {
+    //         const amount = parseFloat(row.getValue("unitPrice"));
+    //
+    //         // Format the amount as a dollar amount
+    //         const formatted = new Intl.NumberFormat("en-US", {
+    //             style: "currency",
+    //             currency: "USD",
+    //         }).format(amount);
+    //
+    //         return <div className="text-right font-medium">{formatted}</div>;
+    //     },
+    // },
+    {
+        accessorKey: "totalPrice",
+        header: () => <div className="text-right">Total Price</div>,
+        cell: ({ row }) => {
+            const amount = parseFloat(row.getValue("totalPrice"));
+
+            // Format the amount as a dollar amount
+            const formatted = new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+            }).format(amount);
+
+            return <div className="text-right font-medium">{formatted}</div>;
+        },
     },
     {
-        accessorKey: "supplierName",
-        header: "Supplier Name",
-        cell: ({row}) => <div className="capitalize">{row.getValue("supplierName")}</div>,
-    },
-    {
-        accessorKey: "category",
-        header: "Category",
-        cell: ({row}) => <div className="capitalize">  {row.getValue("category")}</div>,
-    },
-    {
-        accessorKey: "contactNo1",
-        header: "Contact - Mobile ",
-        cell: ({row}) => <div className="capitalize">  {row.getValue("contactNo1")}</div>,
-    },
-    {
-        accessorKey: "contactNo2",
-        header: "Contact - Land",
-        cell: ({row}) => <div className="capitalize">{row.getValue("contactNo2")}</div>,
-    },
-    {
-        accessorKey: "address",
-        header: "Address",
+        accessorKey: "purchaseDate",
+        header: "Purchase Date",
         cell: ({row}) => (
             <div className="capitalize">
-                {`${row.original.addressLine01}, ${row.original.addressLine02}, ${row.original.addressLine03}, ${row.original.addressLine04}, ${row.original.addressLine05}, ${row.original.addressLine06}`}
+                {formatDate(row.getValue("purchaseDate"))}
             </div>
         ),
     },
     {
-        accessorKey: "email",
-        header: "Email",
-        cell: ({row}) => <div className="lowercase">{row.getValue("email")}</div>,
+        accessorKey: "addedPoints",
+        header: "Added Points",
+        cell: ({row}) => <div className="capitalize">{row.getValue("addedPoints")}</div>,
+    },
+    {
+        accessorKey: "cashier",
+        header: "Cashier Name",
+        cell: ({row}) => <div className="lowercase">{row.getValue("cashier")}</div>,
     },
 
     {
