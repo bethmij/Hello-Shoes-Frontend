@@ -6,6 +6,9 @@ import {BsPersonBadge, BsPersonDown} from "react-icons/bs";
 import {GoPackageDependencies} from "react-icons/go";
 import {VscGraph} from "react-icons/vsc";
 import {CgProfile} from "react-icons/cg";
+// import TableDashboard from "../shared/table.jsx";
+import DataTableDemo from "../shared/demo.jsx";
+
 
 const menuItem = [
     {
@@ -62,6 +65,7 @@ function RootLayout() {
 
     return (
         <>
+
             <div id="root" className="h-screen w-full absolute"></div>
             <div className="w-full h-20 absolute bg-black opacity-50"></div>
 
@@ -88,7 +92,8 @@ function RootLayout() {
                     </div>
                 </nav>
 
-                <Outlet/>
+                {/*<Outlet/>*/}
+                <DataTableDemo/>
 
             </div>
 
