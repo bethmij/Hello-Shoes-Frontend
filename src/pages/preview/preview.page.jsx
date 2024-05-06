@@ -7,7 +7,6 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import {ChevronDown} from "lucide-react";
-import {Button} from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
@@ -21,16 +20,22 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import {useEffect, useState} from "react";
+
 import {TableBody, TableCell} from "@/components/ui/table.jsx";
 import axios from "axios";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area.jsx";
-import { LuView } from "react-icons/lu";
+import {LuView} from "react-icons/lu";
 import {customerColumns} from "./predviewDetail/customer.jsx";
 import {useParams} from "react-router-dom";
 import {employeeColumns} from "./predviewDetail/employee.jsx";
 import {supplierColumns} from "./predviewDetail/supplier.jsx";
 import {saleColumns} from "./predviewDetail/sale.jsx";
+
+import {useEffect, useState} from "react";
+import {Minus, Plus} from "lucide-react";
+import {Bar, BarChart, ResponsiveContainer} from "recharts";
+
+import {Button} from "@/components/ui/button";
 
 
 
@@ -47,22 +52,22 @@ export default function PreviewPage() {
     let url = ""
 
 
-    if(id === "customer"){
+    if (id === "customer") {
         columns = customerColumns
         title = "Customer Preview"
         url = "http://localhost:8080/app/customer/getAll"
 
-    } else if(id === "employee"){
+    } else if (id === "employee") {
         columns = employeeColumns
         title = "Employee Preview"
         url = "http://localhost:8080/app/employee/getAll"
 
-    } else if(id === "supplier"){
+    } else if (id === "supplier") {
         columns = supplierColumns
         title = "Supplier Preview"
         url = "http://localhost:8080/app/supplier/getAll"
 
-    } else if(id === "sale"){
+    } else if (id === "sale") {
         columns = saleColumns
         title = "Sale Preview"
         url = "http://localhost:8080/app/sale/getAll"
@@ -83,6 +88,7 @@ export default function PreviewPage() {
         fetchData();
     }, []);
 
+
     const table = useReactTable({
         data,
         columns,
@@ -101,6 +107,8 @@ export default function PreviewPage() {
             rowSelection,
         },
     });
+
+
 
     return (
         <>
@@ -225,6 +233,8 @@ export default function PreviewPage() {
 
                 <ScrollBar orientation="horizontal"/>
             </ScrollArea>
+
+
 
         </>
     )
