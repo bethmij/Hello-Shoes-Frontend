@@ -1,6 +1,7 @@
 import {ArrowUpDown, MoreHorizontal} from "lucide-react";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Button} from "@/components/ui/button.jsx";
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,6 +10,18 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer";
+import Tables from "../../../components/shared/table.jsx";
+
+
 
 const formatDate = (dateString) => {
     const year = dateString.substring(0, 4);
@@ -16,6 +29,31 @@ const formatDate = (dateString) => {
     const day = dateString.substring(6, 8);
     return `${year}-${month}-${day}`;
 };
+
+// function setItems() {
+//     return (
+//         <>
+//             <Drawer>
+//                 <DrawerTrigger asChild>
+//                     <Button variant="outline">Open Drawer</Button>
+//                 </DrawerTrigger>
+//                 <DrawerContent className=" w-full flex items-center justify-center">
+//                     <div className="w-2/3 ">
+//                         <DrawerHeader>
+//                             <DrawerTitle>Sale - SP00-001 - Item</DrawerTitle>
+//                         </DrawerHeader>
+//                         <Tables columns={saleInventoryColumns} data={data.saleInventory}></Tables>
+//                         <DrawerFooter>
+//                             <DrawerClose asChild>
+//                                 <Button variant="outline">Cancel</Button>
+//                             </DrawerClose>
+//                         </DrawerFooter>
+//                     </div>
+//                 </DrawerContent>
+//             </Drawer>
+//         </>
+//     )
+// }
 
 export const saleColumns = [
     {
@@ -56,50 +94,10 @@ export const saleColumns = [
         },
         cell: ({row}) => <div className="capitalize">{row.getValue("orderNo")}</div>,
     },
-    // {
-    //     accessorKey: "itemCode",
-    //     header: "Item Code",
-    //     cell: ({row}) => <div className="capitalize">{row.getValue("itemCode")}</div>,
-    // },
-    // {
-    //     accessorKey: "itemDesc",
-    //     header: "Item Description",
-    //     cell: ({row}) => <div className="capitalize">  {row.getValue("itemDesc")}</div>,
-    // },
-    //  {
-    //     accessorKey: "size",
-    //     header: "Item Size",
-    //     cell: ({row}) => <div className="capitalize">  {row.getValue("size")}</div>,
-    // },
-    // {
-    //     accessorKey: "size",
-    //     header: "Item Size",
-    //     cell: ({row}) => <div className="capitalize">  {row.getValue("size")}</div>,
-    // },
-    // {
-    //     accessorKey: "itemQty",
-    //     header: "Item Quantity ",
-    //     cell: ({row}) => <div className="capitalize">  {row.getValue("itemQty")}</div>,
-    // },
-    // {
-    //     accessorKey: "unitPrice",
-    //     header: () => <div className="text-right">Unit Price</div>,
-    //     cell: ({ row }) => {
-    //         const amount = parseFloat(row.getValue("unitPrice"));
-    //
-    //         // Format the amount as a dollar amount
-    //         const formatted = new Intl.NumberFormat("en-US", {
-    //             style: "currency",
-    //             currency: "USD",
-    //         }).format(amount);
-    //
-    //         return <div className="text-right font-medium">{formatted}</div>;
-    //     },
-    // },
     {
         accessorKey: "totalPrice",
         header: () => <div className="text-right">Total Price</div>,
-        cell: ({ row }) => {
+        cell: ({row}) => {
             const amount = parseFloat(row.getValue("totalPrice"));
 
             // Format the amount as a dollar amount
@@ -130,6 +128,11 @@ export const saleColumns = [
         header: "Cashier Name",
         cell: ({row}) => <div className="lowercase">{row.getValue("cashier")}</div>,
     },
+    {
+        accessorKey: "customerName",
+        header: "Customer Name",
+        cell: ({row}) => <div className="lowercase">{row.getValue("customerName")}</div>,
+    },
 
     {
         id: "actions",
@@ -147,8 +150,11 @@ export const saleColumns = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.customerCode)}>
+                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.orderNo)}>
                             Copy Customer Code
+                        </DropdownMenuItem>
+                        <DropdownMenuItem >
+                            View Items
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
                         <DropdownMenuItem>View customer</DropdownMenuItem>
