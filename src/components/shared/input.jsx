@@ -1,11 +1,23 @@
 import {Input} from "../ui/input.jsx";
 import PropTypes from "prop-types";
+import {useEffect, useState} from "react";
 
 export function InputItem(props) {
 
+    const initialValue = props.value || '';
+    const [inputValue, setInputValue] = useState(initialValue);
+
+    useEffect(() => {
+        setInputValue(props.value || '');
+    }, [props.value]);
+    const handleChange = (event) => {
+        const newValue = event.target.value;
+        setInputValue(newValue);
+        props.onChange(newValue);
+    };
+
     const setInput = () => {
         if (props.type === 'text' || props.type === 'number' || props.type === 'email' || props.type === 'date') {
-
             return (
                 <Input
                     {...props.register(props.id)}
@@ -14,18 +26,17 @@ export function InputItem(props) {
                     name={props.id}
                     placeholder={props.placeholder}
                     className="mt-2 mb-2 w-full"
-                    value={(props.value !== null ) ? props.value : props.placeholder}
-                    readOnly={props.isEdit}
+                    value={inputValue}
+                    readOnly={false}
+                    onChange={handleChange}
                 />
             );
         } else if (props.type === 'select') {
             return (
 
                 <select {...props.register(props.id)} name={props.id} id={props.id}
-                        onChange={(event) => {
-                            const selectedOption = event.target.value;
-                            props.onChange(selectedOption);
-                        }}
+                        onChange={handleChange}
+                        value={inputValue}
                         className="mt-2 mb-2 w-full h-10 border rounded-md border-input bg-background px-3 py-2 text-sm focus:outline-none ">
                     <option> {props.placeholder}</option>
                     {props.selectList.map(item => (
