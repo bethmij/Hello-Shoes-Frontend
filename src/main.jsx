@@ -16,7 +16,7 @@ const router = createBrowserRouter([
         element: <RootLayout/>,
         children: [
             {
-                path:"/form/:id",
+                path:"/form/:id/:action",
                 element:<FormPage/>
             },
             {
