@@ -37,14 +37,14 @@ export const cartColumns = [
         cell: ({row}) => <div className="capitalize">{row.getValue("itemCode")}</div>,
     },
     {
-        accessorKey: "qty",
+        accessorKey: "itemQuantity",
         header: "Quantity",
-        cell: ({row}) => <div className="capitalize">  {row.getValue("qty")}</div>,
+        cell: ({row}) => <div className="capitalize">  {row.getValue("itemQuantity")}</div>,
     },
     {
-        accessorKey: "unitPrice",
+        accessorKey: "saleUnitPrice",
         header: "Unit Price",
-        cell: ({row}) => <div className="capitalize">  {row.getValue("unitPrice")}</div>,
+        cell: ({row}) => <div className="capitalize">  {row.getValue("saleUnitPrice")}</div>,
     },
     {
         accessorKey: "itemDesc",
@@ -60,7 +60,7 @@ export const cartColumns = [
             return(
                 <>
                     <Button>
-                        <AiOutlineDelete/>
+                        <AiOutlineDelete size="25"/>
                     </Button>
                 </>
                 )
