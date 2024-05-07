@@ -30,13 +30,8 @@ import {useParams} from "react-router-dom";
 import {employeeColumns} from "./predviewDetail/employee.jsx";
 import {supplierColumns} from "./predviewDetail/supplier.jsx";
 import {saleColumns} from "./predviewDetail/sale.jsx";
-
 import {useEffect, useState} from "react";
-import {Minus, Plus} from "lucide-react";
-import {Bar, BarChart, ResponsiveContainer} from "recharts";
-
 import {Button} from "@/components/ui/button";
-
 
 
 export default function PreviewPage() {
@@ -109,16 +104,15 @@ export default function PreviewPage() {
     });
 
 
-
     return (
         <>
             <div className="absolute top-0 left-1/2 flex gap-x-5 -ms-32 mt-4 opacity-80">
                 <LuView size="45"/>
                 <h1 className="text-4xl ">{title}</h1>
             </div>
-            <ScrollArea className=" form w-5/6 h-5/6 ms-24  mt-28 whitespace-nowrap rounded-md border p-4">
 
-                <div className="flex items-center py-4 mb-10 z-50">
+            <div className="h-[90vh] w-[80vw] flex-col z-50 ms-16 mt-28">
+                <div className="flex justify-around w-4/6 ms-72 items-center  z-50 ">
                     <Input
                         placeholder="Filter codes..."
                         value={(table.getColumn("customerCode")?.getFilterValue()) ?? ""}
@@ -155,87 +149,86 @@ export default function PreviewPage() {
                     </DropdownMenu>
                 </div>
 
-                <div className="w-full h-full ">
-                    <Table>
-                        <TableHeader>
-                            {table.getHeaderGroups().map((headerGroup) => (
-                                <TableRow key={headerGroup.id}>
-                                    {headerGroup.headers.map((header) => {
-                                        return (
-                                            <TableHead key={header.id} className="text-center text-xl  text-metal ">
-                                                {header.isPlaceholder
-                                                    ? null
-                                                    : flexRender(
-                                                        header.column.columnDef.header,
-                                                        header.getContext()
-                                                    )}
-                                            </TableHead>
-                                        )
-                                    })}
-                                </TableRow>
-                            ))}
-                        </TableHeader>
-                        <TableBody>
-                            {table.getRowModel().rows?.length ? (
-                                table.getRowModel().rows.map((row) => (
-                                    <TableRow
-                                        className="text-center text-lg  text-opacity-80"
-                                        key={row.id}
-                                        data-state={row.getIsSelected() && "selected"}
-                                    >
-                                        {row.getVisibleCells().map((cell) => (
-                                            <TableCell key={cell.id}>
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext()
-                                                )}
-                                            </TableCell>
-                                        ))}
+                <ScrollArea className=" form w-[85vw] h-[75vh] mt-10 whitespace-nowrap rounded-md border p-3">
+                    <div className="w-full h-full">
+                        <Table>
+                            <TableHeader>
+                                {table.getHeaderGroups().map((headerGroup) => (
+                                    <TableRow key={headerGroup.id}>
+                                        {headerGroup.headers.map((header) => {
+                                            return (
+                                                <TableHead key={header.id} className="text-center text-xl  text-metal ">
+                                                    {header.isPlaceholder
+                                                        ? null
+                                                        : flexRender(
+                                                            header.column.columnDef.header,
+                                                            header.getContext()
+                                                        )}
+                                                </TableHead>
+                                            )
+                                        })}
                                     </TableRow>
-                                ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell
-                                        colSpan={columns.length}
-                                        className="h-24 text-center text-xl"
-                                    >
-                                        No results.
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
-                <div className="flex items-center justify-end space-x-2 py-4">
-                    <div className="flex-1 text-m text-muted-foreground">
-                        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                        {table.getFilteredRowModel().rows.length} row(s) selected.
+                                ))}
+                            </TableHeader>
+                            <TableBody>
+                                {table.getRowModel().rows?.length ? (
+                                    table.getRowModel().rows.map((row) => (
+                                        <TableRow
+                                            className="text-center text-lg  text-opacity-80"
+                                            key={row.id}
+                                            data-state={row.getIsSelected() && "selected"}
+                                        >
+                                            {row.getVisibleCells().map((cell) => (
+                                                <TableCell key={cell.id}>
+                                                    {flexRender(
+                                                        cell.column.columnDef.cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell
+                                            colSpan={columns.length}
+                                            className="h-24 text-center text-xl"
+                                        >
+                                            No results.
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
                     </div>
-                    <div className="space-x-2">
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => table.previousPage()}
-                            disabled={!table.getCanPreviousPage()}
-                        >
-                            Previous
-                        </Button>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => table.nextPage()}
-                            disabled={!table.getCanNextPage()}
-                        >
-                            Next
-                        </Button>
+                    <div className="flex items-center justify-end space-x-2 py-4">
+                        <div className="flex-1 text-m text-muted-foreground">
+                            {table.getFilteredSelectedRowModel().rows.length} of{" "}
+                            {table.getFilteredRowModel().rows.length} row(s) selected.
+                        </div>
+                        <div className="space-x-2">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => table.previousPage()}
+                                disabled={!table.getCanPreviousPage()}
+                            >
+                                Previous
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => table.nextPage()}
+                                disabled={!table.getCanNextPage()}
+                            >
+                                Next
+                            </Button>
+                        </div>
                     </div>
-                </div>
 
-                <ScrollBar orientation="horizontal"/>
-            </ScrollArea>
-
-
-
+                    <ScrollBar orientation="horizontal"/>
+                </ScrollArea>
+            </div>
         </>
     )
 }
