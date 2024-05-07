@@ -1,73 +1,57 @@
 import axios from "axios";
 
-
-
-
-
-export const getItemCodes = async () => {
-    let itemCodes = []
+export const getCodeList = async (mapping) => {
+    let codeList = []
     try {
-        const response = await axios.get("http://localhost:8080/app/inventory/getIDs");
+        const response = await axios.get("http://localhost:8080/app/"+mapping+"/getIDs");
         if (response.status === 200) {
-            itemCodes = response.data
+            codeList = response.data
         }
     } catch (error) {
         alert('Error posting data to backend:');
     }
-    return itemCodes
+    return codeList
 };
 
-export const getCustomerIDs = async () => {
-    let customerIDs = []
+
+export const getName = async (mapping, id) => {
+    let name = ""
     try {
-        const response = await axios.get("http://localhost:8080/app/customer/getIDs");
+        const response = await axios.get("http://localhost:8080/app/"+mapping+"/getName/"+id);
         if (response.status === 200) {
-            customerIDs = response.data
+            name = response.data
         }
     } catch (error) {
         alert('Error posting data to backend:');
     }
-    return customerIDs
+    return name
 };
 
-
-export const getEmployeeCodes = async () => {
-    let employeeCodes = []
+export const getNextID = async (mapping) => {
+    let id = ""
     try {
-        const response = await axios.get("http://localhost:8080/app/employee/getIDs");
+        const response = await axios.get("http://localhost:8080/app/"+mapping+"/nextID");
         if (response.status === 200) {
-            employeeCodes = response.data
+            id = response.data
         }
     } catch (error) {
         alert('Error posting data to backend:');
     }
-    return employeeCodes
-};
+    return id
+}
 
-
-
-export const getCustomerName = async (id) => {
-    let customerName = ""
+export const getDetails = async (mapping,id) => {
+    let list = []
     try {
-        const response = await axios.get("http://localhost:8080/app/customer/getName/"+id);
+        const response = await axios.get("http://localhost:8080/app/"+mapping+"/"+id);
         if (response.status === 200) {
-            customerName = response.data
+            list = response.data
         }
     } catch (error) {
         alert('Error posting data to backend:');
     }
-    return customerName
+    return list
 };
 
-export const getEmployeeName = async (id) => {
-    let employeeName = ""
-    try {
-        const response = await axios.get("http://localhost:8080/app/employee/getName/"+id);
-        if (response.status === 200) {
-            employeeName = response.data
-        }
-    } catch (error) {
-        alert('Error posting data to backend:');
-    }
-    return employeeName
-};
+
+
