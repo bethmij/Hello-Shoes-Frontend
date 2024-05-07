@@ -9,6 +9,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {Link} from "react-router-dom"
 
 const formatDate = (dateString) => {
     const year = dateString.substring(0, 4);
@@ -155,7 +156,10 @@ export const customerColumns = [
                             Copy Customer Code
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
+                        <Link to={"/form/customer"}>
+                            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.customerCode)}>Update
+                                customer</DropdownMenuItem>
+                        </Link>
                         <DropdownMenuItem>View payment details</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
