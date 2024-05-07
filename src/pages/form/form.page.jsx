@@ -3,54 +3,100 @@ import {Button} from "../../components/ui/button.jsx";
 import {useForm} from "react-hook-form";
 import {ScrollArea} from "../../components/ui/scroll-area.jsx";
 import {useParams} from "react-router-dom";
-import { customerForm} from "./formDetail/customer.js";
+import {getCustomer} from "./formDetail/customer.jsx";
 import {employeeForm} from "./formDetail/employee.js";
 import {CgFormatRight} from "react-icons/cg";
 import axios from "axios";
 import {supplierForm} from "./formDetail/supplier.js";
 import {inventoryForm} from "./formDetail/inventory.js"
+import {getDetails, getNextID} from "../cart/cardDetail/fetchData.jsx";
+import {useEffect, useState} from "react";
+
+let buttonName = "";
+
 
 const onSubmit = async (data, url) => {
-    try {
-        const response = await axios.post(url, JSON.stringify(data), {
-            headers: {
-                'Content-Type': 'application/json'
+
+    if (buttonName === "Submit") {
+        try {
+            const response = await axios.post(url, JSON.stringify(data), {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.status === 201) {
+                alert('Data posted to backend successfully!');
             }
-        });
-        if (response.status === 201) {
-            alert('Data posted to backend successfully!');
+        } catch (error) {
+            alert('Error posting data to backend:');
         }
-    } catch (error) {
-        alert('Error posting data to backend:');
+
+    } else if (buttonName === "Update") {
+        try {
+            const response = await axios.patch(url, JSON.stringify(data), {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.status === 201) {
+                alert('Data posted to backend successfully!');
+            }
+        } catch (error) {
+            alert('Error posting data to backend:');
+        }
     }
+
 };
 
 function FormPage() {
 
     // const [isLoading, setIsLoading] = useState(false)
+    const [customerList, setCustomerList] = useState([])
+    const [customerCode, setCustomerCode] = useState("")
 
-    const {id} = useParams()
+    const {id, action} = useParams()
     let form = ""
     let title = ""
     let url = ""
 
 
-    if(id === "customer"){
-        form = customerForm
-        title = "Customer Form"
-        url = "http://localhost:8080/app/customer"
+    useEffect(() => {
+        if (id === "customer") {
+            if (action.startsWith("save")) {
+                getNextID("customer")
+                    .then(orderID => {
+                        setCustomerCode(orderID)
+                    })
 
-    }else if(id === "employee"){
+            } else if (action.startsWith("update")) {
+                const customerID = action.split("update-")[1];
+                getDetails("customer", customerID)
+                    .then(items => {
+                        setCustomerList(items);
+                    });
+            }
+
+        }
+    }, [id, action]);
+
+
+    if (id === "customer") {
+        form = getCustomer(customerCode, customerList);
+        title = "Customer Form";
+        url = "http://localhost:8080/app/customer";
+        buttonName = action.startsWith("save") ? "Submit" : "Update"
+
+    } else if (id === "employee") {
         form = employeeForm
         title = "Employee Form"
         url = "http://localhost:8080/app/employee"
 
-    }else if(id === "supplier"){
+    } else if (id === "supplier") {
         form = supplierForm
         title = "Supplier Form"
         url = "http://localhost:8080/app/supplier"
 
-    }else if(id === "inventory"){
+    } else if (id === "inventory") {
         form = inventoryForm
         title = "Inventory Form"
         url = "http://localhost:8080/app/inventory"
@@ -58,7 +104,7 @@ function FormPage() {
 
 
 
-    const {register, handleSubmit,watch} = useForm()
+    const {register, handleSubmit, watch} = useForm()
 
     return (
         <>
@@ -89,6 +135,8 @@ function FormPage() {
                                     selectList={data.selectList}
                                     register={register}
                                     watch={watch}
+                                    value={data.value}
+                                    isEdit={data.isEdit}
                                 />
 
                             ))}
@@ -99,7 +147,7 @@ function FormPage() {
                 </ScrollArea>
 
                 <Button type="submit"
-                        className=" w-2/12 h-12 absolute text-2xl text-opacity-40 -bottom-10 right-0 m-5 mt-10">Submit</Button>
+                        className=" w-2/12 h-12 absolute text-2xl text-opacity-40 -bottom-10 right-0 m-5 mt-10">{buttonName}</Button>
             </form>
         </>
     )
