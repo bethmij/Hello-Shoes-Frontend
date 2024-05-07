@@ -105,7 +105,7 @@ function Tables(props) {
 }
 
 Tables.propTypes = {
-    columns: PropTypes.string.isRequired,
+    columns: PropTypes.array.isRequired,
     data: PropTypes.array.isRequired,
 };
 
