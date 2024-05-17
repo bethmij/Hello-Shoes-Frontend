@@ -17,11 +17,14 @@ let buttonName = "";
 
 const onSubmit = async (data, url) => {
 
+    const token = localStorage.getItem('accessToken')
+
     if (buttonName === "Submit") {
         try {
             const response = await axios.post(url, JSON.stringify(data), {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             if (response.status === 201) {
@@ -35,7 +38,8 @@ const onSubmit = async (data, url) => {
         try {
             const response = await axios.patch(url, JSON.stringify(data), {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             if (response.status === 201) {
