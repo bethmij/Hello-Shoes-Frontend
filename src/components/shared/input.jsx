@@ -13,7 +13,6 @@ export function InputItem(props) {
     const handleChange = (event) => {
         const newValue = event.target.value;
         setInputValue(newValue);
-        props.onChange(newValue);
     };
 
     const setInput = () => {
