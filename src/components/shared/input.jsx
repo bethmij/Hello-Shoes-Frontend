@@ -13,6 +13,9 @@ export function InputItem(props) {
     const handleChange = (event) => {
         const newValue = event.target.value;
         setInputValue(newValue);
+        if (props.onChange) {
+            props.onChange(event);
+        }
     };
 
     const setInput = () => {
@@ -26,7 +29,7 @@ export function InputItem(props) {
                     placeholder={props.placeholder}
                     className="mt-2 mb-2 w-full"
                     value={inputValue}
-                    readOnly={false}
+                    readOnly={props.isEdit}
                     onChange={handleChange}
                 />
             );
