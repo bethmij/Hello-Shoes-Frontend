@@ -123,7 +123,7 @@ function FormPage() {
                       onSubmit(data, url)
                   })}>
                 <ScrollArea className="h-full w-full rounded-3xl z-0">
-                    <div className=" form w-full h-full absolute border-2 z-0 rounded-3xl "></div>
+                    <div className=" form w-full h-full absolute border-2 z-0 rounded-3xl opacity-80 "></div>
                     {/*<div className="w-5/6 h-3 ms-32 border-t-2 bg-background  bermuda absolute z-50  "></div>*/}
 
                     {form.map((formData, index) => (
