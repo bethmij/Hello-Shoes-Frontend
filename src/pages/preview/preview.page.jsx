@@ -149,7 +149,7 @@ export default function PreviewPage() {
                     </DropdownMenu>
                 </div>
 
-                <ScrollArea className=" form w-[85vw] h-[75vh] mt-10 whitespace-nowrap rounded-md border p-3">
+                <ScrollArea className=" form w-[85vw] h-[75vh] mt-10 whitespace-nowrap rounded-md border p-3  opacity-80 ">
                     <div className="w-full h-full">
                         <Table>
                             <TableHeader>
