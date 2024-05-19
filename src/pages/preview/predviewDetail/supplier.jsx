@@ -9,6 +9,12 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {Link} from "react-router-dom";
+import {deleteEntity} from "../../cart/cardDetail/fetchData.jsx";
+
+const  deleteSupplier =  (supplierCode) => {
+    deleteEntity("supplier", supplierCode)
+}
 
 export const supplierColumns = [
     {
@@ -100,12 +106,16 @@ export const supplierColumns = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.customerCode)}>
-                            Copy Customer Code
+                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.supplierCode)}>
+                            Copy Supplier Code
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
+                        <DropdownMenuSeparator/>
+                        <Link to={`/form/supplier/update-${data.supplierCode}`}>
+                            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.supplierCode)}>Update
+                                Supplier</DropdownMenuItem>
+                        </Link>
+                        <DropdownMenuItem onClick={() => deleteSupplier(data.supplierCode)}>Delete Supplier</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
