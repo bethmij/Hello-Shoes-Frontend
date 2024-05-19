@@ -10,13 +10,19 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {Link} from "react-router-dom"
+import axios from "axios";
+import {deleteEntity} from "../../cart/cardDetail/fetchData.jsx";
 
-const formatDate = (dateString) => {
-    const year = dateString.substring(0, 4);
-    const month = dateString.substring(4, 6);
-    const day = dateString.substring(6, 8);
-    return `${year}-${month}-${day}`;
-};
+// const formatDate = (dateString) => {
+//     const year = dateString.substring(0, 4);
+//     const month = dateString.substring(4, 6);
+//     const day = dateString.substring(6, 8);
+//     return `${year}-${month}-${day}`;
+// };
+
+const  deleteCustomer =  (customerCode) => {
+     deleteEntity("customer", customerCode)
+}
 
 export const customerColumns = [
     {
@@ -70,7 +76,7 @@ export const customerColumns = [
     {
         accessorKey: "loyaltyJoinedDate",
         header: "Joined Date",
-        cell: ({row}) => <div className="capitalize">  {formatDate(row.getValue("loyaltyJoinedDate"))}</div>,
+        cell: ({row}) => <div className="capitalize">  {row.getValue("loyaltyJoinedDate")}</div>,
     },
     {
         accessorKey: "totalPoints",
@@ -98,7 +104,7 @@ export const customerColumns = [
         header: "DOB",
         cell: ({row}) => (
             <div className="capitalize">
-                {formatDate(row.getValue("dob"))}
+                {row.getValue("dob")}
             </div>
         ),
     },
@@ -156,11 +162,11 @@ export const customerColumns = [
                             Copy Customer Code
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
-                        <Link to={"/form/customer"}>
+                        <Link to={`/form/customer/update-${data.customerCode}`}>
                             <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.customerCode)}>Update
                                 customer</DropdownMenuItem>
                         </Link>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => deleteCustomer(data.customerCode)}>Delete Customer</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
