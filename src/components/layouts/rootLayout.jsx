@@ -66,7 +66,7 @@ function RootLayout() {
     return (
         <>
 
-            <div id="rootPage" className="h-screen w-full absolute opacity-50"></div>
+            <div id="rootPage" className="h-screen w-full absolute opacity-50 "></div>
             <div className="w-full h-20 absolute bg-black opacity-50"></div>
 
             <div className=" w-full h-20 absolute flex justify-between">

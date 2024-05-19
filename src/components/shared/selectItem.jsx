@@ -16,7 +16,10 @@ export function SelectItems(props) {
             <Label htmlFor={props.id} className="text-xl mb-20 pb-10">{props.title} </Label>
             <Select onValueChange={(value) => {
                 props.setValue(`${props.id}`, value)
-                props.onSubmit(value)
+           
+                if (props.onSubmit) {
+                    props.onSubmit(value)
+                }
             }}
                     className="bg-transparent">
                 <SelectTrigger>
