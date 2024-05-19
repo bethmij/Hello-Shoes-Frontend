@@ -13,16 +13,20 @@ export function SelectItems(props) {
     return (
 
         <div className="mt-6">
-            <Label htmlFor={props.id} className="text-xl mb-20 pb-10" >{props.title} </Label>
-            <Select onValueChange={(value) => props.setValue(`${props.id}`, value)} className="bg-transparent">
-                <SelectTrigger >
-                    <SelectValue placeholder={ props.placeholder} />
+            <Label htmlFor={props.id} className="text-xl mb-20 pb-10">{props.title} </Label>
+            <Select onValueChange={(value) => {
+                props.setValue(`${props.id}`, value)
+                props.onSubmit(value)
+            }}
+                    className="bg-transparent">
+                <SelectTrigger>
+                    <SelectValue placeholder={props.placeholder}/>
                 </SelectTrigger>
-                <SelectGroup >
-                    <SelectContent >
-                    {props.list.map(item => {
-                        return <SelectItem key={item} value={item}>{item}</SelectItem>
-                    })}
+                <SelectGroup>
+                    <SelectContent>
+                        {props.list.map(item => {
+                            return <SelectItem key={item} value={item}>{item}</SelectItem>
+                        })}
                     </SelectContent>
                 </SelectGroup>
             </Select>
@@ -32,10 +36,11 @@ export function SelectItems(props) {
 }
 
 SelectItems.propTypes = {
-    id:PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     list: PropTypes.array.isRequired,
-    setValue:PropTypes.func
+    setValue: PropTypes.func,
+    onSubmit: PropTypes.func
 };
 
