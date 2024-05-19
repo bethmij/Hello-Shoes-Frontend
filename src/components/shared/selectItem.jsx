@@ -7,13 +7,13 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import PropTypes from "prop-types";
-import {Label} from "../ui/label.jsx";
+// import {Label} from "../ui/label.jsx";
 
 export function SelectItems(props) {
     return (
 
-        <div className="mt-6">
-            <Label htmlFor={props.id} className="text-xl mb-20 pb-10">{props.title} </Label>
+        <div className="mt-3">
+            {/*<Label htmlFor={props.id} className="text-xl mb-20 pb-10">{props.title} </Label>*/}
             <Select onValueChange={(value) => {
                 props.setValue(`${props.id}`, value)
            
@@ -40,7 +40,7 @@ export function SelectItems(props) {
 
 SelectItems.propTypes = {
     id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+    // title: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     list: PropTypes.array.isRequired,
     setValue: PropTypes.func,
