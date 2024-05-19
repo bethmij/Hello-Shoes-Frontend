@@ -21,7 +21,7 @@ module.exports = {
       transparent: 'transparent',
       current: 'currentColor',
       'white': '#ffffff',
-      'purple': '#490042',
+      'purple': '#38012d',
       'black': '#000000',
       'metal': '#96778b',
       'tahiti': '#3ab7bf',
