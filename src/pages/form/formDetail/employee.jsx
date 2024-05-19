@@ -178,7 +178,19 @@ export function getEmployee(employeeCode, employeeList) {
                 description: "Inform in case of emergency",
                 value: employeeList.emergencyContact
 
-            }]
+            }],[
+            // {
+            //
+            //     id: "profilePic",
+            //     title: "Employee Profile Pic",
+            //     type: "file",
+            //     placeholder: "Picture",
+            //     description: "Choose File",
+            //     onChange: handleFileChange
+            //     // value: customerList.picture
+            //
+            // }
+        ]
         ]
 
 

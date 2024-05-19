@@ -4,9 +4,6 @@ console.log(token)
 
 export const getCodeList = async (mapping) => {
     let codeList = []
-    // const token = localStorage.getItem('accessToken')
-    // console.log(token)
-
     try {
         const response = await axios.get("http://localhost:8080/app/" + mapping + "/getIDs", {
                 headers: {
