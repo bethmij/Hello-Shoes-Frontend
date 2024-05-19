@@ -1,7 +1,8 @@
 import {Input} from "../ui/input.jsx";
 import PropTypes from "prop-types";
 import {useEffect, useRef, useState} from "react";
-import {useForm} from "react-hook-form";
+
+import {SelectItems} from "./selectItem.jsx";
 
 export function InputItem(props) {
 
@@ -28,9 +29,6 @@ export function InputItem(props) {
 
     useEffect(() => {
         if (inputValue !== prevInputValue.current) {
-            // console.log("Input value changed:", inputValue);
-            // alert(inputValue)
-            // Perform any action you want when input value changes
             prevInputValue.current = inputValue;
         }
     }, [inputValue]);
@@ -44,8 +42,15 @@ export function InputItem(props) {
         }
     };
 
+    const handleSubmit = (event) => {
+        if (props.onSubmit) {
+            props.onSubmit(event)
+        }
+    }
+
+
     const setInput = () => {
-        if (props.type === 'text' || props.type === 'number' || props.type === 'email' || props.type === 'date') {
+        if (props.type === 'text' || props.type === 'number' || props.type === 'email' || props.type === 'date' || props.type === 'file') {
             return (
                 <Input
                     {...props.register(props.id)}
@@ -68,6 +73,7 @@ export function InputItem(props) {
                     id={props.id}
                     onChange={handleChange}
                     value={inputValue}
+                    onSubmit={handleSubmit}
                     className="mt-2 mb-2 w-full h-10 border rounded-md border-input bg-background px-3 py-2 text-sm focus:outline-none ">
                     <option> {props.placeholder}</option>
                     {props.selectList.map(item => (
@@ -81,6 +87,13 @@ export function InputItem(props) {
                         </option>
                     ))}
                 </select>
+                // <SelectItems
+                //     id={props.id}
+                //     list={props.selectList}
+                //     setValue={props.setValue}
+                //     onSubmit={handleSubmit}
+                //     value={inputValue}
+                // />
             )
         }
     }
@@ -109,5 +122,6 @@ InputItem.propTypes = {
     onChange: PropTypes.func,
     value: PropTypes.string,
     isEdit: PropTypes.bool,
-    setValue: PropTypes.func
+    setValue: PropTypes.func,
+    onSubmit: PropTypes.func
 };

@@ -7,29 +7,30 @@ import {getCustomer} from "./formDetail/customer.jsx";
 import {getEmployee} from "./formDetail/employee.jsx";
 import {CgFormatRight} from "react-icons/cg";
 import axios from "axios";
-import {supplierForm} from "./formDetail/supplier.js";
-import {inventoryForm} from "./formDetail/inventory.js"
+import {getSupplier} from "./formDetail/supplier.jsx";
+import {getInventory} from "./formDetail/inventory.jsx"
 import {getDetails, getNextID} from "../cart/cardDetail/fetchData.jsx";
 import {useEffect, useState} from "react";
+import aiGeneratedImage from '../../assets/ai-generated-8181045.jpg';
+import {Input} from "../../components/ui/input.jsx";
+import {Label} from "../../components/ui/label.jsx";
 
 let buttonName = "";
 
 
-
 function FormPage() {
 
-    // const [isLoading, setIsLoading] = useState(false)
-    // const [customerList, setCustomerList] = useState([])
-    // const [customerCode, setCustomerCode] = useState("")
-    // const [employeeList, setEmployeeList] = useState([])
-    // const [employeeCode, setEmployeeCode] = useState("")
     const [entityID, setEntityID] = useState("")
     const [entityList, setEntityList] = useState([])
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [error, setError] = useState(null);
+
 
     const {id, action} = useParams()
     let form = ""
     let title = ""
     let url = ""
+    let idName = ""
 
 
     useEffect(() => {
@@ -47,7 +48,7 @@ function FormPage() {
                         setEntityList(items);
                     });
             }
-        }else if (id === "employee") {
+        } else if (id === "employee") {
             if (action.startsWith("save")) {
                 getNextID("employee")
                     .then(code => {
@@ -61,14 +62,41 @@ function FormPage() {
                         setEntityList(items);
                     });
             }
+        } else if (id === "supplier") {
+            if (action.startsWith("save")) {
+                getNextID("supplier")
+                    .then(code => {
+                        setEntityID(code)
+                    })
+
+            } else if (action.startsWith("update")) {
+                const supplierCode = action.split("update-")[1];
+                getDetails("supplier", supplierCode)
+                    .then(items => {
+                        setEntityList(items);
+                    });
+            }
+        } else if (id === "inventory") {
+            if (action.startsWith("save")) {
+                getNextID("inventory")
+                    .then(code => {
+                        setEntityID(code)
+                    })
+
+            } else if (action.startsWith("update")) {
+                const inventoryCode = action.split("update-")[1];
+                getDetails("inventory", inventoryCode)
+                    .then(items => {
+                        setEntityList(items);
+                    });
+            }
         }
     }, [id, action]);
 
     const onSubmit = async (data, url) => {
 
         const token = localStorage.getItem('accessToken')
-        // data.customerCode = customerCode
-
+        data[idName] = entityID
 
 
         if (buttonName === "Submit") {
@@ -88,7 +116,7 @@ function FormPage() {
 
         } else if (buttonName === "Update") {
             Object.keys(entityList).forEach(key => {
-                if(data[key]==="" || data[key]==="Gender" || data[key]==="Level" || data[key]==="Status" || data[key]==="Role"){
+                if (data[key] === "" || data[key] === "Gender" || data[key] === "Level" || data[key] === "Status" || data[key] === "Role" || data[key] === "Category") {
                     data[key] = entityList[key]
                 }
             });
@@ -110,33 +138,51 @@ function FormPage() {
     };
 
 
-
     if (id === "customer") {
         form = getCustomer(entityID, entityList);
         title = "Customer Form";
         url = "http://localhost:8080/app/customer";
         buttonName = action.startsWith("save") ? "Submit" : "Update"
+        idName = "customerCode"
 
     } else if (id === "employee") {
-        form = getEmployee(entityID,entityList)
+        form = getEmployee(entityID, entityList)
         title = "Employee Form"
         url = "http://localhost:8080/app/employee"
         buttonName = action.startsWith("save") ? "Submit" : "Update"
+        idName = "employeeCode"
 
     } else if (id === "supplier") {
-        form = supplierForm
+        form = getSupplier(entityID, entityList)
         title = "Supplier Form"
         url = "http://localhost:8080/app/supplier"
+        buttonName = action.startsWith("save") ? "Submit" : "Update"
+        idName = "supplierCode"
 
     } else if (id === "inventory") {
-        form = inventoryForm
+        form = getInventory(entityID, entityList)
         title = "Inventory Form"
         url = "http://localhost:8080/app/inventory"
+        buttonName = action.startsWith("save") ? "Submit" : "Update"
+        idName = "itemCode"
     }
 
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif']; // Add more if needed
+            if (validTypes.includes(file.type)) {
+                setSelectedFile(URL.createObjectURL(file));
+                setError(null);
+            } else {
+                setSelectedFile(null);
+                setError('Please select a valid image file (JPEG, PNG, or GIF).');
+            }
+        }
+    };
 
 
-    const {register, handleSubmit, watch} = useForm()
+    const {register, handleSubmit, watch, setValue} = useForm()
 
     return (
         <>
@@ -150,9 +196,10 @@ function FormPage() {
                   onSubmit={handleSubmit(data => {
                       onSubmit(data, url)
                   })}>
-                <ScrollArea className="h-full w-full rounded-3xl z-0">
+                <ScrollArea className="h-full w-full rounded-3xl z-0 ">
                     <div className=" form w-full h-full absolute border-2 z-0 rounded-3xl opacity-80 "></div>
-                    {/*<div className="w-5/6 h-3 ms-32 border-t-2 bg-background  bermuda absolute z-50  "></div>*/}
+                    <div className="w-11/12 h-3 ms-12 border-t-2 bg-background  bermuda absolute z-50  "></div>
+
 
                     {form.map((formData, index) => (
                         <div key={index} className="flex justify-around mb-4 z-10">
@@ -169,12 +216,30 @@ function FormPage() {
                                     watch={watch}
                                     value={data.value}
                                     isEdit={data.isEdit}
+                                    setValue={setValue}
+                                    onChange={data.onChange}
                                 />
 
                             ))}
+
                         </div>
-                    ))
-                    }
+                    ))}
+
+                    {id === "employee" && (
+                        <div className="flex flex-row justify-around w-2/3 ms-48 items-center">
+                            <div className="flex flex-col h-2/3 w-[20vw] ms-28 mb-20 z-50">
+                                <Label htmlFor="picture" className="text-xl">Picture</Label>
+                                <Input id="picture" type="file" onChange={handleFileChange} className="z-50"/>
+                                <p className="opacity-60">Choose File</p>
+                                {error && <p className="text-red-500">{error}</p>}
+                            </div>
+                            <div className="flex justify-center items-center h-2/3 mb-20">
+                                {selectedFile && <img id="profilePic" name="profilePic" {...register('profilePic')}
+                                                      src={selectedFile} alt="Selected Picture" className="z-50"
+                                                      style={{maxWidth: '300px', maxHeight: '400px'}}/>}
+                            </div>
+                        </div>
+                    )}
 
                 </ScrollArea>
 
