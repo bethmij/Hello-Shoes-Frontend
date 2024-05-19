@@ -19,6 +19,7 @@ import {SelectItems} from "../../components/shared/selectItem.jsx";
 import SearchableDropdown from "../../components/shared/searchableDropdown.jsx";
 import * as items from "zod";
 import {RadioGroup, RadioGroupItem} from "../../components/ui/radio-group.jsx";
+import {Search} from "lucide-react"
 import {string} from "zod";
 
 
@@ -37,31 +38,22 @@ const onSubmit = async (data, id) => {
     }
 };
 
-const sendOrder = async (completeData) => {
-    const token = localStorage.getItem('accessToken')
-    try {
-        const response = await axios.post("http://localhost:8080/app/sale", JSON.stringify(completeData), {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        if (response.status === 201) {
-            alert('Data posted to backend successfully!');
-        }
-    } catch (error) {
-        alert('Error posting data to backend:');
-    }
-}
+
+
+
 
 
 function CartPage() {
 
     const {register, handleSubmit, watch, setValue} = useForm()
     const [data, setData] = useState([]);
-    const [itemCode, setItemCode] = useState([]);
-    const [customerCode, setCustomerCode] = useState([]);
-    const [employeeCode, setEmployeeCode] = useState([]);
+    const [itemCodeList, setItemCodeList] = useState([]);
+    const [customerCodeList, setCustomerCodeList] = useState([]);
+    const [employeeCodeList, setEmployeeCodeList] = useState([]);
+    const [customerCode, setCustomerCode] = useState("");
+    const [employeeCode, setEmployeeCode] = useState("");
+    const [itemCode, setItemCode] = useState();
+    const [itemQty, setItemQty] = useState()
     const [customerName, setCustomerName] = useState('');
     const [employeeName, setEmployeeName] = useState('');
     const [orderID, setOrderID] = useState('');
@@ -71,6 +63,9 @@ function CartPage() {
     const [balance, setBalance] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
     const [formData, setFormData] = useState(null);
+    const [searchID, setSearchID] = useState()
+    const [addedPoints, setAddedPoints] = useState()
+    const [button, setButton] = useState("Place Order")
 
     useEffect(() => {
         if (formData) {
@@ -98,17 +93,17 @@ function CartPage() {
     useEffect(() => {
         getCodeList("inventory")
             .then(itemCodes => {
-                setItemCode(itemCodes)
+                setItemCodeList(itemCodes)
             })
 
         getCodeList("customer")
             .then(customerIDs => {
-                setCustomerCode(customerIDs)
+                setCustomerCodeList(customerIDs)
             })
 
         getCodeList("employee")
             .then(employeeCodes => {
-                setEmployeeCode(employeeCodes)
+                setEmployeeCodeList(employeeCodes)
             })
         getNextID("sale")
             .then(orderID => {
@@ -163,9 +158,9 @@ function CartPage() {
         let total = 0
 
         items.map((item) => {
-            // console.log("before", total, parseInt(item.saleUnitPrice) , itemQuantity )
-            total = total + (parseInt(item.saleUnitPrice) * itemQuantity)
-            // console.log("after", total)
+            console.log("before", total, parseInt(item.saleUnitPrice), item.itemQuantity)
+            total = total + (parseInt(item.saleUnitPrice) * item.itemQuantity)
+            console.log("after", total)
         })
         return total
     }
@@ -188,6 +183,70 @@ function CartPage() {
         setItemQuantity(event.target.value);
     };
 
+    const getOrder = (orderID) => {
+        getDetails("sale", orderID).then(sale => {
+            setOrderID(sale.orderID)
+            setAddedPoints(sale.addedPoints)
+            setCustomerCode(sale.customerCode)
+            setCustomerName(sale.customerName)
+            setEmployeeCode(sale.employeeCode)
+            setEmployeeName(sale.cashier)
+            setPrice(setTotalPrice(data))
+            setPaymentMethod(sale.paymentMethod)
+            setButton("Update Order")
+        })
+        getDetails("sale/getItem",orderID).then(items => {
+            setData(items)
+        })
+    }
+
+    const sendOrder = async (completeData) => {
+
+
+
+        const token = localStorage.getItem('accessToken')
+        if(button.startsWith("Place")) {
+
+            try {
+                const response = await axios.post("http://localhost:8080/app/sale", JSON.stringify(completeData), {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (response.status === 201) {
+                    alert('Data posted to backend successfully!');
+                }
+            } catch (error) {
+                alert('Error posting data to backend:');
+            }
+        }else if(button.startsWith("Update")){
+
+            completeData.addedPoints === "" && (completeData.addedPoints = addedPoints);
+            completeData.customerID === "" && (completeData.customerID = customerCode);
+            completeData.employeeID === "" && (completeData.employeeID = employeeName);
+            completeData.totalPrice === "" && (completeData.totalPrice = price);
+
+            try {
+                const response = await axios.patch("http://localhost:8080/app/sale", JSON.stringify(completeData), {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (response.status === 204) {
+                    alert('Data posted to backend successfully!');
+                }
+            } catch (error) {
+                alert('Error posting data to backend:');
+            }
+        }
+    }
+
+    // const handleInputChange = (setter) => (event) => {
+    //     setter(event.target.value);
+    // };
+
     return (
         <>
             <div className="grid w-2/6 ps-2 ms-10  z-50 items-start overflow-auto pt-24">
@@ -199,37 +258,24 @@ function CartPage() {
                         <InputItem type={"text"} id="orderID" title="Order ID" placeholder="orderID"
                                    register={register} isEdit={true} value={orderID}
                         />
-                        <InputItem type={"number"} id="addedPoints" title="Added Points" register={register}/>
+                        <InputItem type={"number"} id="addedPoints" title="Added Points"  register={register} value={addedPoints}/>
 
                     </div>
                     <div className="flex flex-row">
-                        <div className="w-2/5 ms-10 mt-5">
-                            <SelectItems
-                                id="customerID"
-                                title="Customer ID"
-                                list={customerCode}
-                                setValue={setValue}
-                                onSubmit={(value) => {
-                                    setCusName(value)
-                                }}
-                            />
-                        </div>
+                        <InputItem type={"select"} id="customerID" title="Customer ID" selectList={customerCodeList}
+                                   register={register} value={customerCode}  onChange={(event) => {
+                            setCusName(event.target.value)
+                        }}/>
                         <InputItem type={"text"} id="customerName" title="Customer Name" placeholder="Name"
                                    register={register} isEdit={true} value={customerName}
                         />
                     </div>
                     <div className="flex flex-row">
-                        <div className="w-2/5 ms-10 mt-5">
-                            <SelectItems
-                                id="employeeID"
-                                title="Employee ID"
-                                list={employeeCode}
-                                setValue={setValue}
-                                onSubmit={(value) => {
-                                    setEmployName(value)
-                                }}
-                            />
-                        </div>
+                        <InputItem type={"select"} id="employeeID" value={employeeCode} title="Employee ID" selectList={employeeCodeList}
+                                   register={register} onChange={(event) => {
+                            setEmployName(event.target.value)
+                        }}/>
+
                         <InputItem type={"text"} id="employeeName" title="Employee Name" placeholder="Name"
                                    register={register} isEdit={true} value={employeeName}
                         />
@@ -245,7 +291,7 @@ function CartPage() {
                             <SearchableDropdown
                                 id="itemCode"
                                 title="Item Code"
-                                list={itemCode}
+                                list={itemCodeList}
                                 setValue={setValue}
                                 onSubmit={(value) => {
                                     setItemID(value)
@@ -260,7 +306,25 @@ function CartPage() {
             </div>
 
             <div className=" w-2/3 h-[95vh] mt-10 flex flex-col z-50">
-                <ScrollArea className="w-[50vw] ms-20 mt-28 h-[45vh]   rounded-3xl z-0">
+                {/*<form onSubmit={handleSubmit(data1 => {*/}
+                {/*    console.log(data1)*/}
+                {/*})}>*/}
+                <div className="relative flex-row flex mt-16 ms-80">
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground"/>
+                    <Input
+                        id="search"
+                        name="search"
+                        onChange={(event) => setSearchID(event.target.value)}
+                        type="search"
+                        placeholder="Search products..."
+                        className="pl-8 w-3/6"
+                    />
+                    <Button type="submit" className={"w-1/6 ms-10 text-lg"} onClick={() => {
+                        getOrder(searchID)
+                    }}>Search</Button>
+                </div>
+                {/*</form>*/}
+                <ScrollArea className="w-[50vw] ms-20 mt-16 h-[45vh]   rounded-3xl z-0">
                     <div className="w-full h-full  z-50">
                         <Tables columns={cartColumns} data={data}/>
                     </div>
@@ -273,7 +337,9 @@ function CartPage() {
                         </div>
 
 
-                        <RadioGroup defaultValue="option-one" className="z-50  mt-10 "  onValueChange={(value)=> {setPaymentMethod(value)}}>
+                        <RadioGroup value={paymentMethod} className="z-50  mt-10 " onValueChange={(value) => {
+                            setPaymentMethod(value)
+                        }}>
 
                             <Label className="text-2xl opacity-60 mb-5"> Payment </Label>
                             <div className="flex items-center space-x-2 ms-2">
@@ -295,10 +361,9 @@ function CartPage() {
                             <InputItem type={"text"} id="balance" title="Balance" placeholder="$0.0"
                                        register={register} isEdit={true} value={balance}/>
                         </div>
-                        <form onSubmit={handleSubmit((data1)=> setFormData(data1))}>
+                        <form onSubmit={handleSubmit((data1) => setFormData(data1))}>
                             <div className="w-full  h-2/3 ">
-                                <Button type="submit" className="mx-10 z-0 w-2/3 mt-16 ms-24 text-lg">Place
-                                    Order</Button>
+                                <Button type="submit" className="mx-10 z-0 w-2/3 mt-16 ms-24 text-lg">{button}</Button>
                             </div>
                         </form>
                     </div>
