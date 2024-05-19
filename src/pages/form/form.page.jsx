@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import {ScrollArea} from "../../components/ui/scroll-area.jsx";
 import {useParams} from "react-router-dom";
 import {getCustomer} from "./formDetail/customer.jsx";
-import {employeeForm} from "./formDetail/employee.js";
+import {getEmployee} from "./formDetail/employee.jsx";
 import {CgFormatRight} from "react-icons/cg";
 import axios from "axios";
 import {supplierForm} from "./formDetail/supplier.js";
@@ -15,48 +15,16 @@ import {useEffect, useState} from "react";
 let buttonName = "";
 
 
-const onSubmit = async (data, url) => {
-
-    const token = localStorage.getItem('accessToken')
-
-    if (buttonName === "Submit") {
-        try {
-            const response = await axios.post(url, JSON.stringify(data), {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            if (response.status === 201) {
-                alert('Data posted to backend successfully!');
-            }
-        } catch (error) {
-            alert('Error posting data to backend:');
-        }
-
-    } else if (buttonName === "Update") {
-        try {
-            const response = await axios.patch(url, JSON.stringify(data), {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            if (response.status === 201) {
-                alert('Data posted to backend successfully!');
-            }
-        } catch (error) {
-            alert('Error posting data to backend:');
-        }
-    }
-
-};
 
 function FormPage() {
 
     // const [isLoading, setIsLoading] = useState(false)
-    const [customerList, setCustomerList] = useState([])
-    const [customerCode, setCustomerCode] = useState("")
+    // const [customerList, setCustomerList] = useState([])
+    // const [customerCode, setCustomerCode] = useState("")
+    // const [employeeList, setEmployeeList] = useState([])
+    // const [employeeCode, setEmployeeCode] = useState("")
+    const [entityID, setEntityID] = useState("")
+    const [entityList, setEntityList] = useState([])
 
     const {id, action} = useParams()
     let form = ""
@@ -68,32 +36,92 @@ function FormPage() {
         if (id === "customer") {
             if (action.startsWith("save")) {
                 getNextID("customer")
-                    .then(orderID => {
-                        setCustomerCode(orderID)
+                    .then(code => {
+                        setEntityID(code)
                     })
 
             } else if (action.startsWith("update")) {
                 const customerID = action.split("update-")[1];
                 getDetails("customer", customerID)
                     .then(items => {
-                        setCustomerList(items);
+                        setEntityList(items);
                     });
             }
+        }else if (id === "employee") {
+            if (action.startsWith("save")) {
+                getNextID("employee")
+                    .then(code => {
+                        setEntityID(code)
+                    })
 
+            } else if (action.startsWith("update")) {
+                const employeeCode = action.split("update-")[1];
+                getDetails("employee", employeeCode)
+                    .then(items => {
+                        setEntityList(items);
+                    });
+            }
         }
     }, [id, action]);
 
+    const onSubmit = async (data, url) => {
+
+        const token = localStorage.getItem('accessToken')
+        // data.customerCode = customerCode
+
+
+
+        if (buttonName === "Submit") {
+            try {
+                const response = await axios.post(url, JSON.stringify(data), {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (response.status === 201) {
+                    alert('Data posted to backend successfully!');
+                }
+            } catch (error) {
+                alert('Error posting data to backend:');
+            }
+
+        } else if (buttonName === "Update") {
+            Object.keys(entityList).forEach(key => {
+                if(data[key]==="" || data[key]==="Gender" || data[key]==="Level" || data[key]==="Status" || data[key]==="Role"){
+                    data[key] = entityList[key]
+                }
+            });
+            try {
+                const response = await axios.patch(url, JSON.stringify(data), {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (response.status === 204) {
+                    alert('Data posted to backend successfully!');
+                }
+            } catch (error) {
+                alert('Error posting data to backend:');
+            }
+        }
+
+    };
+
+
 
     if (id === "customer") {
-        form = getCustomer(customerCode, customerList);
+        form = getCustomer(entityID, entityList);
         title = "Customer Form";
         url = "http://localhost:8080/app/customer";
         buttonName = action.startsWith("save") ? "Submit" : "Update"
 
     } else if (id === "employee") {
-        form = employeeForm
+        form = getEmployee(entityID,entityList)
         title = "Employee Form"
         url = "http://localhost:8080/app/employee"
+        buttonName = action.startsWith("save") ? "Submit" : "Update"
 
     } else if (id === "supplier") {
         form = supplierForm
