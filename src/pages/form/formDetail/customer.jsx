@@ -1,6 +1,3 @@
-
-
-
 const genderList = ["MALE", "FEMALE", "OTHER"]
 const levelList = ["GOLD", "SILVER", "BRONZE", "NEW"]
 
