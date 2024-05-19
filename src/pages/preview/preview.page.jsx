@@ -32,6 +32,8 @@ import {supplierColumns} from "./predviewDetail/supplier.jsx";
 import {saleColumns} from "./predviewDetail/sale.jsx";
 import {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button";
+import {fetchData} from "../cart/cardDetail/fetchData.jsx";
+
 
 
 export default function PreviewPage() {
@@ -69,18 +71,7 @@ export default function PreviewPage() {
     }
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(url);
-                if (response.status === 200) {
-                    setData(response.data);
-                }
-            } catch (error) {
-                console.error('Error fetching data from backend:', error);
-            }
-        };
-
-        fetchData();
+        fetchData(url).then(data => {setData(data)})
     }, []);
 
 
@@ -106,12 +97,12 @@ export default function PreviewPage() {
 
     return (
         <>
-            <div className="absolute top-0 left-1/2 flex gap-x-5 -ms-32 mt-4 opacity-80">
+            <div className="absolute top-0 left-1/2 flex gap-x-5 -ms-32 mt-4 opacity-80 ">
                 <LuView size="45"/>
                 <h1 className="text-4xl ">{title}</h1>
             </div>
 
-            <div className="h-[90vh] w-[80vw] flex-col z-50 ms-16 mt-28">
+            <div className="h-[88vh] w-[80vw] flex-col z-50 ms-16 mt-28 ">
                 <div className="flex justify-around w-4/6 ms-72 items-center  z-50 ">
                     <Input
                         placeholder="Filter codes..."
