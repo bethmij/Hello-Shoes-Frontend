@@ -75,5 +75,35 @@ export const getDetails = async (mapping, id) => {
     return list
 };
 
+export const deleteEntity = async (mapping,id) => {
+    try {
+        const response = await axios.delete("http://localhost:8080/app/" + mapping + "/" + id,{
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (response.status === 204) {
+            alert('Deleted Successfully');
+        }
+    } catch (error) {
+        alert('Error posting data to backend:');
+    }
+}
+
+export const fetchData = async (url) => {
+    try {
+        const response = await axios.get(url,{
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (response.status === 200) {
+            return response.data;
+        }
+    } catch (error) {
+        console.error('Error fetching data from backend:', error);
+    }
+};
+
 
 

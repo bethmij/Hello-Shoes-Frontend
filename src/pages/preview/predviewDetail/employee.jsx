@@ -9,13 +9,19 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {Link} from "react-router-dom";
+import {deleteEntity} from "../../cart/cardDetail/fetchData.jsx";
 
-const formatDate = (dateString) => {
-    const year = dateString.substring(0, 4);
-    const month = dateString.substring(4, 6);
-    const day = dateString.substring(6, 8);
-    return `${year}-${month}-${day}`;
-};
+// const formatDate = (dateString) => {
+//     const year = dateString.substring(0, 4);
+//     const month = dateString.substring(4, 6);
+//     const day = dateString.substring(6, 8);
+//     return `${year}-${month}-${day}`;
+// };
+
+const  deleteEmployee =  (employeeCode) => {
+    deleteEntity("employee", employeeCode)
+}
 
 export const employeeColumns = [
     {
@@ -84,12 +90,12 @@ export const employeeColumns = [
     {
         accessorKey: "dob",
         header: "DOB",
-        cell: ({row}) => <div className="capitalize">  {formatDate(row.getValue("dob"))}</div>,
+        cell: ({row}) => <div className="capitalize">  {row.getValue("dob")}</div>,
     },
     {
         accessorKey: "dateJointed",
         header: "Date Jointed",
-        cell: ({row}) => <div className="capitalize">  {formatDate(row.getValue("dateJointed"))}</div>,
+        cell: ({row}) => <div className="capitalize">  {row.getValue("dateJointed")}</div>,
     },
     {
         accessorKey: "accessRole",
@@ -171,12 +177,15 @@ export const employeeColumns = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.customerCode)}>
-                            Copy Customer Code
+                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.employeeCode)}>
+                            Copy Employee Code
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
+                        <Link to={`/form/employee/update-${data.employeeCode}`}>
+                            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.employeeCode)}>Update
+                                Employee</DropdownMenuItem>
+                        </Link>
+                        <DropdownMenuItem onClick={() => deleteEmployee(data.employeeCode)}>Delete Employee</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
