@@ -16,6 +16,7 @@ import {Input} from "../../components/ui/input.jsx";
 import {Label} from "../../components/ui/label.jsx";
 
 let buttonName = "";
+let filePath = ""
 
 
 function FormPage() {
@@ -97,7 +98,7 @@ function FormPage() {
 
         const token = localStorage.getItem('accessToken')
         data[idName] = entityID
-
+        data.profilePic = filePath
 
         if (buttonName === "Submit") {
             try {
@@ -169,11 +170,18 @@ function FormPage() {
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
+
         if (file) {
             const validTypes = ['image/jpeg', 'image/png', 'image/gif']; // Add more if needed
             if (validTypes.includes(file.type)) {
                 setSelectedFile(URL.createObjectURL(file));
                 setError(null);
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    filePath = reader.result
+
+                };
+                reader.readAsDataURL(file);
             } else {
                 setSelectedFile(null);
                 setError('Please select a valid image file (JPEG, PNG, or GIF).');
@@ -225,18 +233,28 @@ function FormPage() {
                         </div>
                     ))}
 
-                    {id === "employee" && (
+                    {(id === "employee" || id === "inventory")  && (
                         <div className="flex flex-row justify-around w-2/3 ms-48 items-center">
+
                             <div className="flex flex-col h-2/3 w-[20vw] ms-28 mb-20 z-50">
                                 <Label htmlFor="picture" className="text-xl">Picture</Label>
                                 <Input id="picture" type="file" onChange={handleFileChange} className="z-50"/>
                                 <p className="opacity-60">Choose File</p>
                                 {error && <p className="text-red-500">{error}</p>}
                             </div>
+
                             <div className="flex justify-center items-center h-2/3 mb-20">
-                                {selectedFile && <img id="profilePic" name="profilePic" {...register('profilePic')}
-                                                      src={selectedFile} alt="Selected Picture" className="z-50"
-                                                      style={{maxWidth: '300px', maxHeight: '400px'}}/>}
+                                {selectedFile && (
+                                    <img
+                                        id="profilePic"
+                                        name="profilePic"
+                                        {...register('profilePic')}
+                                        src={selectedFile}
+                                        alt="Selected Picture"
+                                        className="z-50"
+                                        style={{maxWidth: '300px', maxHeight: '400px'}}
+                                    />
+                                )}
                             </div>
                         </div>
                     )}
