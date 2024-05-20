@@ -33,8 +33,11 @@ import {saleColumns} from "./predviewDetail/sale.jsx";
 import {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {fetchData} from "../cart/cardDetail/fetchData.jsx";
+import aiGeneratedImage from '../../assets/ai-generated-8181045.jpg';
+import CryptoJS from 'crypto-js';
+import { Buffer } from 'buffer';
 
-
+let coloumID;
 
 export default function PreviewPage() {
     const [data, setData] = useState([]);
@@ -42,6 +45,7 @@ export default function PreviewPage() {
     const [columnFilters, setColumnFilters] = useState([]);
     const [columnVisibility, setColumnVisibility] = useState({});
     const [rowSelection, setRowSelection] = useState({});
+    const [img, setImg] = useState()
 
     const {id} = useParams()
     let columns = []
@@ -53,16 +57,20 @@ export default function PreviewPage() {
         columns = customerColumns
         title = "Customer Preview"
         url = "http://localhost:8080/app/customer/getAll"
+        coloumID = "customerCode"
+
 
     } else if (id === "employee") {
         columns = employeeColumns
         title = "Employee Preview"
         url = "http://localhost:8080/app/employee/getAll"
+        coloumID = "employeeCode"
 
     } else if (id === "supplier") {
         columns = supplierColumns
         title = "Supplier Preview"
         url = "http://localhost:8080/app/supplier/getAll"
+        coloumID = "supplierCode"
 
     } else if (id === "sale") {
         columns = saleColumns
@@ -71,7 +79,12 @@ export default function PreviewPage() {
     }
 
     useEffect(() => {
-        fetchData(url).then(data => {setData(data)})
+        fetchData(url).then(data => {
+            setData(data)
+            // let image = data[1].profilePic.split(',')[1];
+
+        })
+
     }, []);
 
 
@@ -97,6 +110,7 @@ export default function PreviewPage() {
 
     return (
         <>
+
             <div className="absolute top-0 left-1/2 flex gap-x-5 -ms-32 mt-4 opacity-80 ">
                 <LuView size="45"/>
                 <h1 className="text-4xl ">{title}</h1>
@@ -106,9 +120,9 @@ export default function PreviewPage() {
                 <div className="flex justify-around w-4/6 ms-72 items-center  z-50 ">
                     <Input
                         placeholder="Filter codes..."
-                        value={(table.getColumn("customerCode")?.getFilterValue()) ?? ""}
+                        value={(table.getColumn(coloumID)?.getFilterValue()) ?? ""}
                         onChange={(event) =>
-                            table.getColumn("customerCode")?.setFilterValue(event.target.value)
+                            table.getColumn(coloumID)?.setFilterValue(event.target.value)
                         }
                         className="max-w-sm"
                     />
