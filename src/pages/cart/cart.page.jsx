@@ -8,7 +8,7 @@ import {useForm} from "react-hook-form";
 import Tables from "../../components/shared/table.jsx";
 import {cartColumns} from "./cardDetail/cart.jsx";
 import {data} from "autoprefixer";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import axios from "axios";
 import {Button} from "../../components/ui/button.jsx";
 import {
@@ -206,6 +206,7 @@ function CartPage() {
 
         const token = localStorage.getItem('accessToken')
         if(button.startsWith("Place")) {
+            completeData.totalPrice = price
 
             try {
                 const response = await axios.post("http://localhost:8080/app/sale", JSON.stringify(completeData), {
@@ -242,7 +243,7 @@ function CartPage() {
             }
         }
     }
-
+    const columns = useMemo(() => cartColumns(data,setData), [data,setData]);
     // const handleInputChange = (setter) => (event) => {
     //     setter(event.target.value);
     // };
@@ -326,7 +327,7 @@ function CartPage() {
                 {/*</form>*/}
                 <ScrollArea className="w-[50vw] ms-20 mt-16 h-[45vh]   rounded-3xl z-0">
                     <div className="w-full h-full  z-50">
-                        <Tables columns={cartColumns} data={data}/>
+                        <Tables columns={columns} data={data}/>
                     </div>
                 </ScrollArea>
 
