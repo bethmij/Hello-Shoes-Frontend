@@ -3,7 +3,7 @@ import {Checkbox} from "@/components/ui/checkbox";
 import {Button} from "@/components/ui/button.jsx";
 import { AiOutlineDelete } from "react-icons/ai";
 
-export const cartColumns = [
+export const cartColumns = (tableData, setTableData) => [
     {
         id: "select",
         header: ({table}) => (
@@ -57,13 +57,15 @@ export const cartColumns = [
         cell: ({row}) => {
             const data = row.original;
             // navigator.clipboard.writeText(data.customerCode)
-            return(
-                <>
-                    <Button>
-                        <AiOutlineDelete size="25"/>
-                    </Button>
-                </>
-                )
+            const handleDelete = () => {
+                console.log(tableData)
+                setTableData(prevData => prevData.filter(item => item.itemCode !== data.itemCode));
+            };
+            return (
+                <Button onClick={handleDelete}>
+                    <AiOutlineDelete size="25" />
+                </Button>
+            );
         },
     },
 ];
