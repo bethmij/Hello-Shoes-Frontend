@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {Link} from "react-router-dom";
 import {deleteEntity} from "../../cart/cardDetail/fetchData.jsx";
+import {Dialog} from "../../../components/ui/dialog.jsx";
+import {useState} from "react";
+
 
 // const formatDate = (dateString) => {
 //     const year = dateString.substring(0, 4);
@@ -23,7 +26,12 @@ const  deleteEmployee =  (employeeCode) => {
     deleteEntity("employee", employeeCode)
 }
 
+
+
+
 export const employeeColumns = [
+
+
     {
         id: "select",
         header: ({table}) => (
@@ -146,26 +154,12 @@ export const employeeColumns = [
         header: "Email",
         cell: ({row}) => <div className="lowercase">{row.getValue("email")}</div>,
     },
-    // {
-    //     accessorKey: "amount",
-    //     header: () => <div className="text-right">Amount</div>,
-    //     cell: ({ row }) => {
-    //         const amount = parseFloat(row.getValue("amount"));
-    //
-    //         // Format the amount as a dollar amount
-    //         const formatted = new Intl.NumberFormat("en-US", {
-    //             style: "currency",
-    //             currency: "USD",
-    //         }).format(amount);
-    //
-    //         return <div className="text-right font-medium">{formatted}</div>;
-    //     },
-    // },
     {
         id: "actions",
         enableHiding: false,
         cell: ({row}) => {
             const data = row.original;
+            const [isDialogOpen, setIsDialogOpen] = useState(false);
 
             return (
                 <DropdownMenu>
@@ -185,7 +179,28 @@ export const employeeColumns = [
                             <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.employeeCode)}>Update
                                 Employee</DropdownMenuItem>
                         </Link>
-                        <DropdownMenuItem onClick={() => deleteEmployee(data.employeeCode)}>Delete Employee</DropdownMenuItem>
+                        <DropdownMenuItem onClick={()=>{deleteEmployee(data.employeeCode)}}>Delete Employee</DropdownMenuItem>
+                        <DropdownMenuItem onClick={()=>{alert("sdfsdfsdfsdf")}}>View Image</DropdownMenuItem>
+
+                        <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
+                            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                                <Dialog.Panel className="w-full max-w-md p-6 bg-white rounded">
+                                    <Dialog.Title className="text-lg font-medium">Employee Image</Dialog.Title>
+                                    <Dialog.Description className="mt-2">
+                                        {/*{employeeImage ? (*/}
+                                        {/*    <img src={employeeImage} alt="Employee" className="w-full h-auto" />*/}
+                                        {/*) : (*/}
+                                        {/*    <p>No image available</p>*/}
+                                        {/*)}*/}
+                                    </Dialog.Description>
+                                    <div className="mt-4">
+                                        <Button onClick={() => setIsDialogOpen(false)}>Close</Button>
+                                    </div>
+                                </Dialog.Panel>
+                            </div>
+                        </Dialog>
+
+
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
