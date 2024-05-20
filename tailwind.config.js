@@ -28,6 +28,8 @@ module.exports = {
       'silver': '#ecebff',
       'bubble-gum': '#ff77e9',
       'bermuda': '#78dcca',
+      'dark-purple':"rgba(36,3,32,0.56)",
+      'violet':"rgb(54,1,47)"
     },
     extend: {
       colors: {
