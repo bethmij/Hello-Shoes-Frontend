@@ -12,43 +12,44 @@ import ListItem from "./shared/listItem.jsx";
 
 const components = [
     {
+
         title: "Customers +",
-        to: "/docs/primitives/alert-dialog",
+        to: "/form/customer/save",
         description:
             "Add a new Customer",
     },
     {
         title: "Customer",
-        to: "/docs/primitives/hover-card",
+        to: "/preview/customer",
         description:
             "Preview all customer.jsx",
     },
     {
         title: "Employees +",
-        to: "/docs/primitives/progress",
+        to: "/form/employee/save",
         description:
             "Add a new employee",
     },
     {
         title: "Employee",
-        to: "/docs/primitives/scroll-area",
+        to: "/preview/employee",
         description: "Preview all employees",
     },
     {
         title: "Suppliers + +",
-        to: "/docs/primitives/progress",
+        to: "/form/supplier/save",
         description:
             "Add a new supplier",
     },
     {
         title: "Suppliers ",
-        to: "/docs/primitives/tabs",
+        to: "/preview/supplier",
         description:
             "Preview all suppliers",
     },
     {
         title: "Add Inventories",
-        to: "/docs/primitives/tooltip",
+        to: "/form/inventory/save",
         description:
             "Add a new inventory",
     },
@@ -58,15 +59,15 @@ const components = [
 function NavigationBar() {
 
     return (
-        <NavigationMenu >
+        <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger >Purchase</NavigationMenuTrigger>
+                    <NavigationMenuTrigger>Purchase</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] ">
                             <li id="navPic" className="row-span-3">
                                 <NavigationMenuLink asChild>
-                                    <Link to={"/"}
+                                    <Link to={"/preview/inventory"}
                                           className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
                                         <div className="mb-2 mt-4 text-xl font-medium">
                                             Item Preview
@@ -77,9 +78,10 @@ function NavigationBar() {
                                     </Link>
                                 </NavigationMenuLink>
                             </li>
-                            <ListItem key={1} title="Purchase" description="Save Order Details"/>
+
+                            <ListItem to="/cart" key={1} title="Purchase" description="Save Order Details"/>
                             <ListItem key={1} title="Refund" description="Refund Customer Order"/>
-                            <ListItem key={1} title="Previes" description="Previes Sales"/>
+                            <ListItem  key={1} title="Previwes" description="Previes Sales"/>
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
@@ -100,7 +102,7 @@ function NavigationBar() {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <Link to="/docs" legacyBehavior passHref >
+                    <Link to="/admin" legacyBehavior passHref>
                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                             Admin Panel
                         </NavigationMenuLink>
