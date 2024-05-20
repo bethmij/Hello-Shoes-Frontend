@@ -51,7 +51,7 @@ function Tables(props) {
 
     return (
         <>
-            <Table>
+            <Table className = "w-full h-full flex-grow">
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
