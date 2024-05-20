@@ -98,7 +98,7 @@ function FormPage() {
 
         const token = localStorage.getItem('accessToken')
         data[idName] = entityID
-        data.profilePic = filePath
+        id === "employee" ? data.profilePic = filePath : data.itemPicture = filePath
 
         if (buttonName === "Submit") {
             try {

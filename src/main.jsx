@@ -12,6 +12,7 @@ import PreviewPage from "./pages/preview/preview.page.jsx";
 import CartPage from "./pages/cart/cart.page.jsx";
 import SignInPage from "./pages/auth/signin.page.jsx";
 import SignUpPage from "./pages/auth/signup.page.jsx";
+import AdminPanel from "./pages/adminPanel/adminPanel.jsx";
 
 const router = createBrowserRouter([
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
             {
                 path:"/cart",
                 element:<CartPage/>
+            },
+            {
+                path:"/admin",
+                element:<AdminPanel/>
             }
 
         ]
