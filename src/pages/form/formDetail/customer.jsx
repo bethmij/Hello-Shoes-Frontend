@@ -1,3 +1,5 @@
+import {z} from "zod";
+
 const genderList = ["MALE", "FEMALE", "OTHER"]
 const levelList = ["GOLD", "SILVER", "BRONZE", "NEW"]
 
@@ -19,7 +21,10 @@ export let customer = {
     email:""
 }
 
+export const customerSchema = z.object({
+    customerName: z.number(),
 
+})
 
 export function getCustomer(customerCode, customerList) {
 
@@ -51,7 +56,9 @@ export function getCustomer(customerCode, customerList) {
                 type: "text",
                 placeholder: "Name",
                 description: "Full name required",
-                value: customerList.customerName
+                value: customerList.customerName,
+                required: true,
+                requiredLength: 10
             }],
         [{
             id: "gender",
@@ -118,7 +125,8 @@ export function getCustomer(customerCode, customerList) {
                 type: "text",
                 placeholder: "Address",
                 description: "Main city",
-                value: customerList.addressLine03
+                value: customerList.addressLine03,
+                required: true
             }],
         [{
             id: "addressLine04",
@@ -134,7 +142,8 @@ export function getCustomer(customerCode, customerList) {
                 type: "number",
                 placeholder: "Address",
                 description: "Postal code",
-                value: customerList.addressLine05
+                value: customerList.addressLine05,
+                required: true
             }], [
             {
                 id: "contactNo",
@@ -142,7 +151,8 @@ export function getCustomer(customerCode, customerList) {
                 type: "text",
                 placeholder: "Contact",
                 description: "Mobile number",
-                value: customerList.contactNo
+                value: customerList.contactNo,
+                required: true
             },
             {
                 id: "email",

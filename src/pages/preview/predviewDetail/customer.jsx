@@ -12,6 +12,7 @@ import {
 import {Link} from "react-router-dom"
 import axios from "axios";
 import {deleteEntity} from "../../cart/cardDetail/fetchData.jsx";
+import {isAdmin} from "../../auth/authentication.jsx";
 
 // const formatDate = (dateString) => {
 //     const year = dateString.substring(0, 4);
@@ -21,7 +22,7 @@ import {deleteEntity} from "../../cart/cardDetail/fetchData.jsx";
 // };
 
 const  deleteCustomer =  (customerCode) => {
-     deleteEntity("customer", customerCode)
+     deleteEntity("customer", customerCode,"Customer")
 }
 
 export const customerColumns = [
@@ -166,7 +167,7 @@ export const customerColumns = [
                             <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.customerCode)}>Update
                                 customer</DropdownMenuItem>
                         </Link>
-                        <DropdownMenuItem onClick={() => deleteCustomer(data.customerCode)}>Delete Customer</DropdownMenuItem>
+                        {isAdmin() &&  <DropdownMenuItem onClick={() => deleteCustomer(data.customerCode)}>Delete Customer</DropdownMenuItem>}
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
