@@ -1,22 +1,29 @@
+
 import {InputItem} from "../../components/shared/input.jsx";
 import {Button} from "../../components/ui/button.jsx";
 import {useForm} from "react-hook-form";
 import {ScrollArea} from "../../components/ui/scroll-area.jsx";
 import {useParams} from "react-router-dom";
-import {getCustomer} from "./formDetail/customer.jsx";
+import {customerSchema, getCustomer} from "./formDetail/customer.jsx";
 import {getEmployee} from "./formDetail/employee.jsx";
 import {CgFormatRight} from "react-icons/cg";
 import axios from "axios";
 import {getSupplier} from "./formDetail/supplier.jsx";
 import {getInventory} from "./formDetail/inventory.jsx"
-import {getDetails, getNextID} from "../cart/cardDetail/fetchData.jsx";
+import {getDetails, getNextID, saveDBData, updateDBData} from "../cart/cardDetail/fetchData.jsx";
 import {useEffect, useState} from "react";
 import aiGeneratedImage from '../../assets/ai-generated-8181045.jpg';
 import {Input} from "../../components/ui/input.jsx";
 import {Label} from "../../components/ui/label.jsx";
+import {isAdmin, isAuthenticated} from "../auth/authentication.jsx";
+import {z} from 'zod'
+import {zodResolver} from "@hookform/resolvers/zod";
 
 let buttonName = "";
 let filePath = ""
+
+ let schema;
+
 
 
 function FormPage() {
@@ -25,6 +32,7 @@ function FormPage() {
     const [entityList, setEntityList] = useState([])
     const [selectedFile, setSelectedFile] = useState(null);
     const [error, setError] = useState(null);
+
 
 
     const {id, action} = useParams()
@@ -88,6 +96,7 @@ function FormPage() {
                 const inventoryCode = action.split("update-")[1];
                 getDetails("inventory", inventoryCode)
                     .then(items => {
+                        console.log(items)
                         setEntityList(items);
                     });
             }
@@ -101,19 +110,7 @@ function FormPage() {
         id === "employee" ? data.profilePic = filePath : data.itemPicture = filePath
 
         if (buttonName === "Submit") {
-            try {
-                const response = await axios.post(url, JSON.stringify(data), {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                if (response.status === 201) {
-                    alert('Data posted to backend successfully!');
-                }
-            } catch (error) {
-                alert('Error posting data to backend:');
-            }
+            await saveDBData(url, data, token,id.charAt(0).toUpperCase() + id.slice(1));
 
         } else if (buttonName === "Update") {
             Object.keys(entityList).forEach(key => {
@@ -121,20 +118,10 @@ function FormPage() {
                     data[key] = entityList[key]
                 }
             });
-            try {
-                const response = await axios.patch(url, JSON.stringify(data), {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                if (response.status === 204) {
-                    alert('Data posted to backend successfully!');
-                }
-            } catch (error) {
-                alert('Error posting data to backend:');
-            }
+           await updateDBData(url, data, token,id)
+
         }
+        reset()
 
     };
 
@@ -145,6 +132,7 @@ function FormPage() {
         url = "http://localhost:8080/app/customer";
         buttonName = action.startsWith("save") ? "Submit" : "Update"
         idName = "customerCode"
+        schema = customerSchema
 
     } else if (id === "employee") {
         form = getEmployee(entityID, entityList)
@@ -168,6 +156,8 @@ function FormPage() {
         idName = "itemCode"
     }
 
+    const {register, handleSubmit, watch,  formState:{errors},reset, setValue} = useForm()
+
     const handleFileChange = (event) => {
         const file = event.target.files[0];
 
@@ -190,7 +180,11 @@ function FormPage() {
     };
 
 
-    const {register, handleSubmit, watch, setValue} = useForm()
+
+
+    if ((id==="employee" || id==="supplier" || id==="inventory") && !isAdmin()) {
+        return null;
+    }
 
     return (
         <>
@@ -203,9 +197,10 @@ function FormPage() {
             <form className="w-4/5 h-4/5 ms-52 mt-32 flex-col rounded-full absolute "
                   onSubmit={handleSubmit(data => {
                       onSubmit(data, url)
+                      reset()
                   })}>
                 <ScrollArea className="h-full w-full rounded-3xl z-0 ">
-                    <div className=" form w-full h-full absolute border-2 z-0 rounded-3xl opacity-80 "></div>
+                    <div className=" form w-full h-full absolute border-2 z-0 rounded-3xl opacity-100 "></div>
                     <div className="w-11/12 h-3 ms-12 border-t-2 bg-background  bermuda absolute z-50  "></div>
 
 
@@ -226,6 +221,9 @@ function FormPage() {
                                     isEdit={data.isEdit}
                                     setValue={setValue}
                                     onChange={data.onChange}
+                                    errors={errors}
+                                    isRequired={data.required}
+                                    requiredLength={data.requiredLength}
                                 />
 
                             ))}

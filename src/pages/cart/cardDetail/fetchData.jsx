@@ -1,4 +1,6 @@
 import axios from "axios";
+import swal from 'sweetalert';
+
 const token = localStorage.getItem('accessToken')
 console.log(token)
 
@@ -13,9 +15,13 @@ export const getCodeList = async (mapping) => {
         );
         if (response.status === 200) {
             codeList = response.data
+        }else {
+            await swal("Error", response.message || 'Unknown error', 'error')
         }
     } catch (error) {
-        alert('Error posting data to backend:');
+        const errorMsg = error.response.data.errors[0].message
+        await  swal("Error",errorMsg,'error');
+
     }
     return codeList
 };
@@ -24,16 +30,20 @@ export const getCodeList = async (mapping) => {
 export const getName = async (mapping, id) => {
     let name = ""
     try {
-        const response = await axios.get("http://localhost:8080/app/" + mapping + "/getName/" + id,{
+        const response = await axios.get("http://localhost:8080/app/" + mapping + "/getName/" + id, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
         if (response.status === 200) {
             name = response.data
+        }else {
+            await swal("Error", response.message || 'Unknown error', 'error')
         }
     } catch (error) {
-        alert('Error posting data to backend:');
+        const errorMsg = error.response.data.errors[0].message
+        await  swal("Error",errorMsg,'error');
+
     }
     return name
 };
@@ -41,16 +51,21 @@ export const getName = async (mapping, id) => {
 export const getNextID = async (mapping) => {
     let id = ""
     try {
-        const response = await axios.get("http://localhost:8080/app/" + mapping + "/nextID",{
+        const response = await axios.get("http://localhost:8080/app/" + mapping + "/nextID", {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
+
         if (response.status === 200) {
             id = response.data
+        }else {
+            await swal("Error", response.message || 'Unknown error', 'error')
         }
     } catch (error) {
-        alert('Error posting data to backend:');
+        const errorMsg = error.response.data.errors[0].message
+        await  swal("Error",errorMsg,'error');
+
     }
     return id
 }
@@ -58,38 +73,48 @@ export const getNextID = async (mapping) => {
 export const getDetails = async (mapping, id) => {
     let list = []
     try {
-        const response = await axios.get("http://localhost:8080/app/" + mapping + "/" + id,{
+        const response = await axios.get("http://localhost:8080/app/" + mapping + "/" + id, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
+
         if (response.status === 200) {
             list = response.data
+        }else {
+            await swal("Error", response.message || 'Unknown error', 'error')
         }
     } catch (error) {
-        alert('Error posting data to backend:');
+        const errorMsg = error.response.data.errors[0].message
+        await  swal("Error",errorMsg,'error');
+
     }
     return list
 };
 
-export const deleteEntity = async (mapping,id) => {
+export const deleteEntity = async (mapping, id,title) => {
     try {
-        const response = await axios.delete("http://localhost:8080/app/" + mapping + "/" + id,{
+        const response = await axios.delete("http://localhost:8080/app/" + mapping + "/" + id, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
         if (response.status === 204) {
-            alert('Deleted Successfully');
+            await swal("Success", `${title} Deleted Successfully!`, 'success')
+        }else {
+            await swal("Error", response.message || 'Unknown error', 'error')
         }
     } catch (error) {
-        alert('Error posting data to backend:');
+        const errorMsg = error.response.data.errors[0].message
+        await  swal("Error",errorMsg,'error');
+
     }
+
 }
 
 export const fetchData = async (url) => {
     try {
-        const response = await axios.get(url,{
+        const response = await axios.get(url, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -97,10 +122,57 @@ export const fetchData = async (url) => {
         if (response.status === 200) {
             return response.data;
         }
+        if (response.status === 200) {
+            return response.data;
+        }else {
+            await swal("Error", response.message || 'Unknown error', 'error')
+        }
     } catch (error) {
-        console.error('Error fetching data from backend:', error);
+        const errorMsg = error.response.data.errors[0].message
+        await  swal("Error",errorMsg,'error');
+
     }
 };
 
+export const saveDBData = async (url, data, token, title) => {
+    try {
+        const response = await axios.post(url, JSON.stringify(data), {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (response.status === 201) {
+            await swal("Success", `${title} Saved Successfully!`, 'success')
+        }else {
+            await swal("Error", response.message || 'Unknown error', 'error')
+        }
+    } catch (error) {
+        const errorMsg = error.response.data.errors[0].message
+        await  swal("Error",errorMsg,'error');
+
+    }
+}
+
+export const updateDBData = async (url, data, token,title) => {
+    try {
+        const response = await axios.patch(url, JSON.stringify(data), {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.status === 204) {
+            await swal("Success", `${title} Update Successfully!`, 'success')
+        }else {
+            await swal("Error", response.message || 'Unknown error', 'error')
+        }
+
+    } catch (error) {
+        const errorMsg = error.response.data.errors[0].message
+        await  swal("Error",errorMsg,'error');
+    }
+}
 
 
