@@ -36,8 +36,9 @@ import {fetchData} from "../cart/cardDetail/fetchData.jsx";
 import aiGeneratedImage from '../../assets/ai-generated-8181045.jpg';
 import CryptoJS from 'crypto-js';
 import { Buffer } from 'buffer';
+import {inventoryColumns} from "./predviewDetail/inventory.jsx";
 
-let coloumID;
+let columnID;
 
 export default function PreviewPage() {
     const [data, setData] = useState([]);
@@ -57,25 +58,30 @@ export default function PreviewPage() {
         columns = customerColumns
         title = "Customer Preview"
         url = "http://localhost:8080/app/customer/getAll"
-        coloumID = "customerCode"
+        columnID = "customerCode"
 
 
     } else if (id === "employee") {
         columns = employeeColumns
         title = "Employee Preview"
         url = "http://localhost:8080/app/employee/getAll"
-        coloumID = "employeeCode"
+        columnID = "employeeCode"
 
     } else if (id === "supplier") {
         columns = supplierColumns
         title = "Supplier Preview"
         url = "http://localhost:8080/app/supplier/getAll"
-        coloumID = "supplierCode"
+        columnID = "supplierCode"
 
     } else if (id === "sale") {
         columns = saleColumns
         title = "Sale Preview"
         url = "http://localhost:8080/app/sale/getAll"
+    }
+    else if (id === "inventory") {
+        columns = inventoryColumns
+        title = "Inventory Preview"
+        url = "http://localhost:8080/app/inventory/getAll"
     }
 
     useEffect(() => {
@@ -120,9 +126,9 @@ export default function PreviewPage() {
                 <div className="flex justify-around w-4/6 ms-72 items-center  z-50 ">
                     <Input
                         placeholder="Filter codes..."
-                        value={(table.getColumn(coloumID)?.getFilterValue()) ?? ""}
+                        value={(table.getColumn(columnID)?.getFilterValue()) ?? ""}
                         onChange={(event) =>
-                            table.getColumn(coloumID)?.setFilterValue(event.target.value)
+                            table.getColumn(columnID)?.setFilterValue(event.target.value)
                         }
                         className="max-w-sm"
                     />
@@ -154,7 +160,7 @@ export default function PreviewPage() {
                     </DropdownMenu>
                 </div>
 
-                <ScrollArea className=" form w-[85vw] h-[75vh] mt-10 whitespace-nowrap rounded-md border p-3  opacity-80 ">
+                <ScrollArea className=" form w-[85vw] h-[75vh] mt-10 whitespace-nowrap rounded-md border p-3   ">
                     <div className="w-full h-full">
                         <Table>
                             <TableHeader>
