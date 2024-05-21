@@ -8,6 +8,7 @@ import {
 
 import {Link} from "react-router-dom";
 import ListItem from "./shared/listItem.jsx";
+import {isAdmin} from "../pages/auth/authentication.jsx";
 // import * as React from "react";
 
 const components = [
@@ -101,13 +102,15 @@ function NavigationBar() {
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <Link to="/admin" legacyBehavior passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            Admin Panel
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
+                {isAdmin() && (
+                    <NavigationMenuItem>
+                        <Link to="/admin" legacyBehavior passHref>
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                Admin Panel
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
+                )}
             </NavigationMenuList>
         </NavigationMenu>
     )
