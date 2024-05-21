@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {Link} from "react-router-dom";
 import {deleteEntity} from "../../cart/cardDetail/fetchData.jsx";
+import {isAdmin} from "../../auth/authentication.jsx";
 
-const  deleteSupplier =  (supplierCode) => {
-    deleteEntity("supplier", supplierCode)
+const deleteSupplier = (supplierCode) => {
+    deleteEntity("supplier", supplierCode,"Supplier")
 }
 
 export const supplierColumns = [
@@ -111,11 +112,16 @@ export const supplierColumns = [
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
                         <DropdownMenuSeparator/>
-                        <Link to={`/form/supplier/update-${data.supplierCode}`}>
-                            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.supplierCode)}>Update
+                        {isAdmin() &&
+                            <Link to={`/form/supplier/update-${data.supplierCode}`}>
+                                <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.supplierCode)}>Update
+                                    Supplier</DropdownMenuItem>
+                            </Link>
+                        }
+                        {isAdmin() &&
+                            <DropdownMenuItem onClick={() => deleteSupplier(data.supplierCode)}>Delete
                                 Supplier</DropdownMenuItem>
-                        </Link>
-                        <DropdownMenuItem onClick={() => deleteSupplier(data.supplierCode)}>Delete Supplier</DropdownMenuItem>
+                        }
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

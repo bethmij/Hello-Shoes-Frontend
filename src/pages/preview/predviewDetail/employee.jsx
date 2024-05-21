@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Button } from '@/components/ui/button';
+import React, {useState, useEffect} from 'react';
+import {ArrowUpDown, MoreHorizontal} from 'lucide-react';
+import {Checkbox} from '@/components/ui/checkbox';
+import {Button} from '@/components/ui/button';
 import noImageAvailable from '../../../assets/no-image-available.jpg';
 import {
     DropdownMenu,
@@ -11,8 +11,8 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Link } from 'react-router-dom';
-import { deleteEntity, getDetails } from '../../cart/cardDetail/fetchData';
+import {Link} from 'react-router-dom';
+import {deleteEntity, getDetails} from '../../cart/cardDetail/fetchData';
 import {
     Dialog,
     DialogTrigger,
@@ -21,13 +21,14 @@ import {
     DialogTitle,
     DialogDescription,
 } from '@/components/ui/dialog';
+import {isAdmin} from "../../auth/authentication.jsx";
 
 const deleteEmployee = (employeeCode) => {
-    deleteEntity("employee", employeeCode)
+    deleteEntity("employee", employeeCode,"Employee")
 }
 
 
-const EmployeeImageDialog = ({ isOpen, onClose, employeeCode }) => {
+const EmployeeImageDialog = ({isOpen, onClose, employeeCode}) => {
     const [employeeImage, setEmployeeImage] = useState('');
 
     useEffect(() => {
@@ -50,16 +51,16 @@ const EmployeeImageDialog = ({ isOpen, onClose, employeeCode }) => {
         <Dialog open={isOpen} onClose={onClose}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogDescription>setEmployeeImage(employee.profilePic || noImageAvailable);
+                    <DialogDescription>
                         {employeeImage ? (
-                            <img src={employeeImage} alt="Employee Image" className="w-full h-auto" />
+                            <img src={employeeImage} alt="Employee Image" className="w-full h-auto"/>
                         ) : (
                             <img src={noImageAvailable} alt="Employee Image" className="w-full h-auto"/>
                         )}
                     </DialogDescription>
                 </DialogHeader>
                 <div className="mt-4 flex justify-center items-center">
-                    <Button onClick={onClose} >Close</Button>
+                    <Button onClick={onClose}>Close</Button>
                 </div>
             </DialogContent>
         </Dialog>
@@ -69,7 +70,7 @@ const EmployeeImageDialog = ({ isOpen, onClose, employeeCode }) => {
 export const employeeColumns = [
     {
         id: "select",
-        header: ({ table }) => (
+        header: ({table}) => (
             <Checkbox
                 checked={
                     table.getIsAllPageRowsSelected() ||
@@ -79,7 +80,7 @@ export const employeeColumns = [
                 aria-label="Select all"
             />
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -91,7 +92,7 @@ export const employeeColumns = [
     },
     {
         accessorKey: "employeeCode",
-        header: ({ column }) => (
+        header: ({column}) => (
             <Button
                 className="text-center text-xl text-metal"
                 variant="ghost"
@@ -101,46 +102,46 @@ export const employeeColumns = [
                 <ArrowUpDown className="ml-2 h-4 w-4"/>
             </Button>
         ),
-        cell: ({ row }) => <div className="capitalize">{row.getValue("employeeCode")}</div>,
+        cell: ({row}) => <div className="capitalize">{row.getValue("employeeCode")}</div>,
     },
     {
         accessorKey: "employeeName",
         header: "Employee Name",
-        cell: ({ row }) => <div className="capitalize">{row.getValue("employeeName")}</div>,
+        cell: ({row}) => <div className="capitalize">{row.getValue("employeeName")}</div>,
     },
     {
         accessorKey: "gender",
         header: "Gender",
-        cell: ({ row }) => <div className="capitalize">{row.getValue("gender")}</div>,
+        cell: ({row}) => <div className="capitalize">{row.getValue("gender")}</div>,
     },
     {
         accessorKey: "status",
         header: "Status",
-        cell: ({ row }) => <div className="capitalize">{row.getValue("status")}</div>,
+        cell: ({row}) => <div className="capitalize">{row.getValue("status")}</div>,
     },
     {
         accessorKey: "designation",
         header: "Designation",
-        cell: ({ row }) => <div className="capitalize">{row.getValue("designation")}</div>,
+        cell: ({row}) => <div className="capitalize">{row.getValue("designation")}</div>,
     },
     {
         accessorKey: "attachedBranch",
         header: "Attached Branch",
-        cell: ({ row }) => <div className="capitalize">{row.getValue("attachedBranch")}</div>,
+        cell: ({row}) => <div className="capitalize">{row.getValue("attachedBranch")}</div>,
     },
     {
         accessorKey: "dob",
         header: "DOB",
-        cell: ({ row }) => <div className="capitalize">{row.getValue("dob")}</div>,
+        cell: ({row}) => <div className="capitalize">{row.getValue("dob")}</div>,
     },
     {
         accessorKey: "dateJointed",
         header: "Date Jointed",
-        cell: ({ row }) => <div className="capitalize">{row.getValue("dateJointed")}</div>,
+        cell: ({row}) => <div className="capitalize">{row.getValue("dateJointed")}</div>,
     },
     {
         accessorKey: "accessRole",
-        header: ({ column }) => (
+        header: ({column}) => (
             <Button
                 className="text-center text-xl text-metal"
                 variant="ghost"
@@ -150,27 +151,27 @@ export const employeeColumns = [
                 <ArrowUpDown className="ml-2 h-4 w-4"/>
             </Button>
         ),
-        cell: ({ row }) => <div className="capitalize">{row.getValue("accessRole")}</div>,
+        cell: ({row}) => <div className="capitalize">{row.getValue("accessRole")}</div>,
     },
     {
         accessorKey: "contactNo",
         header: "Contact",
-        cell: ({ row }) => <div className="capitalize">{row.getValue("contactNo")}</div>,
+        cell: ({row}) => <div className="capitalize">{row.getValue("contactNo")}</div>,
     },
     {
         accessorKey: "emergencyContact",
         header: "Emergency Contact",
-        cell: ({ row }) => <div className="capitalize">{row.getValue("emergencyContact")}</div>,
+        cell: ({row}) => <div className="capitalize">{row.getValue("emergencyContact")}</div>,
     },
     {
         accessorKey: "guardian",
         header: "Guardian",
-        cell: ({ row }) => <div className="capitalize">{row.getValue("guardian")}</div>,
+        cell: ({row}) => <div className="capitalize">{row.getValue("guardian")}</div>,
     },
     {
         accessorKey: "address",
         header: "Address",
-        cell: ({ row }) => (
+        cell: ({row}) => (
             <div className="capitalize">
                 {`${row.original.addressLine01}, ${row.original.addressLine02}, ${row.original.addressLine03}, ${row.original.addressLine04}, ${row.original.addressLine05}`}
             </div>
@@ -179,12 +180,12 @@ export const employeeColumns = [
     {
         accessorKey: "email",
         header: "Email",
-        cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+        cell: ({row}) => <div className="lowercase">{row.getValue("email")}</div>,
     },
     {
         id: "actions",
         enableHiding: false,
-        cell: ({ row }) => {
+        cell: ({row}) => {
             const data = row.original;
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -204,12 +205,17 @@ export const employeeColumns = [
                                 Copy Employee Code
                             </DropdownMenuItem>
                             <DropdownMenuSeparator/>
-                            <Link to={`/form/employee/update-${data.employeeCode}`}>
-                                <DropdownMenuItem>Update Employee</DropdownMenuItem>
-                            </Link>
-                            <DropdownMenuItem onClick={() => deleteEmployee(data.employeeCode)}>
-                                Delete Employee
-                            </DropdownMenuItem>
+                            {isAdmin() &&
+                                <Link to={`/form/employee/update-${data.employeeCode}`}>
+                                    <DropdownMenuItem>Update Employee</DropdownMenuItem>
+                                </Link>
+                            }
+                            {isAdmin() &&
+                                <DropdownMenuItem onClick={() => deleteEmployee(data.employeeCode)}>
+                                    Delete Employee
+                                </DropdownMenuItem>
+                            }
+
                             <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
                                 View Image
                             </DropdownMenuItem>
