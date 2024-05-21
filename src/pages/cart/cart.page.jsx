@@ -21,23 +21,10 @@ import * as items from "zod";
 import {RadioGroup, RadioGroupItem} from "../../components/ui/radio-group.jsx";
 import {Search} from "lucide-react"
 import {string} from "zod";
+import {saveDBData, updateDBData} from "./cardDetail/fetchData.jsx"
 
 
 // const dataa = []
-
-const onSubmit = async (data, id) => {
-    try {
-        const response = await axios.get("http://localhost:8080/app/inventory/" + id);
-        if (response.status === 200) {
-            const items = response.data
-            console.log(items)
-        }
-    } catch (error) {
-
-        alert('Error posting data to backend:');
-    }
-};
-
 
 
 
@@ -202,25 +189,26 @@ function CartPage() {
 
     const sendOrder = async (completeData) => {
 
-
-
         const token = localStorage.getItem('accessToken')
+        let url = "http://localhost:8080/app/sale";
         if(button.startsWith("Place")) {
             completeData.totalPrice = price
 
-            try {
-                const response = await axios.post("http://localhost:8080/app/sale", JSON.stringify(completeData), {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                if (response.status === 201) {
-                    alert('Data posted to backend successfully!');
-                }
-            } catch (error) {
-                alert('Error posting data to backend:');
-            }
+            // try {
+            //     const response = await axios.post("http://localhost:8080/app/sale", JSON.stringify(completeData), {
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //             'Authorization': `Bearer ${token}`
+            //         }
+            //     });
+            //     if (response.status === 201) {
+            //         alert('Data posted to backend successfully!');
+            //     }
+            // } catch (error) {
+            //     alert('Error posting data to backend:');
+            // }
+
+            await saveDBData(url, completeData, token, "Order")
         }else if(button.startsWith("Update")){
 
             completeData.addedPoints === "" && (completeData.addedPoints = addedPoints);
@@ -228,19 +216,20 @@ function CartPage() {
             completeData.employeeID === "" && (completeData.employeeID = employeeName);
             completeData.totalPrice === "" && (completeData.totalPrice = price);
 
-            try {
-                const response = await axios.patch("http://localhost:8080/app/sale", JSON.stringify(completeData), {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                if (response.status === 204) {
-                    alert('Data posted to backend successfully!');
-                }
-            } catch (error) {
-                alert('Error posting data to backend:');
-            }
+            // try {
+            //     const response = await axios.patch("http://localhost:8080/app/sale", JSON.stringify(completeData), {
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //             'Authorization': `Bearer ${token}`
+            //         }
+            //     });
+            //     if (response.status === 204) {
+            //         alert('Data posted to backend successfully!');
+            //     }
+            // } catch (error) {
+            //     alert('Error posting data to backend:');
+            // }
+            await updateDBData(url, completeData,token)
         }
     }
     const columns = useMemo(() => cartColumns(data,setData), [data,setData]);
