@@ -12,7 +12,7 @@ export function getInventory (inventoryCode, inventoryList) {
             type: "text",
             placeholder: "Code",
             description: "auto generated",
-            value: (inventoryCode !== "") ? inventoryCode : inventoryList.inventoryCode,
+            value: (inventoryCode !== "") ? inventoryCode : inventoryList.itemCode,
         },
             {
                 id: "itemDesc",
