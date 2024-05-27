@@ -30,7 +30,8 @@ export function getEmployee(employeeCode, employeeList) {
             type: "text",
             placeholder: "Name",
             description: "Full name required",
-            value: employeeList.employeeName
+            value: employeeList.employeeName,
+            required: true,
         }],
         [{
             id: "gender",
@@ -67,7 +68,8 @@ export function getEmployee(employeeCode, employeeList) {
                 type: "text",
                 placeholder: "Designation",
                 description: "Designation of employee",
-                value: employeeList.designation
+                value: employeeList.designation,
+                required: true,
 
             }],
         [
@@ -95,7 +97,8 @@ export function getEmployee(employeeCode, employeeList) {
             type: "text",
             placeholder: "Branch",
             description: "Which branch attached",
-            value: employeeList.attachedBranch
+            value: employeeList.attachedBranch,
+            required: true,
 
         }, {
             id: "addressLine01",
@@ -121,7 +124,8 @@ export function getEmployee(employeeCode, employeeList) {
             type: "text",
             placeholder: "Address",
             description: "Main city",
-            value: employeeList.addressLine03
+            value: employeeList.addressLine03,
+            required: true,
 
         }],
         [{
@@ -139,16 +143,18 @@ export function getEmployee(employeeCode, employeeList) {
                 type: "number",
                 placeholder: "Address",
                 description: "Postal code",
-                value: employeeList.addressLine05
+                value: employeeList.addressLine05,
+                required: true,
 
             }], [
         {
             id: "contactNo",
             title: "Contact number",
-            type: "text",
+            type: "number",
             placeholder: "Contact",
             description: "Mobile number",
-            value: employeeList.contactNo
+            value: employeeList.contactNo,
+            required: true,
 
         },
         {
@@ -157,7 +163,8 @@ export function getEmployee(employeeCode, employeeList) {
             type: "email",
             placeholder: "Email",
             description: "Email required",
-            value: employeeList.email
+            value: employeeList.email,
+            required: true,
 
         }],
         [
@@ -173,10 +180,11 @@ export function getEmployee(employeeCode, employeeList) {
             {
                 id: "emergencyContact",
                 title: "Emergency Contact",
-                type: "text",
+                type: "number",
                 placeholder: "Contact",
                 description: "Inform in case of emergency",
-                value: employeeList.emergencyContact
+                value: employeeList.emergencyContact,
+                required: true,
 
             }],[
             // {

@@ -19,8 +19,7 @@ export const getCodeList = async (mapping) => {
             await swal("Error", response.message || 'Unknown error', 'error')
         }
     } catch (error) {
-        const errorMsg = error.response.data.errors[0].message
-        await  swal("Error",errorMsg,'error');
+        await sendError(error);
 
     }
     return codeList
@@ -41,8 +40,7 @@ export const getName = async (mapping, id) => {
             await swal("Error", response.message || 'Unknown error', 'error')
         }
     } catch (error) {
-        const errorMsg = error.response.data.errors[0].message
-        await  swal("Error",errorMsg,'error');
+        await sendError(error);
 
     }
     return name
@@ -63,8 +61,7 @@ export const getNextID = async (mapping) => {
             await swal("Error", response.message || 'Unknown error', 'error')
         }
     } catch (error) {
-        const errorMsg = error.response.data.errors[0].message
-        await  swal("Error",errorMsg,'error');
+        await sendError(error);
 
     }
     return id
@@ -85,8 +82,7 @@ export const getDetails = async (mapping, id) => {
             await swal("Error", response.message || 'Unknown error', 'error')
         }
     } catch (error) {
-        const errorMsg = error.response.data.errors[0].message
-        await  swal("Error",errorMsg,'error');
+        await sendError(error);
 
     }
     return list
@@ -105,8 +101,7 @@ export const deleteEntity = async (mapping, id,title) => {
             await swal("Error", response.message || 'Unknown error', 'error')
         }
     } catch (error) {
-        const errorMsg = error.response.data.errors[0].message
-        await  swal("Error",errorMsg,'error');
+        await sendError(error);
 
     }
 
@@ -128,13 +123,12 @@ export const fetchData = async (url) => {
             await swal("Error", response.message || 'Unknown error', 'error')
         }
     } catch (error) {
-        const errorMsg = error.response.data.errors[0].message
-        await  swal("Error",errorMsg,'error');
+        await sendError(error);
 
     }
 };
 
-export const saveDBData = async (url, data, token, title) => {
+export const saveDBData = async (url, data, token, title,setData) => {
     try {
         const response = await axios.post(url, JSON.stringify(data), {
             headers: {
@@ -144,17 +138,18 @@ export const saveDBData = async (url, data, token, title) => {
         });
         if (response.status === 201) {
             await swal("Success", `${title} Saved Successfully!`, 'success')
+            setData()
         }else {
             await swal("Error", response.message || 'Unknown error', 'error')
         }
     } catch (error) {
-        const errorMsg = error.response.data.errors[0].message
-        await  swal("Error",errorMsg,'error');
+        await sendError(error);
+
 
     }
 }
 
-export const updateDBData = async (url, data, token,title) => {
+export const updateDBData = async (url, data, token,title,setData) => {
     try {
         const response = await axios.patch(url, JSON.stringify(data), {
             headers: {
@@ -165,13 +160,50 @@ export const updateDBData = async (url, data, token,title) => {
 
         if (response.status === 204) {
             await swal("Success", `${title} Update Successfully!`, 'success')
+            setData()
         }else {
             await swal("Error", response.message || 'Unknown error', 'error')
         }
 
     } catch (error) {
+        await sendError(error);
+    }
+}
+
+
+
+export const refundItem = async (data,setData) => {
+    try {
+        const response = await axios.patch("http://localhost:8080/app/sale/refund", JSON.stringify(data), {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.status === 204) {
+            await swal("Success", `Refund Successfully!`, 'success')
+            setData()
+        }else {
+            await swal("Error", response.message || 'Unknown error', 'error')
+        }
+
+    } catch (error) {
+        await sendError(error);
+    }
+}
+
+async function sendError(error) {
+
+    if (error.response.status === 403) {
+        await swal("Error", "Bad Request", 'error');
+    } else if (error.response.status === 500) {
+        const errorMsg = error.response.data.message
+        await swal("Error", errorMsg, 'error');
+
+    } else {
         const errorMsg = error.response.data.errors[0].message
-        await  swal("Error",errorMsg,'error');
+        await swal("Error", errorMsg, 'error');
     }
 }
 
