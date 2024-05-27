@@ -16,7 +16,8 @@ export function getSupplier(supplierCode, supplierList) {
                 type: "text",
                 placeholder: "Name",
                 description: "Full name required",
-                value: supplierList.supplierName
+                value: supplierList.supplierName,
+                required: true,
             }],
         [{
             id: "category",
@@ -65,7 +66,8 @@ export function getSupplier(supplierCode, supplierList) {
                 type: "number",
                 placeholder: "Address",
                 description: "Postal code",
-                value: supplierList.addressLine05
+                value: supplierList.addressLine05,
+                required: true,
             }],
         [
 
@@ -75,7 +77,8 @@ export function getSupplier(supplierCode, supplierList) {
                 type: "text",
                 placeholder: "Address",
                 description: "Country",
-                value: supplierList.addressLine06
+                value: supplierList.addressLine06,
+                required: true,
             },
             {
                 id: "contactNo1",
@@ -83,7 +86,8 @@ export function getSupplier(supplierCode, supplierList) {
                 type: "text",
                 placeholder: "Contact",
                 description: "Mobile number",
-                value: supplierList.contactNo1
+                value: supplierList.contactNo1,
+                required: true,
             }
         ],
         [
@@ -101,7 +105,8 @@ export function getSupplier(supplierCode, supplierList) {
                 type: "email",
                 placeholder: "Email",
                 description: "Email required",
-                value: supplierList.email
+                value: supplierList.email,
+                required: true,
             }]
     ]
 
