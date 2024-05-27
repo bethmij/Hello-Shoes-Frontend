@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {ArrowUpDown, MoreHorizontal} from 'lucide-react';
 import {Checkbox} from '@/components/ui/checkbox';
 import {Button} from '@/components/ui/button';
@@ -23,9 +23,6 @@ import {
 } from '@/components/ui/dialog';
 import {isAdmin} from "../../auth/authentication.jsx";
 
-const deleteInventory = (itemCode) => {
-    deleteEntity("inventory", itemCode,"Inventory")
-}
 
 
 const ItemImageDialog = ({isOpen, onClose, itemCode}) => {
@@ -42,7 +39,7 @@ const ItemImageDialog = ({isOpen, onClose, itemCode}) => {
             const item = await getDetails('inventory', code);
             setItemImage(item.itemPicture || noImageAvailable);
         } catch (error) {
-            console.error('Error fetching employee image:', error);
+            console.error('Error fetching item image:', error);
             setItemImage(noImageAvailable);
         }
     };
@@ -53,9 +50,9 @@ const ItemImageDialog = ({isOpen, onClose, itemCode}) => {
                 <DialogHeader>
                     <DialogDescription>
                         {itemImage ? (
-                            <img src={itemCode} alt="Employee Image" className="w-full h-auto"/>
+                            <img src={itemImage} alt="Item Image" className="w-full h-auto"/>
                         ) : (
-                            <img src={noImageAvailable} alt="Employee Image" className="w-full h-auto"/>
+                            <img src={noImageAvailable} alt="Item Image" className="w-full h-auto"/>
                         )}
                     </DialogDescription>
                 </DialogHeader>
@@ -196,7 +193,7 @@ export const inventoryColumns = [
                     <ItemImageDialog
                         isOpen={isDialogOpen}
                         onClose={() => setIsDialogOpen(false)}
-                        employeeCode={data.employeeCode}
+                        itemCode={data.itemCode}
                     />
                 </div>
             );

@@ -1,9 +1,18 @@
-
+import {getDetails} from "../../cart/cardDetail/fetchData.jsx";
+import {useState} from "react";
 
 const statusList = ["LOW", "AVAILABLE", "NOT_AVAILABLE"]
 
 
-export function getInventory (inventoryCode, inventoryList) {
+export function getInventory(inventoryCode, inventoryList, supplierCodes, supplierName, setSupplierName) {
+
+
+    function onChangeHandle(supplierCode) {
+        getDetails("supplier", supplierCode).then((data) => {
+            setSupplierName(data.supplierName)
+        })
+        return onChangeHandle
+    }
 
     return [
         [{
@@ -29,7 +38,8 @@ export function getInventory (inventoryCode, inventoryList) {
                 type: "text",
                 placeholder: "Category",
                 description: "Shoe type",
-                value: inventoryList.category
+                value: inventoryList.category,
+                required: true,
             },
             {
                 id: "size",
@@ -44,10 +54,14 @@ export function getInventory (inventoryCode, inventoryList) {
             {
                 id: "supplierCode",
                 title: "supplier Code",
-                type: "text",
+                type: "select",
                 placeholder: "supplier Code",
                 description: "",
-                value: inventoryList.supplierCode
+                value: inventoryList.supplierCode,
+                selectList: supplierCodes,
+                onChange: (event) => {
+                    onChangeHandle(event.target.value)
+                }
             },
             {
                 id: "supplierName",
@@ -55,7 +69,7 @@ export function getInventory (inventoryCode, inventoryList) {
                 type: "text",
                 placeholder: "supplier Name",
                 description: "",
-                value: inventoryList.supplierName
+                value: (supplierName !== "") ? supplierName : inventoryList.supplierName
             }
         ],
         [
@@ -65,7 +79,8 @@ export function getInventory (inventoryCode, inventoryList) {
                 type: "number",
                 placeholder: "Price",
                 description: "Sale - Unit Price",
-                value: inventoryList.saleUnitPrice
+                value: inventoryList.saleUnitPrice,
+                required: true,
             },
             {
                 id: "buyUnitPrice",
@@ -73,7 +88,8 @@ export function getInventory (inventoryCode, inventoryList) {
                 type: "number",
                 placeholder: "Price",
                 description: "Buy - Unit Price",
-                value: inventoryList.buyUnitPrice
+                value: inventoryList.buyUnitPrice,
+                required: true,
             }
         ],
         [
@@ -94,14 +110,15 @@ export function getInventory (inventoryCode, inventoryList) {
                 value: inventoryList.profitMargin
             }
         ],
-        [ {
+        [{
 
-                id: "itemQty",
-                title: "Item Quantity",
-                type: "number",
-                placeholder: "Qty",
-                description: "Available Item Quantity",
-                value: inventoryList.itemQty
+            id: "itemQty",
+            title: "Item Quantity",
+            type: "number",
+            placeholder: "Qty",
+            description: "Available Item Quantity",
+            value: inventoryList.itemQty,
+            required: true,
 
         },
             {
@@ -111,7 +128,9 @@ export function getInventory (inventoryCode, inventoryList) {
                 placeholder: "Status",
                 description: "",
                 selectList: statusList,
-                value: inventoryList.status
+                value: inventoryList.status,
+                required: true,
+
             }
 
         ]
