@@ -58,7 +58,6 @@ export function getCustomer(customerCode, customerList) {
                 description: "Full name required",
                 value: customerList.customerName,
                 required: true,
-                requiredLength: 10
             }],
         [{
             id: "gender",
@@ -148,7 +147,7 @@ export function getCustomer(customerCode, customerList) {
             {
                 id: "contactNo",
                 title: "Contact number",
-                type: "text",
+                type: "number",
                 placeholder: "Contact",
                 description: "Mobile number",
                 value: customerList.contactNo,
@@ -161,6 +160,7 @@ export function getCustomer(customerCode, customerList) {
                 placeholder: "Email",
                 description: "Email required",
                 value: customerList.email
+
             }]
     ]
 
