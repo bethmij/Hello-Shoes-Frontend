@@ -109,12 +109,11 @@ function FormPage() {
         // alert(data.para)
 
 
-        const token = localStorage.getItem('accessToken')
         data[idName] = entityID
         id === "employee" ? data.profilePic = filePath : data.itemPicture = filePath
 
         if (buttonName === "Submit") {
-            await saveDBData(url, data, token, id.charAt(0).toUpperCase() + id.slice(1), () => {
+            await saveDBData(url, data, id.charAt(0).toUpperCase() + id.slice(1), () => {
                 setResetForm(true)
                 getNextID(id)
                     .then(code => {

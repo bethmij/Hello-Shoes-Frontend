@@ -128,7 +128,7 @@ export const fetchData = async (url) => {
     }
 };
 
-export const saveDBData = async (url, data, token, title,setData) => {
+export const saveDBData = async (url, data, title,setData) => {
     try {
         const response = await axios.post(url, JSON.stringify(data), {
             headers: {
