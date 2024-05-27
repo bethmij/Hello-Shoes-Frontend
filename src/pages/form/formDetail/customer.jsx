@@ -76,23 +76,23 @@ export function getCustomer(customerCode, customerList) {
                 description: "Date of the entitlement as a loyalty customer.jsx",
                 value: formattedJoinDate
             }],
-        [{
-            id: "totalPoints",
-            title: "Total point",
-            type: "number",
-            placeholder: "Points",
-            description: "1 point purchase more than LKR 800",
-            value: customerList.totalPoints
-        },
-            {
-                id: "level",
-                title: "Customer Level",
-                type: "select",
-                placeholder: "Level",
-                description: "Gold > 200  | Silver – 100-199 | Bronze – 50-99 | New < 50",
-                selectList: levelList,
-                value: customerList.level
-            }],
+        // [{
+        //     id: "totalPoints",
+        //     title: "Total point",
+        //     type: "number",
+        //     placeholder: "Points",
+        //     description: "1 point purchase more than LKR 800",
+        //     value: customerList.totalPoints
+        // },
+        //     {
+        //         id: "level",
+        //         title: "Customer Level",
+        //         type: "select",
+        //         placeholder: "Level",
+        //         description: "Gold > 200  | Silver – 100-199 | Bronze – 50-99 | New < 50",
+        //         selectList: levelList,
+        //         value: customerList.level
+        //     }],
         [
             {
                 id: "dob",
