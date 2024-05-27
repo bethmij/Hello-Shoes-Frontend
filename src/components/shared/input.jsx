@@ -33,6 +33,16 @@ export function InputItem(props) {
         }
     }, [inputValue]);
 
+    useEffect(() => {
+        if (props.resetForm) {
+            resetValue();
+        }
+    }, [props.resetForm]);
+
+    const resetValue = () => {
+        setInputValue('');
+    };
+
     const handleChange = (event) => {
 
         const newValue = event.target.value;
@@ -52,30 +62,10 @@ export function InputItem(props) {
     const setInput = () => {
         if (props.type === 'text' || props.type === 'number' || props.type === 'email' || props.type === 'date' || props.type === 'file') {
             return (
-                <div>
+
                     <Input
 
-                        {...props.register(props.id
-                        //     ,{
-                        //     validate: (value) => {
-                        //         if (props.id === 'customerName') {
-                        //             // Check if the value length matches the required length
-                        //             const isValid = value.length === props.requiredLength;
-                        //             if (!isValid) {
-                        //                 // alert(`Input must be exactly ${props.requiredLength} characters long for ${props.id}`);
-                        //                 const errorParagraph = document.getElementById(props.id);
-                        //
-                        //                 if (errorParagraph) {
-                        //                     errorParagraph.text("New error message");
-                        //                 }
-                        //                 return isValid || `Input must be exactly ${props.requiredLength} characters long`;
-                        //             }
-                        //             // If props.id is not 'customerName', consider it valid
-                        //             return true;
-                        //         }
-                        //     }
-                        // })
-                        )}
+                        {...props.register(props.id)}
                         id={props.id}
                         type={props.type}
                         name={props.id}
@@ -85,15 +75,10 @@ export function InputItem(props) {
                         readOnly={props.isEdit}
                         onChange={handleChange}
                         required={props.isRequired}
+                        defaultValue={props.defaultValue}
                     />
 
 
-                    {/*{props.errors && props.errors[props.id] && (*/}
-                    {/*    <div className="alert alert-danger" role="alert">*/}
-                    {/*        {props.errors[props.id].message}*/}
-                    {/*    </div>*/}
-                    {/*)}*/}
-                </div>
 
             );
         } else if (props.type === 'select') {
@@ -133,10 +118,9 @@ export function InputItem(props) {
 
 
     return (
-        <div className="z-10 ms-10 mt-10 w-2/5" key={props.id}>
+        <div className="z-10 ms-10 mt-10" key={props.id}>
             <label className="text-xl">{props.title}</label>
             {setInput()}
-
             <p>{props.description}</p>
         </div>
     );
@@ -158,5 +142,7 @@ InputItem.propTypes = {
     setValue: PropTypes.func,
     onSubmit: PropTypes.func,
     isRequired:PropTypes.bool,
-    requiredLength: PropTypes.number
+    requiredLength: PropTypes.number,
+    resetForm: PropTypes.bool,
+    defaultValue: PropTypes.string
 };

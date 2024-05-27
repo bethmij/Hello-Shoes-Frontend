@@ -1,4 +1,3 @@
-
 import {InputItem} from "../../components/shared/input.jsx";
 import {Button} from "../../components/ui/button.jsx";
 import {useForm} from "react-hook-form";
@@ -22,9 +21,6 @@ import {zodResolver} from "@hookform/resolvers/zod";
 let buttonName = "";
 let filePath = ""
 
- let schema;
-
-
 
 function FormPage() {
 
@@ -32,8 +28,10 @@ function FormPage() {
     const [entityList, setEntityList] = useState([])
     const [selectedFile, setSelectedFile] = useState(null);
     const [error, setError] = useState(null);
-
-
+    const {register, handleSubmit, reset, watch, formState: {errors}, setValue} = useForm()
+    const [resetForm, setResetForm] = useState(false);
+    const [supplierCodes, setSupplierCodes] = useState([])
+    const [supplierName, setSupplierName] = useState()
 
     const {id, action} = useParams()
     let form = ""
@@ -78,6 +76,7 @@ function FormPage() {
                         setEntityID(code)
                     })
 
+
             } else if (action.startsWith("update")) {
                 const supplierCode = action.split("update-")[1];
                 getDetails("supplier", supplierCode)
@@ -91,6 +90,9 @@ function FormPage() {
                     .then(code => {
                         setEntityID(code)
                     })
+                getDetails("supplier", "getIDs").then(codes => {
+                    setSupplierCodes(codes)
+                })
 
             } else if (action.startsWith("update")) {
                 const inventoryCode = action.split("update-")[1];
@@ -104,13 +106,23 @@ function FormPage() {
     }, [id, action]);
 
     const onSubmit = async (data, url) => {
+        // alert(data.para)
+
 
         const token = localStorage.getItem('accessToken')
         data[idName] = entityID
         id === "employee" ? data.profilePic = filePath : data.itemPicture = filePath
 
         if (buttonName === "Submit") {
-            await saveDBData(url, data, token,id.charAt(0).toUpperCase() + id.slice(1));
+            await saveDBData(url, data, token, id.charAt(0).toUpperCase() + id.slice(1), () => {
+                setResetForm(true)
+                getNextID(id)
+                    .then(code => {
+                        setEntityID(code)
+                    })
+                setSelectedFile(null)
+            });
+
 
         } else if (buttonName === "Update") {
             Object.keys(entityList).forEach(key => {
@@ -118,7 +130,7 @@ function FormPage() {
                     data[key] = entityList[key]
                 }
             });
-           await updateDBData(url, data, token,id)
+            await updateDBData(url, data, token, id, setResetForm(true))
 
         }
         reset()
@@ -132,7 +144,6 @@ function FormPage() {
         url = "http://localhost:8080/app/customer";
         buttonName = action.startsWith("save") ? "Submit" : "Update"
         idName = "customerCode"
-        schema = customerSchema
 
     } else if (id === "employee") {
         form = getEmployee(entityID, entityList)
@@ -149,14 +160,14 @@ function FormPage() {
         idName = "supplierCode"
 
     } else if (id === "inventory") {
-        form = getInventory(entityID, entityList)
+        form = getInventory(entityID, entityList, supplierCodes, supplierName, setSupplierName)
         title = "Inventory Form"
         url = "http://localhost:8080/app/inventory"
         buttonName = action.startsWith("save") ? "Submit" : "Update"
         idName = "itemCode"
+
     }
 
-    const {register, handleSubmit, watch,  formState:{errors},reset, setValue} = useForm()
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -180,9 +191,7 @@ function FormPage() {
     };
 
 
-
-
-    if ((id==="employee" || id==="supplier" || id==="inventory") && !isAdmin()) {
+    if ((id === "employee" || id === "supplier" || id === "inventory") && !isAdmin()) {
         return null;
     }
 
@@ -197,41 +206,46 @@ function FormPage() {
             <form className="w-4/5 h-4/5 ms-52 mt-32 flex-col rounded-full absolute "
                   onSubmit={handleSubmit(data => {
                       onSubmit(data, url)
-                      reset()
                   })}>
                 <ScrollArea className="h-full w-full rounded-3xl z-0 ">
                     <div className=" form w-full h-full absolute border-2 z-0 rounded-3xl opacity-100 "></div>
-                    <div className="w-11/12 h-3 ms-12 border-t-2 bg-background  bermuda absolute z-50  "></div>
-
+                    <div className="w-11/12 h-3 ms-12 border-t-2 bg-background  bermuda absolute "></div>
+                    {/*<div className="z-50">*/}
+                    {/*    <input {...register("para")} id="para" type="text" name="para" placeholder="sfasfasfasfasf"*/}
+                    {/*           className="z-50 w-72 h-32"></input>*/}
+                    {/*</div>*/}
 
                     {form.map((formData, index) => (
                         <div key={index} className="flex justify-around mb-4 z-10">
                             {formData.map(data => (
-                                <InputItem
-                                    key={data.id}
-                                    id={data.id}
-                                    title={data.title}
-                                    placeholder={data.placeholder}
-                                    type={data.type}
-                                    description={data.description}
-                                    selectList={data.selectList}
-                                    register={register}
-                                    watch={watch}
-                                    value={data.value}
-                                    isEdit={data.isEdit}
-                                    setValue={setValue}
-                                    onChange={data.onChange}
-                                    errors={errors}
-                                    isRequired={data.required}
-                                    requiredLength={data.requiredLength}
-                                />
+                                <div key={data.id} className=" z-50 w-2/5">
+                                    <InputItem
+                                        key={data.id}
+                                        id={data.id}
+                                        title={data.title}
+                                        placeholder={data.placeholder}
+                                        type={data.type}
+                                        description={data.description}
+                                        selectList={data.selectList}
+                                        register={register}
+                                        watch={watch}
+                                        value={data.value}
+                                        isEdit={data.isEdit}
+                                        setValue={setValue}
+                                        onChange={data.onChange}
+                                        errors={errors}
+                                        isRequired={data.required}
+                                        resetForm={resetForm}
+
+                                    />
+                                </div>
 
                             ))}
 
                         </div>
                     ))}
 
-                    {(id === "employee" || id === "inventory")  && (
+                    {(id === "employee" || id === "inventory") && (
                         <div className="flex flex-row justify-around w-2/3 ms-48 items-center">
 
                             <div className="flex flex-col h-2/3 w-[20vw] ms-28 mb-20 z-50">

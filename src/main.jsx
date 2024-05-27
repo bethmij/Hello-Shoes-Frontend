@@ -13,6 +13,7 @@ import CartPage from "./pages/cart/cart.page.jsx";
 import SignInPage from "./pages/auth/signin.page.jsx";
 import SignUpPage from "./pages/auth/signup.page.jsx";
 import AdminPanel from "./pages/adminPanel/adminPanel.jsx";
+import {Refund} from "./pages/refund/Refund.jsx";
 
 const router = createBrowserRouter([
 
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
             {
                 path:"/admin",
                 element:<AdminPanel/>
+            },
+            {
+                path:"/refund",
+                element:<Refund/>
             }
 
         ]
