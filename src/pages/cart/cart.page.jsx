@@ -8,7 +8,7 @@ import {useForm} from "react-hook-form";
 import Tables from "../../components/shared/table.jsx";
 import {cartColumns} from "./cardDetail/cart.jsx";
 import {data} from "autoprefixer";
-import {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import axios from "axios";
 import {Button} from "../../components/ui/button.jsx";
 import {
@@ -22,12 +22,18 @@ import {RadioGroup, RadioGroupItem} from "../../components/ui/radio-group.jsx";
 import {Search} from "lucide-react"
 import {string} from "zod";
 import {saveDBData, updateDBData} from "./cardDetail/fetchData.jsx"
+import noImageAvailable from "../../assets/no-image-available.jpg";
+import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTrigger} from "../../components/ui/dialog.jsx";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "../../components/ui/tabs.jsx";
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../../components/ui/card.jsx";
+import paymentImg from "../../assets/payment.png"
+import {CardPayment} from "../../components/shared/CardPayment.jsx";
+import {CashPayment} from "../../components/shared/CashPayment.jsx";
+import {FaOpencart} from "react-icons/fa";
+import swal from 'sweetalert';
 
 
 // const dataa = []
-
-
-
 
 
 function CartPage() {
@@ -48,16 +54,38 @@ function CartPage() {
     const [itemQuantity, setItemQuantity] = useState("");
     const [price, setPrice] = useState(0);
     const [balance, setBalance] = useState('');
-    const [paymentMethod, setPaymentMethod] = useState('');
+    const [paymentMethod, setPaymentMethod] = useState('CARD');
     const [formData, setFormData] = useState(null);
     const [searchID, setSearchID] = useState()
     const [addedPoints, setAddedPoints] = useState()
     const [button, setButton] = useState("Place Order")
+    const [isPaid, setIsPaid] = useState(false)
+
+    // useEffect(() => {
+    //     if (formData) {
+    //         let itemList = {};
+    //
+    //         data.map((item) => {
+    //             itemList[item.itemCode] = item.itemQuantity;
+    //         });
+    //
+    //         const completeData = {
+    //             ...formData,
+    //             orderID,
+    //             customerName,
+    //             cashier: employeeName,
+    //             totalPrice: formData.cash,
+    //             paymentMethod: paymentMethod,
+    //             inventoryList: itemList,
+    //         };
+    //
+    //         sendOrder(completeData)
+    //     }
+    // }, [formData, paymentMethod]);
 
     useEffect(() => {
         if (formData) {
             let itemList = {};
-
             data.map((item) => {
                 itemList[item.itemCode] = item.itemQuantity;
             });
@@ -67,14 +95,14 @@ function CartPage() {
                 orderID,
                 customerName,
                 cashier: employeeName,
-                totalPrice: formData.cash,
+                totalPrice: price,
                 paymentMethod,
                 inventoryList: itemList,
             };
 
-            sendOrder(completeData)
+            sendOrder(completeData);
         }
-    }, [formData, paymentMethod]);
+    }, [formData]);
 
 
     useEffect(() => {
@@ -182,34 +210,28 @@ function CartPage() {
             setPaymentMethod(sale.paymentMethod)
             setButton("Update Order")
         })
-        getDetails("sale/getItem",orderID).then(items => {
+        getDetails("sale/getItem", orderID).then(items => {
             setData(items)
         })
     }
 
     const sendOrder = async (completeData) => {
 
-        const token = localStorage.getItem('accessToken')
         let url = "http://localhost:8080/app/sale";
-        if(button.startsWith("Place")) {
+        if (button.startsWith("Place")) {
             completeData.totalPrice = price
-
-            // try {
-            //     const response = await axios.post("http://localhost:8080/app/sale", JSON.stringify(completeData), {
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //             'Authorization': `Bearer ${token}`
-            //         }
-            //     });
-            //     if (response.status === 201) {
-            //         alert('Data posted to backend successfully!');
-            //     }
-            // } catch (error) {
-            //     alert('Error posting data to backend:');
-            // }
-
-            await saveDBData(url, completeData, token, "Order")
-        }else if(button.startsWith("Update")){
+            alert(paymentMethod)
+            if (data.length === 0) {
+                swal("Error", "No items in the cart. Please add items before placing an order.", "error");
+            } else {
+                if (isPaid) {
+                    // completeData.paymentMethod = paymentMethod
+                    await saveDBData(url, completeData, "Order")
+                } else {
+                    await swal("Error", "Please do the payment", "error")
+                }
+            }
+        } else if (button.startsWith("Update")) {
 
             completeData.addedPoints === "" && (completeData.addedPoints = addedPoints);
             completeData.customerID === "" && (completeData.customerID = customerCode);
@@ -229,39 +251,49 @@ function CartPage() {
             // } catch (error) {
             //     alert('Error posting data to backend:');
             // }
-            await updateDBData(url, completeData,token)
+            await updateDBData(url, completeData, token)
         }
     }
-    const columns = useMemo(() => cartColumns(data,setData), [data,setData]);
+    const columns = useMemo(() => cartColumns(data, setData), [data, setData]);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     // const handleInputChange = (setter) => (event) => {
     //     setter(event.target.value);
     // };
 
     return (
         <>
+            <div className="absolute top-0 left-1/2 flex gap-x-5 -ms-32 mt-4 opacity-80">
+                <FaOpencart size="45"/>
+                <h1 className="text-4xl ">Purchase Order</h1>
+            </div>
+
             <div className="grid w-2/6 ps-2 ms-10  z-50 items-start overflow-auto pt-24">
                 <fieldset className="rounded-lg ps-5  border pb-10">
                     <legend className="text-xl  font-medium">
                         Order Detail
                     </legend>
-                    <div className="flex flex-row">
-                        <InputItem type={"text"} id="orderID" title="Order ID" placeholder="orderID"
-                                   register={register} isEdit={true} value={orderID}
-                        />
-                        <InputItem type={"number"} id="addedPoints" title="Added Points"  register={register} value={addedPoints}/>
+                    <div className="flex flex-row  me-8 -ms-4 gap-x-20">
+                        <div className="w-56">
+                            <InputItem type={"text"} id="orderID" title="Order ID" placeholder="orderID"
+                                       register={register} isEdit={true} value={orderID}/>
+                        </div>
+                        <InputItem type={"number"} id="addedPoints" title="Added Points" register={register}
+                                   value={addedPoints}/>
+
 
                     </div>
-                    <div className="flex flex-row">
+                    <div className="flex flex-row me-8 -ms-4 gap-x-12">
                         <InputItem type={"select"} id="customerID" title="Customer ID" selectList={customerCodeList}
-                                   register={register} value={customerCode}  onChange={(event) => {
+                                   isRequired={true} register={register} value={customerCode} onChange={(event) => {
                             setCusName(event.target.value)
                         }}/>
                         <InputItem type={"text"} id="customerName" title="Customer Name" placeholder="Name"
                                    register={register} isEdit={true} value={customerName}
                         />
                     </div>
-                    <div className="flex flex-row">
-                        <InputItem type={"select"} id="employeeID" value={employeeCode} title="Employee ID" selectList={employeeCodeList}
+                    <div className="flex flex-row me-8 -ms-4 gap-x-12">
+                        <InputItem type={"select"} id="employeeID" value={employeeCode} title="Employee ID"
+                                   selectList={employeeCodeList} isRequired={true}
                                    register={register} onChange={(event) => {
                             setEmployName(event.target.value)
                         }}/>
@@ -276,8 +308,8 @@ function CartPage() {
                     <legend className="-ml-1 px-1 text-xl font-medium">
                         Item Detail
                     </legend>
-                    <div className="flex flex-row">
-                        <div className="w-2/5 ms-10 mt-5">
+                    <div className="flex flex-row me-8 -ms-4 gap-x-20">
+                        <div className="w-2/5 ms-10 mt-5 ">
                             <SearchableDropdown
                                 id="itemCode"
                                 title="Item Code"
@@ -296,24 +328,24 @@ function CartPage() {
             </div>
 
             <div className=" w-2/3 h-[95vh] mt-10 flex flex-col z-50">
-                {/*<form onSubmit={handleSubmit(data1 => {*/}
-                {/*    console.log(data1)*/}
-                {/*})}>*/}
-                <div className="relative flex-row flex mt-16 ms-80">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground"/>
-                    <Input
-                        id="search"
-                        name="search"
-                        onChange={(event) => setSearchID(event.target.value)}
-                        type="search"
-                        placeholder="Search products..."
-                        className="pl-8 w-3/6"
-                    />
-                    <Button type="submit" className={"w-1/6 ms-10 text-lg"} onClick={() => {
-                        getOrder(searchID)
-                    }}>Search</Button>
-                </div>
-                {/*</form>*/}
+                <form onSubmit={handleSubmit(data1 => {
+                    console.log(data1)
+                })}>
+                    <div className="relative flex-row flex mt-16 ms-80">
+                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground"/>
+                        <Input
+                            id="search"
+                            name="search"
+                            onChange={(event) => setSearchID(event.target.value)}
+                            type="search"
+                            placeholder="Search products..."
+                            className="pl-8 w-3/6"
+                        />
+                        <Button type="submit" className={"w-1/6 ms-10 text-lg"} onClick={() => {
+                            getOrder(searchID)
+                        }}>Search</Button>
+                    </div>
+                </form>
                 <ScrollArea className="w-[50vw] ms-20 mt-16 h-[45vh]   rounded-3xl z-0">
                     <div className="w-full h-full  z-50">
                         <Tables columns={columns} data={data}/>
@@ -321,36 +353,45 @@ function CartPage() {
                 </ScrollArea>
 
                 <div className="flex flex-row">
-                    <div className="w-80 ms-40 ">
-                        <div className="flex flex-col">
+                    <div className="w-80 ms-40  flex justify-center items-center align-middle">
+                        <div className="">
                             <h1 className="text-4xl text-metal  z-50 mt-5">Total Price : $ {price}</h1>
                         </div>
 
-
-                        <RadioGroup value={paymentMethod} className="z-50  mt-10 " onValueChange={(value) => {
-                            setPaymentMethod(value)
-                        }}>
-
-                            <Label className="text-2xl opacity-60 mb-5"> Payment </Label>
-                            <div className="flex items-center space-x-2 ms-2">
-                                <RadioGroupItem value="CASH" id="cash"/>
-                                <Label htmlFor="cash" className="text-xl opacity-60">Cash </Label>
-                            </div>
-                            <div className="flex items-center space-x-2 ms-2">
-                                <RadioGroupItem value="CARD" id="card"/>
-                                <Label htmlFor="card" className="text-xl opacity-60">Card</Label>
-                            </div>
-
-                        </RadioGroup>
-
                     </div>
                     <div className="w-3/6   h-full flex flex-col">
-                        <div className="w-full  h-2/3 flex flex-row">
-                            <InputItem type={"number"} id="cash" title="Cash" placeholder="$0.0" register={register}
-                                       onChange={(event) => setBalanceAmount(event)}/>
-                            <InputItem type={"text"} id="balance" title="Balance" placeholder="$0.0"
-                                       register={register} isEdit={true} value={balance}/>
-                        </div>
+
+                        <Dialog>
+                            <DialogTrigger>
+                                <Button className=" z-0 w-2/3 mt-16 -ms-3 text-lg">Payment</Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>
+                                    <DialogDescription>
+                                        <div className="w-full h-full">
+                                            <Tabs defaultValue="card" className="w-full">
+                                                <TabsList className="grid w-full grid-cols-2">
+                                                    <TabsTrigger value="card" onClick={() => {
+                                                        setPaymentMethod("CARD")
+                                                    }}>Card</TabsTrigger>
+                                                    <TabsTrigger value="cash" onClick={() => {
+                                                        setPaymentMethod("CASH")
+                                                    }}>Cash</TabsTrigger>
+                                                </TabsList>
+                                                <TabsContent value="card" className="mt-6">
+                                                    <CardPayment totalPrice={price} isPaid={setIsPaid}/>
+                                                </TabsContent>
+                                                <TabsContent value="cash" className="mt-6">
+                                                    <CashPayment totalPrice={price} balance={balance}
+
+                                                                 onChange={(event) => setBalanceAmount(event)}/>
+                                                </TabsContent>
+                                            </Tabs>
+                                        </div>
+                                    </DialogDescription>
+                                </DialogHeader>
+                            </DialogContent>
+                        </Dialog>
                         <form onSubmit={handleSubmit((data1) => setFormData(data1))}>
                             <div className="w-full  h-2/3 ">
                                 <Button type="submit" className="mx-10 z-0 w-2/3 mt-16 ms-24 text-lg">{button}</Button>
