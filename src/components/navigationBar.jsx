@@ -81,7 +81,7 @@ function NavigationBar() {
                             </li>
 
                             <ListItem to="/cart" key={1} title="Purchase" description="Save Order Details"/>
-                            <ListItem key={1} title="Refund" description="Refund Customer Order"/>
+                            <ListItem to="/refund" key={1} title="Refund" description="Refund Customer Order"/>
                             <ListItem  key={1} title="Previwes" description="Previes Sales"/>
                         </ul>
                     </NavigationMenuContent>
