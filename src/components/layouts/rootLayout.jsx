@@ -1,11 +1,11 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import {Link, Outlet, useLocation} from 'react-router-dom';
 import CurrentTime from "../shared/time.jsx";
-import { CiHome } from "react-icons/ci";
-import { PiHighHeelThin, PiShoppingCartLight } from "react-icons/pi";
-import { BsPersonBadge, BsPersonDown } from "react-icons/bs";
-import { GoPackageDependencies } from "react-icons/go";
-import { VscGraph } from "react-icons/vsc";
-import { CgProfile } from "react-icons/cg";
+import {CiHome} from "react-icons/ci";
+import {PiHighHeelThin, PiShoppingCartLight} from "react-icons/pi";
+import {BsPersonBadge, BsPersonDown} from "react-icons/bs";
+import {GoPackageDependencies} from "react-icons/go";
+import {VscGraph} from "react-icons/vsc";
+import {CgProfile} from "react-icons/cg";
 import Preview from "../../pages/preview/preview.page.jsx"
 import {
     DropdownMenu,
@@ -15,27 +15,27 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "../ui/dropdown-menu.jsx";
-import { Button } from "../ui/button.jsx";
-import { MoreHorizontal } from "lucide-react";
+import {Button} from "../ui/button.jsx";
+import {MoreHorizontal} from "lucide-react";
 import swal from 'sweetalert';
-import { isAuthenticated, isAdmin } from "../../pages/auth/authentication.jsx";
+import {isAuthenticated, isAdmin} from "../../pages/auth/authentication.jsx";
 import {Notifications} from "../shared/Notifications.jsx";
 
 const menuItem = [
     {
         to: "/",
-        icon: (color) => <CiHome size="45" color={color} />,
+        icon: (color) => <CiHome size="45" color={color}/>,
         title: "Home"
     },
     {
         to: "/cart",
-        icon: (color) => <PiShoppingCartLight size="45" color={color} />,
+        icon: (color) => <PiShoppingCartLight size="45" color={color}/>,
         title: "Sale"
     },
     {
         toForm: "/form/inventory/save",
         toPreview: "/preview/inventory",
-        icon: (color) => <PiHighHeelThin size="45" color={color} />,
+        icon: (color) => <PiHighHeelThin size="45" color={color}/>,
         dropdown: true,
         title: "Inventory"
     },
@@ -43,46 +43,46 @@ const menuItem = [
         toForm: "/form/customer/save",
         toPreview: "/preview/customer",
         dropdown: true,
-        icon: (color) => <BsPersonDown size="45" color={color} />,
+        icon: (color) => <BsPersonDown size="45" color={color}/>,
         title: "Customer"
     },
     {
         toForm: "/form/supplier/save",
         toPreview: "/preview/supplier",
         dropdown: true,
-        icon: (color) => <GoPackageDependencies size="45" color={color} />,
+        icon: (color) => <GoPackageDependencies size="45" color={color}/>,
         title: "Supplier"
     },
     {
         toForm: "/form/employee/save",
         toPreview: "/preview/employee",
         dropdown: true,
-        icon: (color) => <BsPersonBadge size="45" color={color} />,
+        icon: (color) => <BsPersonBadge size="45" color={color}/>,
         title: "Employee"
     },
     {
         to: "/admin",
-        icon: (color) => <VscGraph size="45" color={color} />,
+        icon: (color) => <VscGraph size="45" color={color}/>,
         isAdmin: true
     },
 
-    {to: "/1", icon:() => ""},
-    {to: "/1", icon:() => ""},
-    {to: "/1", icon:() => ""},
-    {to: "/1", icon:() => ""},
-    {to: "/1", icon:() => ""},
-    {to: "/1", icon:() => ""},
-    {to: "/1", icon:() => ""},
-    {to: "/1", icon:() => ""},
-    {to: "/1", icon:() => ""},
-    {to: "/1", icon:() => ""},
-    {to: "/1", icon:() => ""},
-    {to: "/1", icon:() => ""},
-    {to: "/1", icon:() => ""},
-    {to: "/1", icon:() => ""},
+    {to: "/1", icon: () => ""},
+    {to: "/1", icon: () => ""},
+    {to: "/1", icon: () => ""},
+    {to: "/1", icon: () => ""},
+    {to: "/1", icon: () => ""},
+    {to: "/1", icon: () => ""},
+    {to: "/1", icon: () => ""},
+    {to: "/1", icon: () => ""},
+    {to: "/1", icon: () => ""},
+    {to: "/1", icon: () => ""},
+    {to: "/1", icon: () => ""},
+    {to: "/1", icon: () => ""},
+    {to: "/1", icon: () => ""},
+    {to: "/1", icon: () => ""},
     {
         to: "/user",
-        icon: (color) => <CgProfile size="45" color={color} />
+        icon: (color) => <CgProfile size="45" color={color}/>
     }
 ];
 
@@ -101,10 +101,14 @@ function RootLayout() {
             <div className=" w-full h-20 absolute flex justify-between">
                 <div id="nameTag" className="h-full w-60 ms-28 mt-3"></div>
 
-                <Notifications/>
+                <div className="flex flex-row justify-center align-middle gap-x-10">
+                    <div className="mt-3 opacity-80">
+                        <Notifications/>
+                    </div>
 
-                <div className="me-5 opacity-70">
-                    <CurrentTime />
+                    <div className="me-5 opacity-70">
+                        <CurrentTime/>
+                    </div>
                 </div>
             </div>
 
@@ -119,7 +123,7 @@ function RootLayout() {
                             const iconColor = isActive ? '#eda1d4' : '#78045B'; // Change '#FF0000' to the desired active color
 
                             return (
-                                <Link key={item.to} className="no-underline" to={item.to} style={{ zIndex: "1" }}>
+                                <Link key={item.to} className="no-underline" to={item.to} style={{zIndex: "1"}}>
                                     <div className={`mt-4 cursor-pointer opacity-60`}>
                                         {item.dropdown ? (
                                             <DropdownMenu>
@@ -151,7 +155,7 @@ function RootLayout() {
                     </div>
                 </nav>
 
-                <Outlet />
+                <Outlet/>
                 {/*<Preview/>*/}
             </div>
         </>
