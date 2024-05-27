@@ -77,6 +77,20 @@ const customStyles = {
         borderRadius: '0.675rem',
         boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
     }),
+    menuList: (provided) => ({
+        ...provided,
+        padding: '0',
+        '::-webkit-scrollbar': {
+            width: '8px',
+        },
+        '::-webkit-scrollbar-thumb': {
+            backgroundColor: '#460232',
+            borderRadius: '4px',
+        },
+        '::-webkit-scrollbar-track': {
+            backgroundColor: '#200116',
+        },
+    }),
 
     option: (provided, state) => ({
         ...provided,
@@ -97,7 +111,9 @@ const customStyles = {
 const SearchableDropdown = (props) => {
     const handleChange = (selectedOption) => {
         props.setValue(`${props.id}`, selectedOption.value);
-        props.onSubmit(selectedOption.value);
+        if(props.onSubmit) {
+            props.onSubmit(selectedOption.value);
+        }
     };
 
     const options = props.list.map(item => ({
@@ -121,6 +137,7 @@ const SearchableDropdown = (props) => {
                     ),
                     IndicatorSeparator: () => null
                 }}
+                required={props.required}
             />
         </div>
     );
@@ -135,5 +152,6 @@ SearchableDropdown.propTypes = {
     placeholder: PropTypes.string,
     list: PropTypes.array.isRequired,
     setValue: PropTypes.func,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    required:PropTypes.bool
 };
