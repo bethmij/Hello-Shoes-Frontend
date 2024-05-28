@@ -8,7 +8,7 @@ import {CardDetail} from "./panelDetail/cardDetail.jsx";
 import Tables from "../../components/shared/table.jsx";
 import {panelColumns} from "./panelDetail/panelTableData.jsx";
 import {ScrollArea} from "../../components/ui/scroll-area.jsx";
-import noImageAvailable from '../../assets/no-image-available.jpg';
+import noImageAvailable from '../../assets/img/no-image-available.jpg';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "../../components/ui/tabs.jsx";
 import {CgFormatRight} from "react-icons/cg";
 
