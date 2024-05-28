@@ -35,7 +35,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 #signPage{
-  background: url("assets/signPage.gif") center;
+  background: url("assets/img/signPage.gif") center;
   background-size :cover;
 }
 
