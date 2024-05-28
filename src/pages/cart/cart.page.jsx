@@ -90,6 +90,8 @@ function CartPage() {
                 itemList[item.itemCode] = item.itemQuantity;
             });
 
+            let customerType = (customerName === "Non-Loyalty") ? "NON_LOYALTY" : "LOYALTY"
+
             const completeData = {
                 ...formData,
                 orderID,
@@ -98,6 +100,7 @@ function CartPage() {
                 totalPrice: price,
                 paymentMethod,
                 inventoryList: itemList,
+                customerType:customerType
             };
 
             sendOrder(completeData);
@@ -113,6 +116,7 @@ function CartPage() {
 
         getCodeList("customer")
             .then(customerIDs => {
+                customerIDs.unshift("Non-Loyalty")
                 setCustomerCodeList(customerIDs)
             })
 
@@ -127,17 +131,28 @@ function CartPage() {
     }, []);
 
     const setCusName = (id) => {
-        getName("customer", id)
-            .then(name => {
-                setCustomerName(name)
-            })
+
+        if ((id === "") || (id === "Non-Loyalty")) {
+            setCustomerName("")
+        } else {
+            if (id !== "Non-Loyalty") {
+                getName("customer", id)
+                    .then(name => {
+                        setCustomerName(name)
+                    })
+            }
+        }
     }
 
     const setEmployName = (id) => {
-        getName("employee", id)
-            .then(name => {
-                setEmployeeName(name)
-            })
+        if (id === "") {
+            setEmployeeName("")
+        } else {
+            getName("employee", id)
+                .then(name => {
+                    setEmployeeName(name)
+                })
+        }
     }
 
     const setItemID = (id) => {
@@ -220,7 +235,7 @@ function CartPage() {
         let url = "http://localhost:8080/app/sale";
         if (button.startsWith("Place")) {
             completeData.totalPrice = price
-            alert(paymentMethod)
+
             if (data.length === 0) {
                 swal("Error", "No items in the cart. Please add items before placing an order.", "error");
             } else {
@@ -277,8 +292,6 @@ function CartPage() {
                             <InputItem type={"text"} id="orderID" title="Order ID" placeholder="orderID"
                                        register={register} isEdit={true} value={orderID}/>
                         </div>
-                        <InputItem type={"number"} id="addedPoints" title="Added Points" register={register}
-                                   value={addedPoints}/>
 
 
                     </div>
@@ -394,7 +407,8 @@ function CartPage() {
                         </Dialog>
                         <form onSubmit={handleSubmit((data1) => setFormData(data1))}>
                             <div className="w-full  h-2/3 ">
-                                <Button type="submit" className="mx-10 z-0 w-2/3 mt-16 ms-24 text-lg">{button}</Button>
+                                <Button type="submit"
+                                        className="mx-10 z-0 w-2/3 mt-16 ms-24 text-lg">{button}</Button>
                             </div>
                         </form>
                     </div>
