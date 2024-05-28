@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 
 function ListItem(props) {
     return (
-        <li key={props.key}>
+        // <li key={props.key}>
+        <li>
             <NavigationMenuLink asChild>
                 <Link to={props.to}
                       className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
@@ -19,7 +20,7 @@ function ListItem(props) {
 }
 
 ListItem.propTypes = {
-    key: PropTypes.any.isRequired,
+    // key: PropTypes.any.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     to:PropTypes.string
