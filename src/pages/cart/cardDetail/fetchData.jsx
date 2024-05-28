@@ -207,4 +207,24 @@ async function sendError(error) {
     }
 }
 
+export const updateBirthdayWish = async (data) => {
+    try {
+        const response = await axios.patch("http://localhost:8080/app/customer/birthday", JSON.stringify(data), {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.status === 204) {
+            console.log("customer updated!")
+        }else {
+            console.error("error")
+        }
+
+    } catch (error) {
+       console.log(error)
+    }
+}
+
 

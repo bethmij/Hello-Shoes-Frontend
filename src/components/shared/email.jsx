@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import emailjs from 'emailjs-com';
+import {getDetails, updateBirthdayWish} from "../../pages/cart/cardDetail/fetchData.jsx";
 
 // Define the message as a variable
 const msg =
@@ -30,17 +31,37 @@ const msg =
 
 // Define the Email component
 export const  sendEmail = () => {
-    const formData ={
-        name: 'Bethmi Jayamila',
-        email: 'bjayamila@gmail.com',
-        message: msg
-    }
+
+
+    getDetails("customer","birthday").then(customers => {
+        customers.map( customer => {
+
+            const formData ={
+                name: customer.customerName,
+                email: customer.email,
+                message: msg
+            }
+
+            emailjs.send(
+                'service_surspqz',
+                'template_0srh5oe',
+                formData,
+                'HkiYU1Au24nrY6uOT'
+            ).then((response) => {
+                customer.contactNo = 0+customer.contactNo
+                updateBirthdayWish(customer)
+                console.log('SUCCESS!', response.status, response.text);
+            }).catch((error) => {
+                console.log('FAILED...', error);
+            });
+        })
+    })
 
     // Execute alert when the component is rendered
-    alert("dfsdfs");
+
 
     // Log form data to console
-    console.log(formData);
+
 
     // Uncomment the following code to send the email
     /*
