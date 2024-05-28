@@ -11,7 +11,7 @@ import {getSupplier} from "./formDetail/supplier.jsx";
 import {getInventory} from "./formDetail/inventory.jsx"
 import {getDetails, getNextID, saveDBData, updateDBData} from "../cart/cardDetail/fetchData.jsx";
 import {useEffect, useState} from "react";
-import aiGeneratedImage from '../../assets/ai-generated-8181045.jpg';
+import aiGeneratedImage from '../../assets/img/ai-generated-8181045.jpg';
 import {Input} from "../../components/ui/input.jsx";
 import {Label} from "../../components/ui/label.jsx";
 import {isAdmin, isAuthenticated} from "../auth/authentication.jsx";
@@ -106,8 +106,8 @@ function FormPage() {
     }, [id, action]);
 
     const onSubmit = async (data, url) => {
-        // alert(data.para)
 
+        setResetForm(false)
 
         data[idName] = entityID
         id === "employee" ? data.profilePic = filePath : data.itemPicture = filePath
@@ -129,154 +129,158 @@ function FormPage() {
                     data[key] = entityList[key]
                 }
             });
-            await updateDBData(url, data, token, id, setResetForm(true))
-
+            await updateDBData(url, data, id, () => {
+                    setSelectedFile(null)
+                    setResetForm(true)
+                }
+            )
         }
-        reset()
 
-    };
-
-
-    if (id === "customer") {
-        form = getCustomer(entityID, entityList);
-        title = "Customer Form";
-        url = "http://localhost:8080/app/customer";
-        buttonName = action.startsWith("save") ? "Submit" : "Update"
-        idName = "customerCode"
-
-    } else if (id === "employee") {
-        form = getEmployee(entityID, entityList)
-        title = "Employee Form"
-        url = "http://localhost:8080/app/employee"
-        buttonName = action.startsWith("save") ? "Submit" : "Update"
-        idName = "employeeCode"
-
-    } else if (id === "supplier") {
-        form = getSupplier(entityID, entityList)
-        title = "Supplier Form"
-        url = "http://localhost:8080/app/supplier"
-        buttonName = action.startsWith("save") ? "Submit" : "Update"
-        idName = "supplierCode"
-
-    } else if (id === "inventory") {
-        form = getInventory(entityID, entityList, supplierCodes, supplierName, setSupplierName)
-        title = "Inventory Form"
-        url = "http://localhost:8080/app/inventory"
-        buttonName = action.startsWith("save") ? "Submit" : "Update"
-        idName = "itemCode"
 
     }
 
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
 
-        if (file) {
-            const validTypes = ['image/jpeg', 'image/png', 'image/gif']; // Add more if needed
-            if (validTypes.includes(file.type)) {
-                setSelectedFile(URL.createObjectURL(file));
-                setError(null);
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    filePath = reader.result
+if (id === "customer") {
+    form = getCustomer(entityID, entityList);
+    title = "Customer Form";
+    url = "http://localhost:8080/app/customer";
+    buttonName = action.startsWith("save") ? "Submit" : "Update"
+    idName = "customerCode"
 
-                };
-                reader.readAsDataURL(file);
-            } else {
-                setSelectedFile(null);
-                setError('Please select a valid image file (JPEG, PNG, or GIF).');
-            }
+} else if (id === "employee") {
+    form = getEmployee(entityID, entityList)
+    title = "Employee Form"
+    url = "http://localhost:8080/app/employee"
+    buttonName = action.startsWith("save") ? "Submit" : "Update"
+    idName = "employeeCode"
+
+} else if (id === "supplier") {
+    form = getSupplier(entityID, entityList)
+    title = "Supplier Form"
+    url = "http://localhost:8080/app/supplier"
+    buttonName = action.startsWith("save") ? "Submit" : "Update"
+    idName = "supplierCode"
+
+} else if (id === "inventory") {
+    form = getInventory(entityID, entityList, supplierCodes, supplierName, setSupplierName)
+    title = "Inventory Form"
+    url = "http://localhost:8080/app/inventory"
+    buttonName = action.startsWith("save") ? "Submit" : "Update"
+    idName = "itemCode"
+
+}
+
+
+const handleFileChange = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif']; // Add more if needed
+        if (validTypes.includes(file.type)) {
+            setSelectedFile(URL.createObjectURL(file));
+            setError(null);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                filePath = reader.result
+
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setSelectedFile(null);
+            setError('Please select a valid image file (JPEG, PNG, or GIF).');
         }
-    };
-
-
-    if ((id === "employee" || id === "supplier" || id === "inventory") && !isAdmin()) {
-        return null;
     }
-
-    return (
-        <>
-            <div className="absolute top-0 left-1/2 flex gap-x-5 -ms-32 mt-4 opacity-80">
-                <CgFormatRight size="45"/>
-                <h1 className="text-4xl ">{title}</h1>
-            </div>
+};
 
 
-            <form className="w-4/5 h-4/5 ms-52 mt-32 flex-col rounded-full absolute "
-                  onSubmit={handleSubmit(data => {
-                      onSubmit(data, url)
-                  })}>
-                <ScrollArea className="h-full w-full rounded-3xl z-0 ">
-                    <div className=" form w-full h-full absolute border-2 z-0 rounded-3xl opacity-100 "></div>
-                    <div className="w-11/12 h-3 ms-12 border-t-2 bg-background  bermuda absolute "></div>
-                    {/*<div className="z-50">*/}
-                    {/*    <input {...register("para")} id="para" type="text" name="para" placeholder="sfasfasfasfasf"*/}
-                    {/*           className="z-50 w-72 h-32"></input>*/}
-                    {/*</div>*/}
+if ((id === "employee" || id === "supplier" || id === "inventory") && !isAdmin()) {
+    return null;
+}
 
-                    {form.map((formData, index) => (
-                        <div key={index} className="flex justify-around mb-4 z-10">
-                            {formData.map(data => (
-                                <div key={data.id} className=" z-50 w-2/5">
-                                    <InputItem
-                                        key={data.id}
-                                        id={data.id}
-                                        title={data.title}
-                                        placeholder={data.placeholder}
-                                        type={data.type}
-                                        description={data.description}
-                                        selectList={data.selectList}
-                                        register={register}
-                                        watch={watch}
-                                        value={data.value}
-                                        isEdit={data.isEdit}
-                                        setValue={setValue}
-                                        onChange={data.onChange}
-                                        errors={errors}
-                                        isRequired={data.required}
-                                        resetForm={resetForm}
+return (
+    <>
+        <div className="absolute top-0 left-1/2 flex gap-x-5 -ms-32 mt-4 opacity-80">
+            <CgFormatRight size="45"/>
+            <h1 className="text-4xl ">{title}</h1>
+        </div>
 
-                                    />
-                                </div>
 
-                            ))}
+        <form className="w-4/5 h-4/5 ms-52 mt-32 flex-col rounded-full absolute "
+              onSubmit={handleSubmit(data => {
+                  onSubmit(data, url)
+              })}>
+            <ScrollArea className="h-full w-full rounded-3xl z-0 ">
+                <div className=" form w-full h-full absolute border-2 z-0 rounded-3xl opacity-100 "></div>
+                <div className="w-11/12 h-3 ms-12 border-t-2 bg-background  bermuda absolute "></div>
+                {/*<div className="z-50">*/}
+                {/*    <input {...register("para")} id="para" type="text" name="para" placeholder="sfasfasfasfasf"*/}
+                {/*           className="z-50 w-72 h-32"></input>*/}
+                {/*</div>*/}
 
-                        </div>
-                    ))}
+                {form.map((formData, index) => (
+                    <div key={index} className="flex justify-around mb-4 z-10">
+                        {formData.map(data => (
+                            <div key={data.id} className=" z-50 w-2/5">
+                                <InputItem
+                                    key={data.id}
+                                    id={data.id}
+                                    title={data.title}
+                                    placeholder={data.placeholder}
+                                    type={data.type}
+                                    description={data.description}
+                                    selectList={data.selectList}
+                                    register={register}
+                                    watch={watch}
+                                    value={data.value}
+                                    isEdit={data.isEdit}
+                                    setValue={setValue}
+                                    onChange={data.onChange}
+                                    errors={errors}
+                                    isRequired={data.required}
+                                    resetForm={resetForm}
 
-                    {(id === "employee" || id === "inventory") && (
-                        <div className="flex flex-row justify-around w-2/3 ms-48 items-center">
-
-                            <div className="flex flex-col h-2/3 w-[20vw] ms-28 mb-20 z-50">
-                                <Label htmlFor="picture" className="text-xl">Picture</Label>
-                                <Input id="picture" type="file" onChange={handleFileChange} className="z-50"/>
-                                <p className="opacity-60">Choose File</p>
-                                {error && <p className="text-red-500">{error}</p>}
+                                />
                             </div>
 
-                            <div className="flex justify-center items-center h-2/3 mb-20">
-                                {selectedFile && (
-                                    <img
-                                        id="profilePic"
-                                        name="profilePic"
-                                        {...register('profilePic')}
-                                        src={selectedFile}
-                                        alt="Selected Picture"
-                                        className="z-50"
-                                        style={{maxWidth: '300px', maxHeight: '400px'}}
-                                    />
-                                )}
-                            </div>
+                        ))}
+
+                    </div>
+                ))}
+
+                {(id === "employee" || id === "inventory") && (
+                    <div className="flex flex-row justify-around w-2/3 ms-48 items-center">
+
+                        <div className="flex flex-col h-2/3 w-[20vw] ms-28 mb-20 z-50">
+                            <Label htmlFor="picture" className="text-xl">Picture</Label>
+                            <Input id="picture" type="file" onChange={handleFileChange} className="z-50"/>
+                            <p className="opacity-60">Choose File</p>
+                            {error && <p className="text-red-500">{error}</p>}
                         </div>
-                    )}
 
-                </ScrollArea>
+                        <div className="flex justify-center items-center h-2/3 mb-20">
+                            {selectedFile && (
+                                <img
+                                    id="profilePic"
+                                    name="profilePic"
+                                    {...register('profilePic')}
+                                    src={selectedFile}
+                                    alt="Selected Picture"
+                                    className="z-50"
+                                    style={{maxWidth: '300px', maxHeight: '400px'}}
+                                />
+                            )}
+                        </div>
+                    </div>
+                )}
 
-                <Button type="submit"
-                        className=" w-2/12 h-12 absolute text-2xl text-opacity-40 -bottom-10 right-0 m-5 mt-10">{buttonName}</Button>
-            </form>
-        </>
-    )
+            </ScrollArea>
+
+            <Button type="submit"
+                    className=" w-2/12 h-12 absolute text-2xl text-opacity-40 -bottom-10 right-0 m-5 mt-10">{buttonName}</Button>
+        </form>
+    </>
+)
 
 }
 

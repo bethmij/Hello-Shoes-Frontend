@@ -149,7 +149,7 @@ export const saveDBData = async (url, data, title,setData) => {
     }
 }
 
-export const updateDBData = async (url, data, token,title,setData) => {
+export const updateDBData = async (url, data,title,setData) => {
     try {
         const response = await axios.patch(url, JSON.stringify(data), {
             headers: {
