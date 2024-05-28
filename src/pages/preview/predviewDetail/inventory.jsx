@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {ArrowUpDown, MoreHorizontal} from 'lucide-react';
 import {Checkbox} from '@/components/ui/checkbox';
 import {Button} from '@/components/ui/button';
-import noImageAvailable from '../../../assets/no-image-available.jpg';
+import noImageAvailable from '../../../assets/img/no-image-available.jpg';
 import {
     DropdownMenu,
     DropdownMenuContent,

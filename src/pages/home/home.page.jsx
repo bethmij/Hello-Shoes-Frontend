@@ -3,9 +3,15 @@
 import NavigationBar from "../../components/navigationBar.jsx";
 import {LiaUserCircle} from "react-icons/lia";
 import {isAuthenticated} from "../auth/authentication.jsx";
+import {useEffect} from "react";
+import {sendEmail} from "../../components/shared/email.jsx";
 
 
 function HomePage() {
+    useEffect(() => {
+        sendEmail()
+    }, []);
+
     return (
 
         isAuthenticated() && (
