@@ -39,7 +39,7 @@ import swal from 'sweetalert';
 function CartPage() {
 
     const {register, handleSubmit, watch, setValue} = useForm()
-    const [data, setData] = useState([]);
+    const [tableData, setTableData] = useState([]);
     const [itemCodeList, setItemCodeList] = useState([]);
     const [customerCodeList, setCustomerCodeList] = useState([]);
     const [employeeCodeList, setEmployeeCodeList] = useState([]);
@@ -53,7 +53,7 @@ function CartPage() {
     const [item, setItem] = useState({});
     const [itemQuantity, setItemQuantity] = useState("");
     const [price, setPrice] = useState(0);
-    const [balance, setBalance] = useState('');
+    const [balance, setBalance] = useState(0);
     const [paymentMethod, setPaymentMethod] = useState('CARD');
     const [formData, setFormData] = useState(null);
     const [searchID, setSearchID] = useState()
@@ -66,7 +66,7 @@ function CartPage() {
     //     if (formData) {
     //         let itemList = {};
     //
-    //         data.map((item) => {
+    //         tableData.map((item) => {
     //             itemList[item.itemCode] = item.itemQuantity;
     //         });
     //
@@ -87,7 +87,7 @@ function CartPage() {
     useEffect(() => {
         if (formData) {
             let itemList = {};
-            data.map((item) => {
+            tableData.map((item) => {
                 itemList[item.itemCode] = item.itemQuantity;
             });
 
@@ -168,8 +168,8 @@ function CartPage() {
             })
     }
 
-    const setTableData = () => {
-        let existingItem = [...data]
+    const setCartTableData = () => {
+        let existingItem = [...tableData]
 
         let total;
         // const existingItem = { ...item, itemQuantity: itemQuantity };
@@ -184,7 +184,7 @@ function CartPage() {
             existingItem.push(itemData)
             total = setTotalPrice(existingItem)
         }
-        setData(existingItem)
+        setTableData(existingItem)
         setPrice(total)
 
     }
@@ -211,7 +211,7 @@ function CartPage() {
 
         const quantity = parseInt(itemQuantity);
         if (!isNaN(quantity)) {
-            setTableData(quantity);
+            setCartTableData(quantity);
         }
     };
 
@@ -234,7 +234,7 @@ function CartPage() {
             setIsPaid(true)
         })
         getDetails("sale/getItem", orderID).then(items => {
-            setData(items)
+            setTableData(items)
         })
     }
 
@@ -245,7 +245,7 @@ function CartPage() {
         if (button.startsWith("Place")) {
             completeData.totalPrice = price
 
-            if (data.length === 0) {
+            if (tableData.length === 0) {
                 await swal("Error", "No items in the cart. Please add items before placing an order.", "error");
             } else {
                 if (isPaid) {
@@ -259,7 +259,7 @@ function CartPage() {
                         setPrice(0);
                         setBalance('');
                         setPaymentMethod('CARD');
-                        setData([])
+                        setTableData([])
                         setSearchID("")
                         setButton("Place Order")
                     })
@@ -283,13 +283,13 @@ function CartPage() {
                 setPrice(0);
                 setBalance('');
                 setPaymentMethod('CARD');
-                setData([])
+                setTableData([])
                 setSearchID("")
             })
         }
     }
-    const columns = useMemo(() => cartColumns(data, setData), [data, setData]);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const columns = useMemo(() => cartColumns(tableData, setTableData), [tableData, setTableData]);
+    // const [isDialogOpen, setIsDialogOpen] = useState(false);
     // const handleInputChange = (setter) => (event) => {
     //     setter(event.target.value);
     // };
@@ -396,7 +396,7 @@ function CartPage() {
             </form>
             <ScrollArea className="w-[50vw] ms-20 mt-16 h-[45vh]   rounded-3xl z-0">
                 <div className="w-full h-full  z-50">
-                    <Tables columns={columns} data={data}/>
+                    <Tables columns={columns} data={tableData}/>
                 </div>
             </ScrollArea>
 
