@@ -33,7 +33,7 @@ import {saleColumns} from "./predviewDetail/sale.jsx";
 import {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {fetchData} from "../cart/cardDetail/fetchData.jsx";
-import aiGeneratedImage from '../../assets/ai-generated-8181045.jpg';
+import aiGeneratedImage from '../../assets/img/ai-generated-8181045.jpg';
 import CryptoJS from 'crypto-js';
 import { Buffer } from 'buffer';
 import {inventoryColumns} from "./predviewDetail/inventory.jsx";
