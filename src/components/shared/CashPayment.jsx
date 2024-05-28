@@ -1,6 +1,6 @@
 import {useForm} from "react-hook-form";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../ui/card.jsx";
-import paymentImg from "../../assets/2331941.png";
+import paymentImg from "../../assets/img/2331941.png";
 import {InputItem} from "./input.jsx";
 import {Label} from "../ui/label.jsx";
 import {Input} from "../ui/input.jsx";
@@ -41,7 +41,7 @@ export function CashPayment(props) {
                         <div className="-ms-10 -mt-10">
                             <InputItem id={"cash"} title={"Card Amount"} type={"number"} placeholder="$ 0.0"
                                        register={register} onChange={(event) => {
-                                                props.onChange
+                                                props.onChange(event)
                                                 setCashPrice(event.target.value)
                             }} isRequired={true}></InputItem>
                         </div>

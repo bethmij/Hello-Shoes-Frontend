@@ -1,6 +1,6 @@
 import {useForm} from "react-hook-form";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "../ui/card.jsx";
-import paymentImg from "../../assets/payment.png";
+import paymentImg from "../../assets/img/payment.png";
 import {InputItem} from "./input.jsx";
 import {Label} from "../ui/label.jsx";
 import {Input} from "../ui/input.jsx";
