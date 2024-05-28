@@ -1,4 +1,4 @@
-import refundImg from "../../assets/refund.png"
+import refundImg from "../../assets/img/refund.png"
 import {RiRefund2Fill} from "react-icons/ri";
 import {InputItem} from "../../components/shared/input.jsx";
 import React, {useEffect, useState} from "react";

@@ -21,6 +21,8 @@ import swal from 'sweetalert';
 import {isAuthenticated, isAdmin} from "../../pages/auth/authentication.jsx";
 import {Notifications} from "../shared/Notifications.jsx";
 
+
+
 const menuItem = [
     {
         to: "/",
@@ -89,6 +91,7 @@ const menuItem = [
 function RootLayout() {
     const location = useLocation();
 
+
     if (!isAuthenticated()) {
         return null;
     }
@@ -97,6 +100,8 @@ function RootLayout() {
         <>
             <div id="rootPage" className="h-screen w-full absolute opacity-50 "></div>
             <div className="w-full h-20 absolute bg-black opacity-50"></div>
+
+
 
             <div className=" w-full h-20 absolute flex justify-between">
                 <div id="nameTag" className="h-full w-60 ms-28 mt-3"></div>

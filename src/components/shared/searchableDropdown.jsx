@@ -1,6 +1,7 @@
 import Select from 'react-select';
 import PropTypes from "prop-types";
 import { ChevronDown } from 'heroicons-react';
+import {useEffect, useState} from "react";
 
 
 
@@ -109,12 +110,20 @@ const customStyles = {
 };
 
 const SearchableDropdown = (props) => {
+    const [selectedOption, setSelectedOption] = useState(null);
     const handleChange = (selectedOption) => {
-        props.setValue(`${props.id}`, selectedOption.value);
-        if(props.onSubmit) {
-            props.onSubmit(selectedOption.value);
+        props.setValue(`${props.id}`, selectedOption ? selectedOption.value : null);
+        setSelectedOption(selectedOption);
+        if (props.onSubmit) {
+            props.onSubmit(selectedOption ? selectedOption.value : null);
         }
     };
+
+    useEffect(() => {
+        if (props.resetForm) {
+            setSelectedOption(null);
+        }
+    }, [props.resetForm]);
 
     const options = props.list.map(item => ({
         value: item,
@@ -122,11 +131,12 @@ const SearchableDropdown = (props) => {
     }));
 
     return (
-        <div className="mt-6 z-50">
+        <div className="mt-6 ">
             <label htmlFor={props.id} className="text-xl mb-2">{props.title}</label>
             <Select
                 id={props.id}
                 onChange={handleChange}
+                value={selectedOption}
                 options={options}
                 placeholder={props.placeholder}
                 classNamePrefix="react-select"
@@ -138,6 +148,7 @@ const SearchableDropdown = (props) => {
                     IndicatorSeparator: () => null
                 }}
                 required={props.required}
+
             />
         </div>
     );
@@ -153,5 +164,6 @@ SearchableDropdown.propTypes = {
     list: PropTypes.array.isRequired,
     setValue: PropTypes.func,
     onSubmit: PropTypes.func,
-    required:PropTypes.bool
+    required:PropTypes.bool,
+    resetForm: PropTypes.bool,
 };
