@@ -37,11 +37,12 @@ import aiGeneratedImage from '../../assets/img/ai-generated-8181045.jpg';
 import CryptoJS from 'crypto-js';
 import { Buffer } from 'buffer';
 import {inventoryColumns} from "./predviewDetail/inventory.jsx";
+import Tables from "../../components/shared/table.jsx";
 
 let columnID;
 
 export default function PreviewPage() {
-    const [data, setData] = useState([]);
+    const [previewData, setPreviewData] = useState([]);
     const [sorting, setSorting] = useState([]);
     const [columnFilters, setColumnFilters] = useState([]);
     const [columnVisibility, setColumnVisibility] = useState({});
@@ -86,16 +87,16 @@ export default function PreviewPage() {
 
     useEffect(() => {
         fetchData(url).then(data => {
-            setData(data)
+            setPreviewData(data)
             // let image = data[1].profilePic.split(',')[1];
 
         })
 
-    }, []);
+    }, [url]);
 
 
     const table = useReactTable({
-        data,
+        data: previewData,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -162,55 +163,56 @@ export default function PreviewPage() {
 
                 <ScrollArea className=" form w-[85vw] h-[75vh] mt-10 whitespace-nowrap rounded-md border p-3   ">
                     <div className="w-full h-full">
-                        <Table>
-                            <TableHeader>
-                                {table.getHeaderGroups().map((headerGroup) => (
-                                    <TableRow key={headerGroup.id}>
-                                        {headerGroup.headers.map((header) => {
-                                            return (
-                                                <TableHead key={header.id} className="text-center text-xl  text-metal ">
-                                                    {header.isPlaceholder
-                                                        ? null
-                                                        : flexRender(
-                                                            header.column.columnDef.header,
-                                                            header.getContext()
-                                                        )}
-                                                </TableHead>
-                                            )
-                                        })}
-                                    </TableRow>
-                                ))}
-                            </TableHeader>
-                            <TableBody>
-                                {table.getRowModel().rows?.length ? (
-                                    table.getRowModel().rows.map((row) => (
-                                        <TableRow
-                                            className="text-center text-lg  text-opacity-80"
-                                            key={row.id}
-                                            data-state={row.getIsSelected() && "selected"}
-                                        >
-                                            {row.getVisibleCells().map((cell) => (
-                                                <TableCell key={cell.id}>
-                                                    {flexRender(
-                                                        cell.column.columnDef.cell,
-                                                        cell.getContext()
-                                                    )}
-                                                </TableCell>
-                                            ))}
-                                        </TableRow>
-                                    ))
-                                ) : (
-                                    <TableRow>
-                                        <TableCell
-                                            colSpan={columns.length}
-                                            className="h-24 text-center text-xl"
-                                        >
-                                            No results.
-                                        </TableCell>
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
+                        <Tables columns={columns} data={previewData}/>
+                        {/*<Table>*/}
+                        {/*    <TableHeader>*/}
+                        {/*        {table.getHeaderGroups().map((headerGroup) => (*/}
+                        {/*            <TableRow key={headerGroup.id}>*/}
+                        {/*                {headerGroup.headers.map((header) => {*/}
+                        {/*                    return (*/}
+                        {/*                        <TableHead key={header.id} className="text-center text-xl  text-metal ">*/}
+                        {/*                            {header.isPlaceholder*/}
+                        {/*                                ? null*/}
+                        {/*                                : flexRender(*/}
+                        {/*                                    header.column.columnDef.header,*/}
+                        {/*                                    header.getContext()*/}
+                        {/*                                )}*/}
+                        {/*                        </TableHead>*/}
+                        {/*                    )*/}
+                        {/*                })}*/}
+                        {/*            </TableRow>*/}
+                        {/*        ))}*/}
+                        {/*    </TableHeader>*/}
+                        {/*    <TableBody>*/}
+                        {/*        {table.getRowModel().rows?.length ? (*/}
+                        {/*            table.getRowModel().rows.map((row) => (*/}
+                        {/*                <TableRow*/}
+                        {/*                    className="text-center text-lg  text-opacity-80"*/}
+                        {/*                    key={row.id}*/}
+                        {/*                    data-state={row.getIsSelected() && "selected"}*/}
+                        {/*                >*/}
+                        {/*                    {row.getVisibleCells().map((cell) => (*/}
+                        {/*                        <TableCell key={cell.id}>*/}
+                        {/*                            {flexRender(*/}
+                        {/*                                cell.column.columnDef.cell,*/}
+                        {/*                                cell.getContext()*/}
+                        {/*                            )}*/}
+                        {/*                        </TableCell>*/}
+                        {/*                    ))}*/}
+                        {/*                </TableRow>*/}
+                        {/*            ))*/}
+                        {/*        ) : (*/}
+                        {/*            <TableRow>*/}
+                        {/*                <TableCell*/}
+                        {/*                    colSpan={columns.length}*/}
+                        {/*                    className="h-24 text-center text-xl"*/}
+                        {/*                >*/}
+                        {/*                    No results.*/}
+                        {/*                </TableCell>*/}
+                        {/*            </TableRow>*/}
+                        {/*        )}*/}
+                        {/*    </TableBody>*/}
+                        {/*</Table>*/}
                     </div>
                     <div className="flex items-center justify-end space-x-2 py-4">
                         <div className="flex-1 text-m text-muted-foreground">

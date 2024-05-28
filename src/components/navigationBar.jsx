@@ -14,7 +14,7 @@ import {isAdmin} from "../pages/auth/authentication.jsx";
 const components = [
     {
 
-        title: "Customers +",
+        title: "Customers + +",
         to: "/form/customer/save",
         description:
             "Add a new Customer",
@@ -26,7 +26,7 @@ const components = [
             "Preview all customer.jsx",
     },
     {
-        title: "Employees +",
+        title: "Employees + +",
         to: "/form/employee/save",
         description:
             "Add a new employee",
@@ -80,9 +80,9 @@ function NavigationBar() {
                                 </NavigationMenuLink>
                             </li>
 
-                            <ListItem to="/cart" key={1} title="Purchase" description="Save Order Details"/>
-                            <ListItem to="/refund" key={1} title="Refund" description="Refund Customer Order"/>
-                            <ListItem  key={1} title="Previwes" description="Previes Sales"/>
+                            <ListItem to="/cart" key={"cart"} title="Purchase" description="Save Order Details"/>
+                            <ListItem to="/refund" key={"refund"} title="Refund" description="Refund Customer Order"/>
+                            <ListItem  key={"sales preview"} title="Previwes" description="Previes Sales"/>
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
