@@ -25,16 +25,19 @@ import {Notifications} from "../shared/Notifications.jsx";
 
 const menuItem = [
     {
+        id:"home",
         to: "/",
         icon: (color) => <CiHome size="45" color={color}/>,
         title: "Home"
     },
     {
+        id:"cart",
         to: "/cart",
         icon: (color) => <PiShoppingCartLight size="45" color={color}/>,
         title: "Sale"
     },
     {
+        id:"item",
         toForm: "/form/inventory/save",
         toPreview: "/preview/inventory",
         icon: (color) => <PiHighHeelThin size="45" color={color}/>,
@@ -42,6 +45,7 @@ const menuItem = [
         title: "Inventory"
     },
     {
+        id:"customer",
         toForm: "/form/customer/save",
         toPreview: "/preview/customer",
         dropdown: true,
@@ -49,6 +53,7 @@ const menuItem = [
         title: "Customer"
     },
     {
+        id:"supplier",
         toForm: "/form/supplier/save",
         toPreview: "/preview/supplier",
         dropdown: true,
@@ -56,6 +61,7 @@ const menuItem = [
         title: "Supplier"
     },
     {
+        id:"employee",
         toForm: "/form/employee/save",
         toPreview: "/preview/employee",
         dropdown: true,
@@ -63,26 +69,28 @@ const menuItem = [
         title: "Employee"
     },
     {
+        id:"admin",
         to: "/admin",
         icon: (color) => <VscGraph size="45" color={color}/>,
         isAdmin: true
     },
 
-    {to: "/1", icon: () => ""},
-    {to: "/1", icon: () => ""},
-    {to: "/1", icon: () => ""},
-    {to: "/1", icon: () => ""},
-    {to: "/1", icon: () => ""},
-    {to: "/1", icon: () => ""},
-    {to: "/1", icon: () => ""},
-    {to: "/1", icon: () => ""},
-    {to: "/1", icon: () => ""},
-    {to: "/1", icon: () => ""},
-    {to: "/1", icon: () => ""},
-    {to: "/1", icon: () => ""},
-    {to: "/1", icon: () => ""},
-    {to: "/1", icon: () => ""},
+    {id: 1, icon: () => ""},
+    {id: 2, icon: () => ""},
+    {id: 3, icon: () => ""},
+    {id: 4, icon: () => ""},
+    {id: 5, icon: () => ""},
+    {id: 6, icon: () => ""},
+    {id: 7, icon: () => ""},
+    {id: 8, icon: () => ""},
+    {id: 9, icon: () => ""},
+    {id: 10, icon: () => ""},
+    {id: 11, icon: () => ""},
+    {id: 12, icon: () => ""},
+    {id: 13, icon: () => ""},
+    {id: 14, icon: () => ""},
     {
+        id:"user",
         to: "/user",
         icon: (color) => <CgProfile size="45" color={color}/>
     }
@@ -128,7 +136,7 @@ function RootLayout() {
                             const iconColor = isActive ? '#eda1d4' : '#78045B'; // Change '#FF0000' to the desired active color
 
                             return (
-                                <Link key={item.to} className="no-underline" to={item.to} style={{zIndex: "1"}}>
+                                <Link key={item.id} className="no-underline" to={item.to} style={{zIndex: "1"}}>
                                     <div className={`mt-4 cursor-pointer opacity-60`}>
                                         {item.dropdown ? (
                                             <DropdownMenu>
