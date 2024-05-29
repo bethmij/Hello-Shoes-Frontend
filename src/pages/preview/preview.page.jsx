@@ -163,56 +163,56 @@ export default function PreviewPage() {
 
                 <ScrollArea className=" form w-[85vw] h-[75vh] mt-10 whitespace-nowrap rounded-md border p-3   ">
                     <div className="w-full h-full">
-                        <Tables columns={columns} data={previewData}/>
-                        {/*<Table>*/}
-                        {/*    <TableHeader>*/}
-                        {/*        {table.getHeaderGroups().map((headerGroup) => (*/}
-                        {/*            <TableRow key={headerGroup.id}>*/}
-                        {/*                {headerGroup.headers.map((header) => {*/}
-                        {/*                    return (*/}
-                        {/*                        <TableHead key={header.id} className="text-center text-xl  text-metal ">*/}
-                        {/*                            {header.isPlaceholder*/}
-                        {/*                                ? null*/}
-                        {/*                                : flexRender(*/}
-                        {/*                                    header.column.columnDef.header,*/}
-                        {/*                                    header.getContext()*/}
-                        {/*                                )}*/}
-                        {/*                        </TableHead>*/}
-                        {/*                    )*/}
-                        {/*                })}*/}
-                        {/*            </TableRow>*/}
-                        {/*        ))}*/}
-                        {/*    </TableHeader>*/}
-                        {/*    <TableBody>*/}
-                        {/*        {table.getRowModel().rows?.length ? (*/}
-                        {/*            table.getRowModel().rows.map((row) => (*/}
-                        {/*                <TableRow*/}
-                        {/*                    className="text-center text-lg  text-opacity-80"*/}
-                        {/*                    key={row.id}*/}
-                        {/*                    data-state={row.getIsSelected() && "selected"}*/}
-                        {/*                >*/}
-                        {/*                    {row.getVisibleCells().map((cell) => (*/}
-                        {/*                        <TableCell key={cell.id}>*/}
-                        {/*                            {flexRender(*/}
-                        {/*                                cell.column.columnDef.cell,*/}
-                        {/*                                cell.getContext()*/}
-                        {/*                            )}*/}
-                        {/*                        </TableCell>*/}
-                        {/*                    ))}*/}
-                        {/*                </TableRow>*/}
-                        {/*            ))*/}
-                        {/*        ) : (*/}
-                        {/*            <TableRow>*/}
-                        {/*                <TableCell*/}
-                        {/*                    colSpan={columns.length}*/}
-                        {/*                    className="h-24 text-center text-xl"*/}
-                        {/*                >*/}
-                        {/*                    No results.*/}
-                        {/*                </TableCell>*/}
-                        {/*            </TableRow>*/}
-                        {/*        )}*/}
-                        {/*    </TableBody>*/}
-                        {/*</Table>*/}
+                        {/*<Tables columns={columns} data={previewData}/>*/}
+                        <Table>
+                            <TableHeader>
+                                {table.getHeaderGroups().map((headerGroup) => (
+                                    <TableRow key={headerGroup.id}>
+                                        {headerGroup.headers.map((header) => {
+                                            return (
+                                                <TableHead key={header.id} className="text-center text-xl  text-metal ">
+                                                    {header.isPlaceholder
+                                                        ? null
+                                                        : flexRender(
+                                                            header.column.columnDef.header,
+                                                            header.getContext()
+                                                        )}
+                                                </TableHead>
+                                            )
+                                        })}
+                                    </TableRow>
+                                ))}
+                            </TableHeader>
+                            <TableBody>
+                                {table.getRowModel().rows?.length ? (
+                                    table.getRowModel().rows.map((row) => (
+                                        <TableRow
+                                            className="text-center text-lg  text-opacity-80"
+                                            key={row.id}
+                                            data-state={row.getIsSelected() && "selected"}
+                                        >
+                                            {row.getVisibleCells().map((cell) => (
+                                                <TableCell key={cell.id}>
+                                                    {flexRender(
+                                                        cell.column.columnDef.cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell
+                                            colSpan={columns.length}
+                                            className="h-24 text-center text-xl"
+                                        >
+                                            No results.
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
                     </div>
                     <div className="flex items-center justify-end space-x-2 py-4">
                         <div className="flex-1 text-m text-muted-foreground">

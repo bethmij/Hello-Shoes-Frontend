@@ -20,6 +20,8 @@ import {MoreHorizontal} from "lucide-react";
 import swal from 'sweetalert';
 import {isAuthenticated, isAdmin} from "../../pages/auth/authentication.jsx";
 import {Notifications} from "../shared/Notifications.jsx";
+import {ProfilePic} from "../shared/Avartar.jsx";
+
 
 
 
@@ -27,20 +29,20 @@ const menuItem = [
     {
         id:"home",
         to: "/",
-        icon: (color) => <CiHome size="45" color={color}/>,
+        icon: (color) => <CiHome size="43" color={color}/>,
         title: "Home"
     },
     {
         id:"cart",
         to: "/cart",
-        icon: (color) => <PiShoppingCartLight size="45" color={color}/>,
+        icon: (color) => <PiShoppingCartLight size="43" color={color}/>,
         title: "Sale"
     },
     {
         id:"item",
         toForm: "/form/inventory/save",
         toPreview: "/preview/inventory",
-        icon: (color) => <PiHighHeelThin size="45" color={color}/>,
+        icon: (color) => <PiHighHeelThin size="43" color={color}/>,
         dropdown: true,
         title: "Inventory"
     },
@@ -49,7 +51,7 @@ const menuItem = [
         toForm: "/form/customer/save",
         toPreview: "/preview/customer",
         dropdown: true,
-        icon: (color) => <BsPersonDown size="45" color={color}/>,
+        icon: (color) => <BsPersonDown size="43" color={color}/>,
         title: "Customer"
     },
     {
@@ -57,7 +59,7 @@ const menuItem = [
         toForm: "/form/supplier/save",
         toPreview: "/preview/supplier",
         dropdown: true,
-        icon: (color) => <GoPackageDependencies size="45" color={color}/>,
+        icon: (color) => <GoPackageDependencies size="43" color={color}/>,
         title: "Supplier"
     },
     {
@@ -65,35 +67,35 @@ const menuItem = [
         toForm: "/form/employee/save",
         toPreview: "/preview/employee",
         dropdown: true,
-        icon: (color) => <BsPersonBadge size="45" color={color}/>,
+        icon: (color) => <BsPersonBadge size="43" color={color}/>,
         title: "Employee"
     },
     {
         id:"admin",
         to: "/admin",
-        icon: (color) => <VscGraph size="45" color={color}/>,
+        icon: (color) => <VscGraph size="43" color={color}/>,
         isAdmin: true
     },
 
-    {id: 1, icon: () => ""},
-    {id: 2, icon: () => ""},
-    {id: 3, icon: () => ""},
-    {id: 4, icon: () => ""},
-    {id: 5, icon: () => ""},
-    {id: 6, icon: () => ""},
-    {id: 7, icon: () => ""},
-    {id: 8, icon: () => ""},
-    {id: 9, icon: () => ""},
-    {id: 10, icon: () => ""},
-    {id: 11, icon: () => ""},
-    {id: 12, icon: () => ""},
-    {id: 13, icon: () => ""},
-    {id: 14, icon: () => ""},
-    {
-        id:"user",
-        to: "/user",
-        icon: (color) => <CgProfile size="45" color={color}/>
-    }
+    // {id: 1, icon: () => ""},
+    // {id: 2, icon: () => ""},
+    // {id: 3, icon: () => ""},
+    // {id: 4, icon: () => ""},
+    // {id: 5, icon: () => ""},
+    // {id: 6, icon: () => ""},
+    // {id: 7, icon: () => ""},
+    // {id: 8, icon: () => ""},
+    // {id: 9, icon: () => ""},
+    // {id: 10, icon: () => ""},
+    // {id: 11, icon: () => ""},
+    // {id: 12, icon: () => ""},
+    // {id: 13, icon: () => ""},
+    // {id: 14, icon: () => ""},
+    // {
+    //     id:"user",
+    //     to: "/user",
+    //     icon: (color) => <CgProfile size="43" color={color}/>
+    // }
 ];
 
 function RootLayout() {
@@ -104,12 +106,12 @@ function RootLayout() {
         return null;
     }
 
+
+
     return (
         <>
             <div id="rootPage" className="h-screen w-full absolute opacity-50 "></div>
             <div className="w-full h-20 absolute bg-black opacity-50"></div>
-
-
 
             <div className=" w-full h-20 absolute flex justify-between">
                 <div id="nameTag" className="h-full w-60 ms-28 mt-3"></div>
@@ -125,9 +127,9 @@ function RootLayout() {
                 </div>
             </div>
 
-            <div className="flex">
-                <nav className="h-[99vh] w-20 flex justify-center items-center py-10">
-                    <div className="h-screen w-24 flex flex-col justify-around items-center relative">
+            <div className="flex ">
+                <nav className="h-[99vh] w-16 flex flex-col justify-between pb-8 items-start  ">
+                    <div className="h-[50vh] z-50 -ms-3 w-24 flex flex-col justify-around items-center relative">
                         {menuItem.map(item => {
                             if (item.isAdmin && !isAdmin()) {
                                 return null;
@@ -164,8 +166,13 @@ function RootLayout() {
                             )
                         })}
 
-                        <div className="h-screen w-20 bg-purple opacity-40 absolute"></div>
+
                     </div>
+                    <div className="ms-2 -mt-5 w-14 h-14">
+                      <ProfilePic/>
+                    </div>
+
+                    <div className="h-[99vh]  w-20 bg-purple opacity-40 absolute"></div>
                 </nav>
 
                 <Outlet/>
