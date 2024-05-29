@@ -35,6 +35,8 @@ const SignInPage = () => {
                 localStorage.setItem("password", password);
                 localStorage.setItem("accessToken", response.data.token);
                 localStorage.setItem("role", response.data.role);
+                localStorage.setItem("profilePic", response.data.profilePic);
+                localStorage.setItem("name", response.data.name);
                 navigate("/");
                 console.log(
                     "User SignIn Successfully " + response.data.token,

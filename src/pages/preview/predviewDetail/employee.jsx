@@ -52,11 +52,11 @@ const EmployeeImageDialog = ({isOpen, onClose, employeeCode}) => {
             <DialogContent>
                 <DialogHeader>
                     <DialogDescription>
-                        {employeeImage ? (
+                        {/*{employeeImage ? (*/}
                             <img src={employeeImage} alt="Employee Image" className="w-full h-auto"/>
-                        ) : (
-                            <img src={noImageAvailable} alt="Employee Image" className="w-full h-auto"/>
-                        )}
+                        {/*) : (*/}
+                        {/*    <img src={noImageAvailable} alt="Employee Image" className="w-full h-auto"/>*/}
+                        {/*)}*/}
                     </DialogDescription>
                 </DialogHeader>
                 <div className="mt-4 flex justify-center items-center">
