@@ -31,7 +31,7 @@ import {CardPayment} from "../../components/shared/CardPayment.jsx";
 import {CashPayment} from "../../components/shared/CashPayment.jsx";
 import {FaOpencart} from "react-icons/fa";
 import swal from 'sweetalert';
-
+const sizeRange = ["XS", "S", "M", "L", "XL"]
 
 // const dataa = []
 
@@ -61,6 +61,7 @@ function CartPage() {
     const [button, setButton] = useState("Place Order")
     const [isPaid, setIsPaid] = useState(false)
     const [resetForm, setResetForm] = useState(false);
+    const [itemSize, setItemSize] = useState("")
 
     // useEffect(() => {
     //     if (formData) {
@@ -88,12 +89,12 @@ function CartPage() {
         if (formData) {
             let itemList = {};
             tableData.map((item) => {
-                itemList[item.itemCode] = item.itemQuantity;
+                itemList[item.itemCode] = {size:itemSize, quantity:item.itemQuantity};
             });
 
-            if(customerCode === ""){
-                swal("Error", "Customer Code should selected" , "error")
-            }else {
+            if (customerCode === "") {
+                swal("Error", "Customer Code should selected", "error")
+            } else {
 
                 let customerType = (customerCode === "Non-Loyalty") ? "NON_LOYALTY" : "LOYALTY"
 
@@ -274,7 +275,7 @@ function CartPage() {
             completeData.employeeID === "" && (completeData.employeeID = employeeName);
             completeData.totalPrice === "" && (completeData.totalPrice = price);
 
-            await updateDBData(url, completeData,"Order", () => {
+            await updateDBData(url, completeData, "Order", () => {
                 setResetForm(true)
                 getNextID("sale")
                     .then(code => {
@@ -308,7 +309,7 @@ function CartPage() {
                 <div className="flex flex-row  me-8 -ms-4 gap-x-20">
                     <div className="w-56">
                         <InputItem type={"text"} id="orderID" title="Order ID" placeholder="orderID"
-                                   register={register} isEdit={true} value={orderID}  resetForm={resetForm}/>
+                                   register={register} isEdit={true} value={orderID} resetForm={resetForm}/>
                     </div>
 
 
@@ -321,13 +322,13 @@ function CartPage() {
                     <div className="w-2/5 ms-10 mt-5 ">
                         <SearchableDropdown id="customerID" title="Customer ID" list={customerCodeList}
                                             required={true} setValue={setValue} onSubmit={(value) => {
-                                                    setCustomerCode(value)
-                                                    setCusName(value)
-                                            }} resetForm={resetForm}/>
+                            setCustomerCode(value)
+                            setCusName(value)
+                        }} resetForm={resetForm}/>
                     </div>
 
                     <InputItem type={"text"} id="customerName" title="Customer Name" placeholder="Name"
-                               register={register} isEdit={true} value={customerName}  resetForm={resetForm}
+                               register={register} isEdit={true} value={customerName} resetForm={resetForm}
                     />
                 </div>
                 <div className="flex flex-row me-8 -ms-4 gap-x-12 z-0">
@@ -337,15 +338,16 @@ function CartPage() {
                     {/*    setEmployName(event.target.value)*/}
                     {/*}}/>*/}
                     <div className="w-2/5 ms-10 mt-5 ">
-                        <SearchableDropdown id="employeeID" title="Employee ID" list={employeeCodeList} resetForm={resetForm}
+                        <SearchableDropdown id="employeeID" title="Employee ID" list={employeeCodeList}
+                                            resetForm={resetForm}
                                             required={true} setValue={setValue} onSubmit={(value) => {
-                                                setEmployeeCode(value)
-                                                setEmployName(value)
+                            setEmployeeCode(value)
+                            setEmployName(value)
                         }}/>
                     </div>
 
                     <InputItem type={"text"} id="employeeName" title="Employee Name" placeholder="Name"
-                               register={register} isEdit={true} value={employeeName}  resetForm={resetForm}
+                               register={register} isEdit={true} value={employeeName} resetForm={resetForm}
                     />
                 </div>
 
@@ -368,9 +370,22 @@ function CartPage() {
                         />
                     </div>
                     <InputItem type={"number"} id="itemQuantity" title="Item Quantity" placeholder="Quantity"
-                               register={register} onChange={(event) => handleQuantityChange(event)}  resetForm={resetForm}/>
+                               register={register} onChange={(event) => handleQuantityChange(event)}
+                               resetForm={resetForm}/>
+
                 </div>
-                <Button className="mx-10 z-0 mb-5" onClick={handleAddToCart}>Add to Cart</Button>
+                <div className="flex ">
+                    <div className="w-2/5">
+                        <InputItem id={"size"} title={"Item Size"} type={"select"} register={register} resetForm={resetForm}
+                                   setValue={setValue} selectList={sizeRange} onChange={(event) => {
+                            setItemSize(event.target.value)
+                        }}/>
+                    </div>
+                    <div className="flex justify-center align-middle self-center ms-20">
+                    <Button className="mx-10 z-0 mb-5" onClick={handleAddToCart}>Add to Cart</Button>
+                    </div>
+                </div>
+
             </fieldset>
         </div>
 
@@ -431,7 +446,7 @@ function CartPage() {
                                             </TabsContent>
                                             <TabsContent value="cash" className="mt-6">
                                                 <CashPayment totalPrice={price} balance={balance}
-                                                            isPaid={setIsPaid}
+                                                             isPaid={setIsPaid}
                                                              onChange={(event) => setBalanceAmount(event)}/>
                                             </TabsContent>
                                         </Tabs>

@@ -21,11 +21,14 @@ import {isAdmin} from "../../auth/authentication.jsx";
 //     return `${year}-${month}-${day}`;
 // };
 
-const  deleteCustomer =  (customerCode) => {
-     deleteEntity("customer", customerCode,"Customer")
+const deleteCustomer = (customerCode, data, setPreviewData) => {
+    deleteEntity("customer", customerCode, "Customer").then(() => {
+            setPreviewData(prevData => prevData.filter(customer => customer.customerCode !== data.customerCode));
+        }
+    )
 }
 
-export const customerColumns = [
+export const customerColumns = (setPreviewData) => [
     {
         id: "select",
         header: ({table}) => (
@@ -93,7 +96,7 @@ export const customerColumns = [
                 </Button>
             );
         },
-        cell: ({row}) => <div className="capitalize">  {row.getValue("totalPoints")}</div>,
+        cell: ({row}) => <div>  {row.getValue("totalPoints")}</div>,
     },
     {
         accessorKey: "contactNo",
@@ -167,7 +170,9 @@ export const customerColumns = [
                             <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.customerCode)}>Update
                                 customer</DropdownMenuItem>
                         </Link>
-                        {isAdmin() &&  <DropdownMenuItem onClick={() => deleteCustomer(data.customerCode)}>Delete Customer</DropdownMenuItem>}
+                        {isAdmin() &&
+                            <DropdownMenuItem onClick={() => deleteCustomer(data.customerCode, data, setPreviewData)}>Delete
+                                Customer</DropdownMenuItem>}
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

@@ -8,6 +8,7 @@ import {
 import {Avatar, AvatarFallback, AvatarImage} from "../ui/avatar.jsx";
 import {IoMdSettings} from "react-icons/io";
 import {RiLogoutCircleRFill} from "react-icons/ri";
+import useLogout from "../../pages/auth/authentication.jsx";
 
 
 
@@ -16,6 +17,7 @@ export function ProfilePic() {
     const profilePic = localStorage.getItem("profilePic")
     const email = localStorage.getItem("email")
     const name = localStorage.getItem("name")
+    const logout = useLogout();
 
     const getName = () => {
         const name = localStorage.getItem("name")
@@ -46,7 +48,7 @@ export function ProfilePic() {
                         <IoMdSettings className="me-5"/>
                         Setting
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="text-lg">
+                    <DropdownMenuItem className="text-lg"  onClick={logout}>
                         <RiLogoutCircleRFill className="me-5"/>
                         Log out
                     </DropdownMenuItem>

@@ -1,3 +1,4 @@
+
 const genderList = ["MALE", "FEMALE", "OTHER"]
 const statusList = ["MARRIED", "SINGLE"]
 const accessRoleList = ["ADMIN", "USER"]
@@ -159,7 +160,7 @@ export function getEmployee(employeeCode, employeeList) {
         },
         {
             id: "email",
-            title: "Customer Email",
+            title: "Employee Email",
             type: "email",
             placeholder: "Email",
             description: "Email required",

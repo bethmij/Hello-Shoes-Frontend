@@ -1,4 +1,3 @@
-
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
@@ -49,3 +48,21 @@ async function performAuthenticatedRequest() {
         }
     }
 }
+
+const useLogout = () => {
+    const navigate = useNavigate();
+
+    return () => {
+
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('email');
+        localStorage.removeItem('password');
+        localStorage.removeItem('role');
+        localStorage.removeItem('profilePic');
+        localStorage.removeItem('name');
+
+        navigate('/signin');
+    };
+};
+
+export default useLogout;
