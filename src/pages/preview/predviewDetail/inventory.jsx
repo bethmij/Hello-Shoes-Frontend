@@ -22,6 +22,8 @@ import {
     DialogDescription,
 } from '@/components/ui/dialog';
 import {isAdmin} from "../../auth/authentication.jsx";
+import Tables from "../../../components/shared/table.jsx";
+import {tableColumns} from "./inventorySize.jsx";
 
 
 
@@ -54,6 +56,43 @@ const ItemImageDialog = ({isOpen, onClose, itemCode}) => {
                         ) : (
                             <img src={noImageAvailable} alt="Item Image" className="w-full h-auto"/>
                         )}
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="mt-4 flex justify-center items-center">
+                    <Button onClick={onClose}>Close</Button>
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
+const ItemTable = ({isOpen, onClose, itemCode}) => {
+    const [tableData, setTableData] = useState([])
+
+    useEffect(() => {
+        if (isOpen) {
+            getDetails("inventory","sizes/"+itemCode).then(
+                (sizes)=>{setTableData(sizes)}
+            )
+        }
+    }, [isOpen, itemCode]);
+
+    // const fetchItemImage = async (code) => {
+    //     try {
+    //         const item = await getDetails('inventory', code);
+    //         setItemImage(item.itemPicture || noImageAvailable);
+    //     } catch (error) {
+    //         console.error('Error fetching item image:', error);
+    //         setItemImage(noImageAvailable);
+    //     }
+    // };
+
+    return (
+        <Dialog open={isOpen} onClose={onClose}>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogDescription>
+                       <Tables columns={tableColumns(tableData,setTableData)} data={tableData}/>
                     </DialogDescription>
                 </DialogHeader>
                 <div className="mt-4 flex justify-center items-center">
@@ -117,11 +156,6 @@ export const inventoryColumns = [
         cell: ({row}) => <div className="capitalize">{row.getValue("category")}</div>,
     },
     {
-        accessorKey: "size",
-        header: "Size",
-        cell: ({row}) => <div className="capitalize">{row.getValue("size")}</div>,
-    },
-    {
         accessorKey: "supplierCode",
         header: "Supplier Code",
         cell: ({row}) => <div className="capitalize">{row.getValue("supplierCode")}</div>,
@@ -163,6 +197,10 @@ export const inventoryColumns = [
             const data = row.original;
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const [isDialogOpen, setIsDialogOpen] = useState(false);
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const [isTableOpen, setIsTableOpen] = useState(false);
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+
 
             return (
                 <div>
@@ -188,11 +226,19 @@ export const inventoryColumns = [
                             <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
                                 View Image
                             </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setIsTableOpen(true)}>
+                                View Size Chart
+                            </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                     <ItemImageDialog
                         isOpen={isDialogOpen}
                         onClose={() => setIsDialogOpen(false)}
+                        itemCode={data.itemCode}
+                    />
+                    <ItemTable
+                        isOpen={isTableOpen}
+                        onClose={() => setIsTableOpen(false)}
                         itemCode={data.itemCode}
                     />
                 </div>

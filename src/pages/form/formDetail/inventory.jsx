@@ -20,8 +20,7 @@ export function getInventory(inventoryCode, inventoryList, supplierCodes, suppli
             title: "Item Code",
             type: "text",
             placeholder: "Code",
-            description: "auto generated",
-            value: (inventoryCode !== "") ? inventoryCode : inventoryList.itemCode,
+            value: inventoryList.itemCode,
         },
             {
                 id: "itemDesc",
@@ -42,13 +41,24 @@ export function getInventory(inventoryCode, inventoryList, supplierCodes, suppli
                 required: true,
             },
             {
-                id: "size",
-                title: "Size",
-                type: "number",
-                placeholder: "Size",
-                description: "Shoe size",
-                value: inventoryList.size
+                id: "status",
+                title: "Item Status",
+                type: "select",
+                placeholder: "Status",
+                description: "",
+                selectList: statusList,
+                value: inventoryList.status,
+                required: true,
+
             }
+            // {
+            //     id: "size",
+            //     title: "Size",
+            //     type: "number",
+            //     placeholder: "Size",
+            //     description: "Shoe size",
+            //     value: inventoryList.size
+            // }
         ],
         [
             {
@@ -110,30 +120,20 @@ export function getInventory(inventoryCode, inventoryList, supplierCodes, suppli
                 value: inventoryList.profitMargin
             }
         ],
-        [{
+        // [{
+        //
+        //     id: "itemQty",
+        //     title: "Item Quantity",
+        //     type: "number",
+        //     placeholder: "Qty",
+        //     description: "Available Item Quantity",
+        //     value: inventoryList.itemQty,
+        //     required: true,
+        //
+        // },
 
-            id: "itemQty",
-            title: "Item Quantity",
-            type: "number",
-            placeholder: "Qty",
-            description: "Available Item Quantity",
-            value: inventoryList.itemQty,
-            required: true,
 
-        },
-            {
-                id: "status",
-                title: "Item Status",
-                type: "select",
-                placeholder: "Status",
-                description: "",
-                selectList: statusList,
-                value: inventoryList.status,
-                required: true,
-
-            }
-
-        ]
+        // ]
     ]
 
 }

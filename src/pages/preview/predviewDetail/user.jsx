@@ -23,23 +23,24 @@ import {
 } from '@/components/ui/dialog';
 import {isAdmin} from "../../auth/authentication.jsx";
 
-const deleteUser = (userCode) => {
-    deleteEntity("user", userCode,"User")
+const deleteUser = async (email) => {
+    // alert(email)
+    await deleteEntity("user", email, "User")
 }
 
 
-const UserImageDialog = ({isOpen, onClose, userCode}) => {
+const UserImageDialog = ({isOpen, onClose, email}) => {
     const [userImage, setUserImage] = useState('');
 
     useEffect(() => {
         if (isOpen) {
-            fetchUserImage(userCode);
+            fetchUserImage(email);
         }
-    }, [isOpen, userCode]);
+    }, [isOpen, email]);
 
-    const fetchUserImage = async (code) => {
+    const fetchUserImage = async (email) => {
         try {
-            const user = await getDetails('user', code);
+            const user = await getDetails('user', email);
             setUserImage(user.profilePic || noImageAvailable);
         } catch (error) {
             console.error('Error fetching User image:', error);
@@ -67,7 +68,7 @@ const UserImageDialog = ({isOpen, onClose, userCode}) => {
     );
 };
 
-export const UserColumns = [
+export const userColumns = [
     {
         id: "select",
         header: ({table}) => (
@@ -91,96 +92,33 @@ export const UserColumns = [
         enableHiding: false,
     },
     {
-        accessorKey: "UserCode",
+        accessorKey: "employeeID",
         header: ({column}) => (
             <Button
                 className="text-center text-xl text-metal"
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-                User Code
+                Employee ID
                 <ArrowUpDown className="ml-2 h-4 w-4"/>
             </Button>
         ),
-        cell: ({row}) => <div className="capitalize">{row.getValue("UserCode")}</div>,
+        cell: ({row}) => <div className="capitalize">{row.getValue("employeeID")}</div>,
     },
     {
-        accessorKey: "UserName",
-        header: "User Name",
-        cell: ({row}) => <div className="capitalize">{row.getValue("UserName")}</div>,
+        accessorKey: "employeeName",
+        header: "Employee Name",
+        cell: ({row}) => <div className="capitalize">{row.getValue("employeeName")}</div>,
     },
     {
-        accessorKey: "gender",
-        header: "Gender",
-        cell: ({row}) => <div className="capitalize">{row.getValue("gender")}</div>,
-    },
-    {
-        accessorKey: "status",
-        header: "Status",
-        cell: ({row}) => <div className="capitalize">{row.getValue("status")}</div>,
-    },
-    {
-        accessorKey: "designation",
-        header: "Designation",
-        cell: ({row}) => <div className="capitalize">{row.getValue("designation")}</div>,
-    },
-    {
-        accessorKey: "attachedBranch",
-        header: "Attached Branch",
-        cell: ({row}) => <div className="capitalize">{row.getValue("attachedBranch")}</div>,
-    },
-    {
-        accessorKey: "dob",
-        header: "DOB",
-        cell: ({row}) => <div className="capitalize">{row.getValue("dob")}</div>,
-    },
-    {
-        accessorKey: "dateJointed",
-        header: "Date Jointed",
-        cell: ({row}) => <div className="capitalize">{row.getValue("dateJointed")}</div>,
-    },
-    {
-        accessorKey: "accessRole",
-        header: ({column}) => (
-            <Button
-                className="text-center text-xl text-metal"
-                variant="ghost"
-                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            >
-                Access Role
-                <ArrowUpDown className="ml-2 h-4 w-4"/>
-            </Button>
-        ),
-        cell: ({row}) => <div className="capitalize">{row.getValue("accessRole")}</div>,
-    },
-    {
-        accessorKey: "contactNo",
-        header: "Contact",
-        cell: ({row}) => <div className="capitalize">{row.getValue("contactNo")}</div>,
-    },
-    {
-        accessorKey: "emergencyContact",
-        header: "Emergency Contact",
-        cell: ({row}) => <div className="capitalize">{row.getValue("emergencyContact")}</div>,
-    },
-    {
-        accessorKey: "guardian",
-        header: "Guardian",
-        cell: ({row}) => <div className="capitalize">{row.getValue("guardian")}</div>,
-    },
-    {
-        accessorKey: "address",
-        header: "Address",
-        cell: ({row}) => (
-            <div className="capitalize">
-                {`${row.original.addressLine01}, ${row.original.addressLine02}, ${row.original.addressLine03}, ${row.original.addressLine04}, ${row.original.addressLine05}`}
-            </div>
-        ),
+        accessorKey: "role",
+        header: "Role",
+        cell: ({row}) => <div className="capitalize">{row.getValue("role")}</div>,
     },
     {
         accessorKey: "email",
         header: "Email",
-        cell: ({row}) => <div className="lowercase">{row.getValue("email")}</div>,
+        cell: ({row}) => <div>{row.getValue("email")}</div>,
     },
     {
         id: "actions",
@@ -201,17 +139,13 @@ export const UserColumns = [
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.UserCode)}>
-                                Copy User Code
+                            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(data.employeeID)}>
+                                Copy User ID
                             </DropdownMenuItem>
                             <DropdownMenuSeparator/>
+
                             {isAdmin() &&
-                                <Link to={`/form/User/update-${data.UserCode}`}>
-                                    <DropdownMenuItem>Update User</DropdownMenuItem>
-                                </Link>
-                            }
-                            {isAdmin() &&
-                                <DropdownMenuItem onClick={() => deleteUser(data.UserCode)}>
+                                <DropdownMenuItem onClick={() => deleteUser(data.email)}>
                                     Delete User
                                 </DropdownMenuItem>
                             }
@@ -224,7 +158,7 @@ export const UserColumns = [
                     <UserImageDialog
                         isOpen={isDialogOpen}
                         onClose={() => setIsDialogOpen(false)}
-                        UserCode={data.UserCode}
+                        email={data.email}
                     />
                 </div>
             );
