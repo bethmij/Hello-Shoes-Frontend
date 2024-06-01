@@ -101,7 +101,7 @@ export function getSupplier(supplierCode, supplierList) {
             },
             {
                 id: "email",
-                title: "Customer Email",
+                title: "Supplier Email",
                 type: "email",
                 placeholder: "Email",
                 description: "Email required",

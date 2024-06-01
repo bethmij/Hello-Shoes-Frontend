@@ -118,10 +118,10 @@ export const supplierColumns = [
                                     Supplier</DropdownMenuItem>
                             </Link>
                         }
-                        {isAdmin() &&
-                            <DropdownMenuItem onClick={() => deleteSupplier(data.supplierCode)}>Delete
-                                Supplier</DropdownMenuItem>
-                        }
+                        {/*{isAdmin() &&*/}
+                        {/*    <DropdownMenuItem onClick={() => deleteSupplier(data.supplierCode)}>Delete*/}
+                        {/*        Supplier</DropdownMenuItem>*/}
+                        {/*}*/}
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

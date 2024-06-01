@@ -12,6 +12,8 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import swal from "sweetalert";
+import {useState} from "react";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 
 
@@ -19,6 +21,11 @@ import swal from "sweetalert";
 const SignInPage = () => {
     const { register, handleSubmit } = useForm();
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     const onSubmit = async (data) => {
         const { email, password } = data;
@@ -102,13 +109,22 @@ const SignInPage = () => {
                                                 Forgot your password?
                                             </Link>
                                         </div>
+                                        <div className="flex flex-row gap-x-5">
                                         <Input
+                                            type={showPassword ? "text" : "password"}
                                             id="password"
                                             name="password"
                                             {...register("password")}
-                                            type="password"
                                             required
                                         />
+                                        <button
+                                            type="button"
+                                            className="toggle-password-visibility"
+                                            onClick={togglePasswordVisibility}
+                                        >
+                                            {showPassword ? <FaEyeSlash size={20}/> : <FaEye size={20}/>}
+                                        </button>
+                                        </div>
                                     </div>
                                     <Button type="submit" className="w-full mt-14 text-lg">
                                         Login

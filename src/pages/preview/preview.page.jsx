@@ -38,6 +38,7 @@ import CryptoJS from 'crypto-js';
 import { Buffer } from 'buffer';
 import {inventoryColumns} from "./predviewDetail/inventory.jsx";
 import Tables from "../../components/shared/table.jsx";
+import {userColumns} from "./predviewDetail/user.jsx";
 
 let columnID;
 
@@ -47,6 +48,7 @@ export default function PreviewPage() {
     const [columnFilters, setColumnFilters] = useState([]);
     const [columnVisibility, setColumnVisibility] = useState({});
     const [rowSelection, setRowSelection] = useState({});
+    // const [tableData, setTableData] = useState([]);
     const [img, setImg] = useState()
 
     const {id} = useParams()
@@ -56,7 +58,7 @@ export default function PreviewPage() {
 
 
     if (id === "customer") {
-        columns = customerColumns
+        columns = customerColumns(setPreviewData)
         title = "Customer Preview"
         url = "http://localhost:8080/app/customer/getAll"
         columnID = "customerCode"
@@ -83,6 +85,10 @@ export default function PreviewPage() {
         columns = inventoryColumns
         title = "Inventory Preview"
         url = "http://localhost:8080/app/inventory/getAll"
+    } else if (id === "user") {
+        columns = userColumns
+        title = "User Preview"
+        url = "http://localhost:8080/app/user/getAll"
     }
 
     useEffect(() => {
