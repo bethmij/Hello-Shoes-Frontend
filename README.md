@@ -16,21 +16,21 @@ This web application - front-end using React is for a POS application for a shoe
 
 ![home](./Screenshots/dashboard.png)
 
-### Here you can order and pay by either card or cash
+#### Here you can order and pay by either card or cash
 ![home](./Screenshots/order.png)
 ![home](./Screenshots/payment.png)
 
 ### Here you get to add customer, similar there employee,supplier,inventory forms
 ![home](./Screenshots/form.png)
 
-### You can preview those data and edit as you like
+#### You can preview those data and edit as you like
 ![home](./Screenshots/preview.png)
 
-### Admin page is only got limited access preview all sale details even with graph preview
+#### Admin page is only got limited access preview all sale details even with graph preview
 ![home](./Screenshots/admin.png)
 ![home](./Screenshots/graph.png)
 
-### Even got refund option
+#### Even got refund option
 ![home](./Screenshots/refund.png)
 
 ## Installation
