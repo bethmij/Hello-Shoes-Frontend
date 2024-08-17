@@ -20,7 +20,7 @@ This web application - front-end using React is for a POS application for a shoe
 ![home](./Screenshots/order.png)
 ![home](./Screenshots/payment.png)
 
-### Here you get to add customer, similar there employee,supplier,inventory forms
+#### Here you get to add customer, similar there employee,supplier,inventory forms
 ![home](./Screenshots/form.png)
 
 #### You can preview those data and edit as you like
