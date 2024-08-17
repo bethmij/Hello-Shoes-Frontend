@@ -82,6 +82,7 @@ export const getDetails = async (mapping, id) => {
     let list = []
     if (await isAuthenticated()) {
         const token = localStorage.getItem('accessToken')
+        console.log(token)
         try {
             const response = await axios.get("http://localhost:8080/app/" + mapping + "/" + id, {
                 headers: {

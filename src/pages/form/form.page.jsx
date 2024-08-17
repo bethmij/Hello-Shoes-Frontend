@@ -207,14 +207,13 @@ function FormPage() {
         const file = event.target.files[0];
 
         if (file) {
-            const validTypes = ['image/jpeg', 'image/png', 'image/gif']; // Add more if needed
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
             if (validTypes.includes(file.type)) {
                 setSelectedFile(URL.createObjectURL(file));
                 setError(null);
                 const reader = new FileReader();
                 reader.onloadend = () => {
                     filePath = reader.result
-                    // Clear the file input field
                     if (fileInputRef.current) {
                         fileInputRef.current.value = "";
                     }
@@ -228,9 +227,9 @@ function FormPage() {
     };
 
 
-    if ((id === "employee" || id === "supplier" || id === "inventory") && !isAdmin()) {
-        return null;
-    }
+    // if ((id === "employee" || id === "supplier" || id === "inventory") && !isAdmin()) {
+    //     return null;
+    // }
 
     function setTable() {
 

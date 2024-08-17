@@ -374,7 +374,7 @@ function CartPage() {
                                resetForm={resetForm}/>
 
                 </div>
-                <div className="flex ">
+                <div className="flex  mb-5">
                     <div className="w-2/5">
                         <InputItem id={"size"} title={"Item Size"} type={"select"} register={register} resetForm={resetForm}
                                    setValue={setValue} selectList={sizeRange} onChange={(event) => {
